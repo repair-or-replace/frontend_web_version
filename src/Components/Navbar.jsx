@@ -15,7 +15,7 @@ function NavigationBar() {
 
     return (
         <Navbar bg="primary" expand="md">
-            <Navbar.Brand as= {Link} to="/homepage">Welcome to E-Commerce</Navbar.Brand>
+            <Navbar.Brand as= {Link} to="/homepage">Welcome to Repair or Replace</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav"></Navbar.Toggle>
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="m-auto">

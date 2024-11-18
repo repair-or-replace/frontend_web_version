@@ -1,12 +1,18 @@
 import axios from "axios";
 import { useState } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { useDispatch } from "react-redux"; // Import useDispatch
+import { logIn } from "../redux/userSlice"; // Import the logIn action
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // State to track password visibility
+
+  const dispatch = useDispatch(); // Create a dispatch function
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
 
     try {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/login/`, {
@@ -14,42 +20,64 @@ const LoginForm = () => {
         password,
       });
 
-      console.log("Token received:", response.data.token); 
-      // Save the token to localStorage, sessionStorage, or state for future requests
-      localStorage.setItem("authToken", response.data.token);
+      const token = response.data.token;
+      console.log("Token received:", token);
+
+      // Dispatch the logIn action to save the token and username in Redux
+      dispatch(logIn({ username, token }));
     } catch (error) {
       console.error("Error during login:", error.response?.data || error.message);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="username">Username:</label>
-        <input
-          type="text"
-          id="username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
+    <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
+      <div className="col-md-4">
+        <div className="card shadow-lg" style={{ backgroundColor: "#ffffff" }}>
+          <div className="card-body">
+            <h3 className="text-center mb-4" style={{ color: "#84b474" }}>Login</h3>
+            <form onSubmit={handleSubmit}>
+              <div className="mb-3">
+                <label htmlFor="username" className="form-label">Username</label>
+                <input
+                  type="text"
+                  id="username"
+                  className="form-control"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="password" className="form-label">Password</label>
+                <div className="input-group">
+                  <input
+                    type={showPassword ? "text" : "password"} // Toggle between password and text
+                    id="password"
+                    className="form-control"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="btn btn-outline-secondary"
+                    onClick={() => setShowPassword(!showPassword)} // Toggle the password visibility
+                    style={{ backgroundColor: "#84b474", borderColor: "#84b474" }}
+                  >
+                    {showPassword ? "Hide" : "Show"}
+                  </button>
+                </div>
+              </div>
+              <button type="submit" className="btn btn-success w-100" style={{ backgroundColor: "#84b474", borderColor: "#84b474" }}>
+                Login
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
-      <div>
-        <label htmlFor="password">Password:</label>
-        <input
-          type="password"
-          id="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </div>
-      <button type="submit">Login</button>
-    </form>
+    </div>
   );
 };
 
 export default LoginForm;
-
-
-  
