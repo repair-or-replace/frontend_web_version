@@ -6,6 +6,8 @@ import Properties from "./Components/Properties";
 import Login from "./Components/Login";
 import ViewAppliance from './Components/ViewAppliance';
 import Homepage from './Components/Homepage';
+import EditRepair from './Components/EditRepair';
+
 
 function App() {
   const user = useSelector((state) => state.username); 
@@ -20,13 +22,12 @@ function App() {
 
         {token && (
           <>
+            <Route path="/homepage" element={<Homepage />} />
             <Route path="/properties" element={<Properties />} />
             <Route path="/view-appliance/:id" element={<ViewAppliance />} />
+            <Route path="/edit-repair/:applianceId/:repairId" element={<EditRepair />} />
           </>
         )}
-
-        {/* Optionally add a fallback route */}
-        <Route path="*" element={<Navigate to={token ? "/homepage" : "/login"} />} />
       </Routes>
     </>
   );

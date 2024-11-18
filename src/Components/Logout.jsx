@@ -14,7 +14,6 @@ const Logout = () => {
     // Dispatch the logOut action to clear user info from Redux
     dispatch(logOut());
 
-    // Redirect to the login page
     navigate("/login");
   }, [dispatch, navigate]);
 
