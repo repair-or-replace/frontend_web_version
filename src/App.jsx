@@ -3,14 +3,16 @@ import { useSelector } from "react-redux";
 import { Route, Routes } from "react-router-dom";
 import NavigationBar from "./Components/Navbar";
 import Properties from "./Components/Properties";
+import Homepage from "./Components/Homepage";
 
 function App() {
-  const user = useSelector( (state) => state.username)
+  const user = useSelector( (state) => state.user.authToken)
   console.log("user: ", user);
   return (
     <>
       {user ? <NavigationBar /> : ""}
       <Routes>
+        <Route path="/" element={<Homepage />} />
         <Route path="/properties" element={<Properties />} />
       </Routes>
     </>
