@@ -3,51 +3,50 @@
   }
   
   .navbar-brand {
-    color: #b3cfa8 !important; /* Keep the brand color as specified */
+    color: #b3cfa8 !important; 
     font-weight: bold;
   }
   
   .nav-link {
-    color: black !important; /* Change link color to black */
+    color: black !important; 
   }
   
   .nav-link:hover,
   .nav-link:focus,
   .nav-link.active {
-    color: gray !important; /* Hover and active states can remain gray */
+    color: gray !important; 
   }
   
   .navbar-button {
-    background-color: #b3cfa8; /* Background color for the button */
-    color: black; /* Change button text color to black */
+    background-color: #b3cfa8; 
+    color: black; 
     border: none;
   }
   
   .navbar-button:hover {
-    background-color: gray; /* Hover state for button */
-    color: #b3cfa8; /* Change hover text color for button */
+    background-color: gray; 
+    color: #b3cfa8; 
   }
 
-  /* Accordion Header Style */
+ 
 .accordion-button {
-    background-color: #84b474 !important; /* Matches navbar background color */
-    color: black !important; /* Ensure text color is black */
+    background-color: #84b474 !important; 
+    color: black !important; 
     border: none;
-    font-weight: bold; /* Optional: make the text bold like the navbar brand */
+    font-weight: bold; 
   }
   
-  /* Accordion Header Hover and Active State */
+ 
   .accordion-button:hover,
   .accordion-button:focus,
   .accordion-button:active {
-    background-color: #84b474 !important; /* Maintain navbar color on hover/focus/active */
-    color: black !important; /* Keep text color consistent */
+    background-color: #84b474 !important; 
+    color: black !important; 
   }
   
-  /* Accordion Body Style */
   .accordion-body {
-    background-color: #f7f7f7; /* Optional: Set a light color for body */
-    color: black; /* Ensure the body text is visible */
+    background-color: #f7f7f7; 
+    color: black; /
   }
   
   

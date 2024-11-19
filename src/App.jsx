@@ -26,6 +26,8 @@ function App() {
             <Route path="/properties" element={<Properties />} />
             <Route path="/view-appliance/:id" element={<ViewAppliance />} />
             <Route path="/edit-repair/:applianceId/:repairId" element={<EditRepair />} />
+            <Route path="/login" element={<Login />} />
+
           </>
         )}
       </Routes>
