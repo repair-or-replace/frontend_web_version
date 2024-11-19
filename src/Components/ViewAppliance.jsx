@@ -18,13 +18,13 @@ const ViewAppliance = () => {
   const [selectedRepair, setSelectedRepair] = useState(null);
   const [selectedInvestment, setSelectedInvestment] = useState(null);
 
-  // Open delete modal for repair
+  //  delete modal for repair
   const openRepairDeleteModal = (repair) => {
     setSelectedRepair(repair);
     setShowRepairDeleteModal(true);
   };
 
-  // Open delete modal for investment
+  //  delete modal for investment
   const openInvestmentDeleteModal = (investment) => {
     setSelectedInvestment(investment);
     setShowInvestmentDeleteModal(true);
@@ -96,7 +96,6 @@ const ViewAppliance = () => {
         setAppliance(applianceResponse.data);
         setRepairs(applianceResponse.data.repairs || []);
         setInvestments(applianceResponse.data.investments || []);
-        console.log("investments", applianceResponse.data.investments);
 
       } catch (error) {
         console.error("Error fetching appliance data:", error);
@@ -107,10 +106,16 @@ const ViewAppliance = () => {
     fetchApplianceDetails();
   }, [id, token, navigate]);
 
-  // Function to handle edit
-  const handleEdit = (repairId) => {
-    navigate(`/edit-repair/${id}/${repairId}`);
+// Function to handle repair edit
+const handleEditRepair = (repairId) => {
+    navigate(`/edit-repair/${repairId}`);
   };
+  
+  // Function to handle investment edit
+  const handleEditInvestment = (investmentId) => {
+    navigate(`/edit-investment/${investmentId}`);
+  };
+  
 
   if (!appliance || !applianceDetails) return <div>Loading appliance data...</div>;
 
@@ -169,7 +174,7 @@ const ViewAppliance = () => {
                       <p><strong>Repaired By:</strong> {repair.repaired_by}</p>
                       <p><strong>Description:</strong> {repair.repaired_description}</p>
                       <p><strong>Cost:</strong> ${repair.cost}</p>
-                      <Button variant="link" onClick={() => handleEdit(repair.id)}>
+                      <Button variant="link" onClick={() => handleEditRepair(repair.id)}>
                         <FaPencilAlt />
                       </Button>
                       <Button variant="link" onClick={() => openRepairDeleteModal(repair)}>
@@ -196,7 +201,7 @@ const ViewAppliance = () => {
                       <p><strong>Investment Date:</strong> {new Date(investment.investment_date).toLocaleDateString()}</p>
                       <p><strong>Description:</strong> {investment.investment_description}</p>
                       <p><strong>Cost:</strong> ${investment.cost}</p>
-                      <Button variant="link" onClick={() => handleEdit(investment.id)}>
+                      <Button variant="link" onClick={() => handleEditInvestment(investment.id)}>
                         <FaPencilAlt />
                       </Button>
                       <Button variant="link" onClick={() => openInvestmentDeleteModal(investment)}>

@@ -7,6 +7,7 @@ import Login from "./Components/Login";
 import ViewAppliance from './Components/ViewAppliance';
 import Homepage from './Components/Homepage';
 import EditRepair from './Components/EditRepair';
+import EditInvestment from './Components/EditInvestment';
 
 
 function App() {
@@ -25,7 +26,8 @@ function App() {
             <Route path="/homepage" element={<Homepage />} />
             <Route path="/properties" element={<Properties />} />
             <Route path="/view-appliance/:id" element={<ViewAppliance />} />
-            <Route path="/edit-repair/:applianceId/:repairId" element={<EditRepair />} />
+            <Route path="/edit-repair/:repairId" element={<EditRepair />} />
+            <Route path="/edit-investment/:investmentId" element={<EditInvestment />} />
             <Route path="/login" element={<Login />} />
 
           </>
