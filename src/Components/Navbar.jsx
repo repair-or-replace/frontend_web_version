@@ -12,7 +12,7 @@ function NavigationBar() {
   const handleLogOut = () => {
     sessionStorage.removeItem("user"); 
     dispatch(logOut());
-    navigate("/");
+    navigate("/login");
   };
 
   return (
@@ -33,6 +33,14 @@ function NavigationBar() {
             className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
           >
             Properties
+          </Nav.Link>
+
+          <Nav.Link
+            as={NavLink}
+            to="/appliances"
+            className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
+          >
+            Appliances
           </Nav.Link>
         </Nav>
         

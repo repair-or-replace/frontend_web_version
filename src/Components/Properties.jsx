@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { Container, Card, ListGroup } from "react-bootstrap";
+import { Container, Card, ListGroup, Alert } from "react-bootstrap";
+import axios from "axios";
 
 const Properties = () => {
   const [propertyList, setPropertyList] = useState([]);
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
-  const fetchProperties = async () => {
-    try {
-      const response = await fetch(
-        "https://repair-or-replace-back-end.onrender.com/api/properties/"
-      );
-      const propertyData = await response.json();
-      setPropertyList(propertyData);
-    } catch (error) {
-      console.log("Error fetching data:", error);
-    } finally {
-      setLoading(false);
-    }
+  const fetchProperties = () => {
+    axios
+      .get("https://repair-or-replace-back-end.onrender.com/api/user-properties/")
+      .then((response) => {
+        console.log(response.data);
+        setPropertyList(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setError(`Error fetching data:, ${error}`);
+      });
   };
   useEffect(() => {
     fetchProperties();
@@ -26,9 +27,14 @@ const Properties = () => {
 
   return (
     <Container>
+      {error && <Alert variant='danger'>{error}</Alert> }
+      <h3 className="text-center">Your Properties</h3>
       <ListGroup>
         {propertyList.map((property) => (
-          <ListGroup.Item key={property.id} className="d-flex justify-content-between align-items-center shadow-sm p-3 mb-3 bg-white rounded">
+          <ListGroup.Item
+            key={property.id}
+            className="d-flex justify-content-between align-items-center shadow-sm p-3 mb-3 bg-white rounded"
+          >
             <Card style={{ width: "18rem" }}>
               <Card.Img variant="top" src="./../assets/default_home_pic.jpeg" />
               <Card.Body>

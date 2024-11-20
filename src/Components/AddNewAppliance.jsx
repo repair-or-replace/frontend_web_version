@@ -2,7 +2,7 @@ import { Component } from 'react';
 import axios from 'axios';
 import { Form, Button, Alert, Container, Modal } from 'react-bootstrap';
 
-class NewProduct extends Component {
+class NewAppliance extends Component {
 
     constructor(props) {
         super(props);
@@ -116,4 +116,4 @@ class NewProduct extends Component {
     }
 };
 
-export default NewProduct;
+export default NewAppliance;
