@@ -1,40 +1,47 @@
-import { NavLink, useNavigate, Link } from 'react-router-dom';
-import { Navbar, Nav, Button } from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
-import { logOut } from '../redux/userSlice';
+import { NavLink, useNavigate, Link } from "react-router-dom";
+import { Navbar, Nav, Button, Container } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { logOut } from "../redux/userSlice";
+import { FaUser } from 'react-icons/fa'; // Importing the profile icon
+import "./styles.css"; 
 
 function NavigationBar() {
-    const dispatch = useDispatch()
-    const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    const handleLogOut = () => {
-        sessionStorage.removeItem("user");
-        dispatch(logOut())
-        navigate("/");
-    }
+  const handleLogOut = () => {
+    sessionStorage.removeItem("user"); 
+    dispatch(logOut());
+    navigate("/");
+  };
 
-    return (
-        <Navbar bg="primary" expand="md">
-            <Navbar.Brand as= {Link} to="/homepage">Welcome to E-Commerce</Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav"></Navbar.Toggle>
-            <Navbar.Collapse id="basic-navbar-nav">
-                <Nav className="m-auto">
-                    
-                    <Nav.Link as= {NavLink} to="/profile" activeclassname="active">
-                    Profile
-                    </Nav.Link>
-
-                    <Nav.Link as= {NavLink} to="/properties" activeclassname="active">
-                    Properties
-                    </Nav.Link>
-                    
-                </Nav>
-
-                <Button variant='mx-3' onClick={handleLogOut}>Log Out</Button>
-
-            </Navbar.Collapse>
-        </Navbar>
-    )
+  return (
+    <Navbar className="navbar" expand="md">
+      <Container fluid>
+        <Nav className="me-auto">
+          {/* Add margin-end to the Profile link */}
+          <Nav.Link
+            as={NavLink}
+            to="/profile"
+            className={({ isActive }) => (isActive ? "nav-link active" : "nav-link") + " me-3"} // Bootstrap margin-end class
+          >
+            <FaUser /> {/* Profile icon */}
+          </Nav.Link>
+          <Nav.Link
+            as={NavLink}
+            to="/properties"
+            className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
+          >
+            Properties
+          </Nav.Link>
+        </Nav>
+        
+        <Button className="navbar-button" onClick={handleLogOut}>
+          Log Out
+        </Button>
+      </Container>
+    </Navbar>
+  );
 }
 
 export default NavigationBar;

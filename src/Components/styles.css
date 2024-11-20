@@ -1,5 +1,60 @@
+<<<<<<< HEAD
 .carousel-caption {
     text-align:center; 
     margin-top: 15;
     padding: 0%;
 }
+=======
+.navbar {
+    background-color: #84b474;
+  }
+  
+  .navbar-brand {
+    color: #b3cfa8 !important; 
+    font-weight: bold;
+  }
+  
+  .nav-link {
+    color: black !important; 
+  }
+  
+  .nav-link:hover,
+  .nav-link:focus,
+  .nav-link.active {
+    color: gray !important; 
+  }
+  
+  .navbar-button {
+    background-color: #b3cfa8; 
+    color: black; 
+    border: none;
+  }
+  
+  .navbar-button:hover {
+    background-color: gray; 
+    color: #b3cfa8; 
+  }
+
+ 
+.accordion-button {
+    background-color: #84b474 !important; 
+    color: black !important; 
+    border: none;
+    font-weight: bold; 
+  }
+  
+ 
+  .accordion-button:hover,
+  .accordion-button:focus,
+  .accordion-button:active {
+    background-color: #84b474 !important; 
+    color: black !important; 
+  }
+  
+  .accordion-body {
+    background-color: #f7f7f7; 
+    color: black; /
+  }
+  
+  
+>>>>>>> fec22d2dd40fd03b4f2ff06a80a29e006ded539b
