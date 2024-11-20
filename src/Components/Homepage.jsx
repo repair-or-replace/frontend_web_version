@@ -1,6 +1,7 @@
 import React from "react";
-import { Carousel, Image } from "react-bootstrap";
+import { Carousel } from "react-bootstrap";
 import refrigeratorImage from "../assets/Refrigerator.jpg";
+import './styles.css'
 import wrenchImage from "../assets/wrench.jpg";
 import RorR from "../assets/Repair_or_Replace_square.png";
 
@@ -50,11 +51,11 @@ const Homepage = () => {
             src={RorR}
             alt="Repair_or_Replace_logo"
           />
-          <Carousel.Caption>
-            <h3 className="text-success">
+          <Carousel.Caption className=".carousel-caption">
+            <h3>
               With Repair or Replace, you can track repairs, maintenance, and
-              make informed decisions about whether to repair or replace a major
-              appliance right here!
+              make informed decisions about your
+              appliance(s) right here!
             </h3>
           </Carousel.Caption>
         </Carousel.Item>
