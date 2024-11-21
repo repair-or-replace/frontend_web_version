@@ -6,14 +6,47 @@ import defaultHome from "../assets/default_home_pic.jpeg"
 
 const Properties = () => {
   const token = useSelector((state) => state.user.authToken);
+  const username = useSelector((state) => state.user);
   const [propertyList, setPropertyList] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  console.log(username)
   
-  
+  const fetchUserID = async () => { 
+    try {
+      const response = await axios.get(`https://repair-or-replace-back-end.onrender.com/api/users/`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${token}`
+        },
+      }
+    )
+    const users = response.data
+    const usernameDefined = username
+
+    const user = users.find(user => 
+      username === usernameDefined
+    );
+    if (user) {
+      console.log(`userID: ${user}`);
+    } else {
+      console.log("UserID not found")
+    }
+    console.log(response.data.username);
+
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setError(`Error fetching data:, ${error}`);
+
+    } 
+  };
+  useEffect(() => {
+    fetchUserID();
+  }, [])
+
   const fetchProperties = async () => { 
     try {
-      const response = await axios.get("https://repair-or-replace-back-end.onrender.com/api/user-properties/1/", {
+      const response = await axios.get(`https://repair-or-replace-back-end.onrender.com/api/user-properties/${id}/`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Token ${token}`
@@ -26,7 +59,7 @@ const Properties = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
       setError(`Error fetching data:, ${error}`);
-      
+
     } finally {
       setLoading(false)
     };
@@ -36,8 +69,6 @@ const Properties = () => {
   useEffect(() => {
     fetchProperties();
   }, [token]);
-
-  // console.log(propertyList);
 
   if (loading) {
     return <div>Loading...</div>
