@@ -24,7 +24,7 @@ function App() {
 
         {token && (
           <>
-            <Route path="/homepage" element={<Homepage />} />
+            <Route path="/" element={<Homepage />} />
             <Route path="/properties" element={<Properties />} />
             <Route path="appliances" element={<Appliances />}/>
             <Route path="/view-appliance/:id" element={<ViewAppliance />} />
