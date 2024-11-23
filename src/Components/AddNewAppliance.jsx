@@ -7,8 +7,8 @@ class NewAppliance extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            applianceBrand: '',
-            yearPurchased: '',
+            modelNumber: '',
+            purchaseDate: '',
             errors: {},
             isLoading: false,
             error: null,
@@ -25,8 +25,8 @@ class NewAppliance extends Component {
 
 
             const applianceData = {
-                appliance_brand: this.state.applianceBrand.trim(),
-                year_purchased: this.state.yearPurchased.trim(),
+                model: this.state.modelNumber.trim(),
+                purchase_date: this.state.purchaseDate.trim(),
             };
 
             axios.post('https://repair-or-replace-back-end.onrender.com/api/appliances/', applianceData)
@@ -47,10 +47,10 @@ class NewAppliance extends Component {
     };
 
     validateForm = () => {
-        const { applianceBrand, yearPurchased } = this.state;
+        const { modelNumber, purchaseDate } = this.state;
         const errors = {};
-        if (!applianceBrand) errors.applianceBrand = 'Must enter a brand name';
-        if (!yearPurchased) errors.yearPurchased = 'Must enter year purchsed';
+        if (!modelNumber) errors.modelNumber = 'Must enter model number';
+        if (!purchaseDate) errors.purchaseDate = 'Must enter date of purchase';
         return errors;
     };
 
@@ -62,8 +62,8 @@ class NewAppliance extends Component {
     closeModal = () => {
         this.setState({
             showSuccessModal: false,
-            applianceBrand: '',
-            yearPurchased: '',
+            modelNumber: '',
+            purchaseDate: '',
             errors: {},
         });
     };
@@ -71,7 +71,7 @@ class NewAppliance extends Component {
 
     render() {
 
-        const { applianceBrand, yearPurchased, isLoading, showSuccessModal, error, errors } = this.state;
+        const { modelNumber, purchaseDate, isLoading, showSuccessModal, error, errors } = this.state;
 
         return (
             <Container>
@@ -80,20 +80,20 @@ class NewAppliance extends Component {
 
                 <Form onSubmit={this.handleSubmit}>
                     <h2 className="m-3">Enter New Product Details</h2>
-                    <Form.Group controlId="formGroupBrandName">
+                    <Form.Group controlId="formGroupModelNumber">
                         <Form.Label>
-                            Appliance Brand Name
+                            Appliance Model Number
                         </Form.Label>
-                        <Form.Control type="text" name="applianceBrand" value={applianceBrand} onChange={this.handleChange} />
-                        {errors.applianceBrand && <div style={{ color: 'red'}}>{errors.applianceBrand}</div>}
+                        <Form.Control type="text" name="modelNumber" value={modelNumber} onChange={this.handleChange} />
+                        {errors.modelNumber && <div style={{ color: 'red'}}>{errors.modelNumber}</div>}
                     </Form.Group>
 
-                    <Form.Group controlId="formGroupYearPurchased">
+                    <Form.Group controlId="formGroupPurchaseDate">
                         <Form.Label>
-                            Year of Purchase
+                            Date of Purchase
                         </Form.Label>
-                        <Form.Control type="float" name="yearPurchased" value={yearPurchased} onChange={this.handleChange} />
-                        {errors.yearPurchased && <div style={{ color: 'red'}}>{errors.yearPurchased}</div>}
+                        <Form.Control type="float" name="purchaseDate" value={purchaseDate} onChange={this.handleChange} />
+                        {errors.purchaseDate && <div style={{ color: 'red'}}>{errors.purchaseDate}</div>}
                     </Form.Group>
 
                     <Button className="mt-3" variant="primary" type="submit">Submit</Button>
