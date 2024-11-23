@@ -9,6 +9,7 @@ import Homepage from './Components/Homepage';
 import EditRepair from './Components/EditRepair';
 import EditInvestment from './Components/EditInvestment';
 import EditProperty from './Components/EditProperty';
+import Appliances from "./Components/Appliances";
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
           <>
             <Route path="/" element={<Homepage />} />
             <Route path="/properties" element={<Properties />} />
+            <Route path="/appliances" element={<Appliances />} />
             <Route path="/view-appliance/:id" element={<ViewAppliance />} />
             <Route path="/edit-property/:propertyId" element={<EditProperty />} />
             <Route path="/edit-repair/:repairId" element={<EditRepair />} />

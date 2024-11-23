@@ -4,9 +4,7 @@ import { Container, Card, ListGroup, Alert, Modal, Button } from "react-bootstra
 import axios from "axios";
 import defaultHome from "../assets/default_home_pic.jpeg"
 import { FaEdit, FaTrash } from "react-icons/fa";
-import { MdOutlineAlarmAdd } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 
 
 
@@ -81,18 +79,23 @@ setShowModal(false);
             className="d-flex justify-content-between align-items-center shadow-sm p-3 mb-3 bg-white rounded"
           >
             <Card style={{ width: "18rem" }}>
-              <Card.Img variant="top" src={defaultHome} />
-              <Card.Body>
-                <Card.Title>{property.address_line_1}</Card.Title>
-                <Card.Text>{property.city}</Card.Text>
-                <Card.Text>{property.state}</Card.Text>
-                <Card.Text>{property.zipcode}</Card.Text>
-                <div className="d-flex justify-content-between mt-3">
-                  <FaEdit style={{ cursor: "pointer" , color:"blue"}} 
-                  onClick={() => navigate (`/edit-property/${property.id}`)}/>
-                  <FaTrash style={{ cursor: "pointer", color:"red"}}
-                  onClick={() => {setPropertyToDelete(property.id); setShowModal(true);}}/>
-                </div>
+              <Card.Img
+                  variant="top"
+                  src={defaultHome}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => navigate(`/appliances`, { state: { propertyId: property.id } })}
+                />              
+                <Card.Body>
+                  <Card.Title>{property.address_line_1}</Card.Title>
+                  <Card.Text>{property.city}</Card.Text>
+                  <Card.Text>{property.state}</Card.Text>
+                  <Card.Text>{property.zipcode}</Card.Text>
+                  <div className="d-flex justify-content-between mt-3">
+                    <FaEdit style={{ cursor: "pointer" , color:"blue"}} 
+                    onClick={() => navigate (`/edit-property/${property.id}`)}/>
+                    <FaTrash style={{ cursor: "pointer", color:"red"}}
+                    onClick={() => {setPropertyToDelete(property.id); setShowModal(true);}}/>
+                  </div>
               </Card.Body>
             </Card>
           </ListGroup.Item>
