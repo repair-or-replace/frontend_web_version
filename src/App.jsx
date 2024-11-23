@@ -8,6 +8,7 @@ import ViewAppliance from './Components/ViewAppliance';
 import Homepage from './Components/Homepage';
 import EditRepair from './Components/EditRepair';
 import EditInvestment from './Components/EditInvestment';
+import EditProperty from './Components/EditProperty';
 
 
 function App() {
@@ -23,9 +24,10 @@ function App() {
 
         {token && (
           <>
-            <Route path="/homepage" element={<Homepage />} />
+            <Route path="/" element={<Homepage />} />
             <Route path="/properties" element={<Properties />} />
             <Route path="/view-appliance/:id" element={<ViewAppliance />} />
+            <Route path="/edit-property/:propertyId" element={<EditProperty />} />
             <Route path="/edit-repair/:repairId" element={<EditRepair />} />
             <Route path="/edit-investment/:investmentId" element={<EditInvestment />} />
             <Route path="/login" element={<Login />} />

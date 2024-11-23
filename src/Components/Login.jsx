@@ -1,15 +1,15 @@
 import axios from "axios";
 import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useDispatch } from "react-redux"; // Import useDispatch
-import { logIn } from "../redux/userSlice"; // Import the logIn action
+import { useDispatch } from "react-redux"; 
+import { logIn } from "../redux/userSlice"; 
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // State to track password visibility
+  const [showPassword, setShowPassword] = useState(false);
 
-  const dispatch = useDispatch(); // Create a dispatch function
+  const dispatch = useDispatch(); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,11 +20,10 @@ const LoginForm = () => {
         password,
       });
 
-      const token = response.data.token;
-      console.log("Token received:", token);
+      const { token, user_id } = response.data;
+      console.log("Login successful. Data received:", response.data);
 
-      // Dispatch the logIn action to save the token and username in Redux
-      dispatch(logIn({ username, token }));
+      dispatch(logIn({ username, token, user_id }));
     } catch (error) {
       console.error("Error during login:", error.response?.data || error.message);
     }
