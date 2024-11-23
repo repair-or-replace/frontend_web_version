@@ -25,8 +25,8 @@ class NewAppliance extends Component {
 
 
             const applianceData = {
-                apliance_brand: this.state.applianceBrand.trim(),
-                year_purchsed: this.state.yearPurchased.trim(),
+                appliance_brand: this.state.applianceBrand.trim(),
+                year_purchased: this.state.yearPurchased.trim(),
             };
 
             axios.post('https://repair-or-replace-back-end.onrender.com/api/appliances/', applianceData)
@@ -101,7 +101,7 @@ class NewAppliance extends Component {
 
                 <Modal show={showSuccessModal} onHide={this.closeModal}>
                     <Modal.Header closeButton>
-                        <Modal.Title>New Product Added Succesfully!</Modal.Title>
+                        <Modal.Title>Your New Appliance was Added Successfully!</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         Thank you!!

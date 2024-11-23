@@ -10,6 +10,7 @@ import EditRepair from './Components/EditRepair';
 import EditInvestment from './Components/EditInvestment';
 import Appliances from "./Components/Appliances";
 import NewAppliance from "./Components/AddNewAppliance";
+import NewProperty from "./Components/AddNewProperty";
 
 function App() {
   // const user = useSelector((state) => state.username); 
@@ -29,6 +30,7 @@ function App() {
             <Route path="appliances" element={<Appliances />}/>
             <Route path="/view-appliance/:id" element={<ViewAppliance />} />
             <Route path="/newappliance" element={<NewAppliance />} />
+            <Route path="/newproperty" element={<NewProperty />} />
             <Route path="/edit-repair/:repairId" element={<EditRepair />} />
             <Route path="/edit-investment/:investmentId" element={<EditInvestment />} />
             <Route path="/login" element={<Login />} />
