@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Container, Card, ListGroup, Alert, Modal, Button } from "react-bootstrap";
 import axios from "axios";
 import defaultHome from "../assets/default_home_pic.jpeg"
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaPencilAlt, FaTrash } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
 
 
@@ -91,7 +91,7 @@ setShowModal(false);
                   <Card.Text>{property.state}</Card.Text>
                   <Card.Text>{property.zipcode}</Card.Text>
                   <div className="d-flex justify-content-between mt-3">
-                    <FaEdit style={{ cursor: "pointer" , color:"blue"}} 
+                    <FaPencilAlt style={{ color:"blue"}} 
                     onClick={() => navigate (`/edit-property/${property.id}`)}/>
                     <FaTrash style={{ cursor: "pointer", color:"red"}}
                     onClick={() => {setPropertyToDelete(property.id); setShowModal(true);}}/>

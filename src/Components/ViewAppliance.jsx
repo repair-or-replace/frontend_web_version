@@ -29,8 +29,7 @@ const ViewAppliance = () => {
     setSelectedInvestment(investment);
     setShowInvestmentDeleteModal(true);
   };
-
-  // Handle deletion of repair
+//delete repair modal
   const handleRepairDelete = async () => {
     if (selectedRepair) {
       try {
@@ -48,7 +47,7 @@ const ViewAppliance = () => {
     }
   };
 
-  // Handle deletion of investment
+  //  delete  investment
   const handleInvestmentDelete = async () => {
     if (selectedInvestment) {
       try {
@@ -70,7 +69,7 @@ const ViewAppliance = () => {
     if (token === null) {
       return;
     }
-
+//fetch appliance details from api table
     const fetchApplianceDetails = async () => {
       try {
         const applianceDetailsResponse = await axios.get(
@@ -83,7 +82,7 @@ const ViewAppliance = () => {
           }
         );
         setApplianceDetails(applianceDetailsResponse.data);
-
+//fetch appliance details from appliance table
         const applianceResponse = await axios.get(
           `https://repair-or-replace-back-end.onrender.com/api/appliances/${id}/`,
           {
@@ -106,12 +105,12 @@ const ViewAppliance = () => {
     fetchApplianceDetails();
   }, [id, token, navigate]);
 
-// Function to handle repair edit
+// function to handle repair edit
 const handleEditRepair = (repairId) => {
     navigate(`/edit-repair/${repairId}`);
   };
   
-  // Function to handle investment edit
+  // function to handle investment edit
   const handleEditInvestment = (investmentId) => {
     navigate(`/edit-investment/${investmentId}`);
   };
@@ -160,7 +159,7 @@ const handleEditRepair = (repairId) => {
                     <FaPencilAlt />
                 </Button>
                 <Button variant="link" onClick={() => openAppDeleteModal(appliance)}>
-                    <FaTrash />
+                    <FaTrash style={{ color: 'red' }} />
                 </Button>
               </Accordion.Body>
             </Accordion.Item>

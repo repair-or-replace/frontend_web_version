@@ -10,6 +10,7 @@ import EditRepair from './Components/EditRepair';
 import EditInvestment from './Components/EditInvestment';
 import EditProperty from './Components/EditProperty';
 import Appliances from "./Components/Appliances";
+import EditAppliance from "./Components/EditAppliance";
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
             <Route path="/properties" element={<Properties />} />
             <Route path="/appliances" element={<Appliances />} />
             <Route path="/view-appliance/:id" element={<ViewAppliance />} />
+            <Route path="/edit-appliance/:applianceId" element={<EditAppliance />} />
             <Route path="/edit-property/:propertyId" element={<EditProperty />} />
             <Route path="/edit-repair/:repairId" element={<EditRepair />} />
             <Route path="/edit-investment/:investmentId" element={<EditInvestment />} />
