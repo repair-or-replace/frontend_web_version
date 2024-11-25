@@ -16,7 +16,7 @@ function NavigationBar() {
     localStorage.removeItem("authToken");
     sessionStorage.removeItem("user");
     // 跳转到首页
-    navigate("/");
+    navigate("/login");
   };
 
   return (
@@ -25,6 +25,14 @@ function NavigationBar() {
         <Nav className="me-auto">
           <Nav.Link as={NavLink} to="/properties">
             Properties
+          </Nav.Link>
+
+          <Nav.Link
+            as={NavLink}
+            to="/appliances"
+            className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
+          >
+            Appliances
           </Nav.Link>
         </Nav>
         {authToken ? (

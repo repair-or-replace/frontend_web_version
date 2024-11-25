@@ -54,16 +54,24 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import NavigationBar from "./Components/Navbar";
 import Properties from "./Components/Properties";
 import Login from "./Components/Login";
-import ViewAppliance from "./Components/ViewAppliance";
-import Homepage from "./Components/Homepage";
-import EditRepair from "./Components/EditRepair";
-import EditInvestment from "./Components/EditInvestment";
-import EditProperty from "./Components/EditProperty";
-import Appliances from "./Components/Appliances";
-import AddNewProperty from "./Components/AddNewProperty"; // Import AddNewProperty
 
 function App() {
   const authToken = useSelector((state) => state.user.authToken); // Use Redux state
+=======
+import ViewAppliance from './Components/ViewAppliance';
+import Homepage from './Components/Homepage';
+import EditRepair from './Components/EditRepair';
+import EditInvestment from './Components/EditInvestment';
+import Appliances from "./Components/Appliances";
+import NewAppliance from "./Components/AddNewAppliance";
+import NewProperty from "./Components/AddNewProperty";
+import EditProperty from "./Components/EditProperty";
+import AddNewProperty from "./Components/AddNewProperty"; // Import AddNewProperty
+
+
+function App() {
+  // const user = useSelector((state) => state.username); 
+  const token = localStorage.getItem("authToken"); 
 
   return (
     <>
@@ -79,14 +87,17 @@ function App() {
           <>
             <Route path="/" element={<Homepage />} />
             <Route path="/properties" element={<Properties />} />
+            <Route path="appliances" element={<Appliances />}/>
             <Route path="/add-new-property" element={<AddNewProperty />} />
-            <Route path="/appliances" element={<Appliances />} />
             <Route path="/view-appliance/:id" element={<ViewAppliance />} />
+            <Route path="/newappliance" element={<NewAppliance />} />
+            <Route path="/newproperty" element={<NewProperty />} />
             <Route path="/edit-property/:propertyId" element={<EditProperty />} />
             <Route path="/edit-repair/:repairId" element={<EditRepair />} />
+            <Route path="/edit-repair/:repairId" element={<EditRepair />} />
             <Route path="/edit-investment/:investmentId" element={<EditInvestment />} />
-            <Route path="/add-new-property" element={<AddNewProperty />} /> {/* New route */}
             <Route path="/login" element={<Navigate to="/" />} /> {/* Redirect if logged in */}
+
           </>
         )}
 
