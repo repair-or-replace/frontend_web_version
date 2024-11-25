@@ -21,6 +21,7 @@ const Appliances = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedAppliance, setSelectedAppliance] = useState(null);
   console.log("properpty id", propertyId)
+  console.log(username)
   
   const fetchUserID = async () => { 
     try {
@@ -59,6 +60,7 @@ const Appliances = () => {
     if (!userId) return; 
     try {
       const response = await axios.get(`https://repair-or-replace-back-end.onrender.com/api/properties/${propertyId}`, {
+, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Token ${token}`
@@ -88,8 +90,8 @@ const Appliances = () => {
   useEffect(() => {
     if (userId) {
       fetchAppliances(); 
-    }
-  }, [userId]);
+  console.log(applianceList)
+
 
   if (loading) {
     return <div>Loading...</div>;

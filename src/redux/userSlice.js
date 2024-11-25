@@ -10,16 +10,24 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    // logIn: (state, action) => {
+    //   console.log('Logging in user:', action.payload.username); 
+    //   console.log('User id:', action.payload.user_id); 
+    //   state.username = action.payload.username; 
+    //   state.authToken = action.payload.token;  
+    //   state.userId = action.payload.user_id; 
+    //   sessionStorage.setItem("userId", action.payload.user_id); 
+    //   sessionStorage.setItem("username", JSON.stringify(action.payload.username));
+    //   localStorage.setItem("authToken", action.payload.token);
+    // },
     logIn: (state, action) => {
-      console.log('Logging in user:', action.payload.username); 
-      console.log('User id:', action.payload.user_id); 
-      state.username = action.payload.username; 
-      state.authToken = action.payload.token;  
-      state.userId = action.payload.user_id; 
-      sessionStorage.setItem("userId", action.payload.user_id); 
-      sessionStorage.setItem("username", JSON.stringify(action.payload.username));
+      state.authToken = action.payload.token;
+      state.userId = action.payload.user_id;
+      state.username = action.payload.username;
       localStorage.setItem("authToken", action.payload.token);
+      localStorage.setItem("userId", action.payload.user_id);
     },
+    
     logOut: (state) => {
       state.username = null; 
       state.authToken = null; 
