@@ -63,6 +63,7 @@ import Homepage from './Components/Homepage';
 import EditRepair from './Components/EditRepair';
 import EditInvestment from './Components/EditInvestment';
 import Appliances from "./Components/Appliances";
+import EditAppliance from "./Components/EditAppliance";
 import NewAppliance from "./Components/AddNewAppliance";
 import NewProperty from "./Components/AddNewProperty";
 import EditProperty from "./Components/EditProperty";
@@ -90,6 +91,7 @@ function App() {
             <Route path="appliances" element={<Appliances />}/>
             <Route path="/add-new-property" element={<AddNewProperty />} />
             <Route path="/view-appliance/:id" element={<ViewAppliance />} />
+            <Route path="/edit-appliance/:applianceId" element={<EditAppliance />} />
             <Route path="/newappliance" element={<NewAppliance />} />
             <Route path="/newproperty" element={<NewProperty />} />
             <Route path="/edit-property/:propertyId" element={<EditProperty />} />

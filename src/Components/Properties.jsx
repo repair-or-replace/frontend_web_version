@@ -247,6 +247,7 @@ const Properties = () => {
             className="d-flex justify-content-between align-items-center shadow-sm p-3 mb-3 bg-white rounded"
           >
             <Card style={{ width: "18rem" }}>
+         </div>
 />
               <Card.Body>
                  <Card.Img
