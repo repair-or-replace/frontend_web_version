@@ -9,52 +9,47 @@ import { useNavigate } from "react-router-dom";
 const Properties = () => {
   const token = useSelector((state) => state.user.authToken);
   const username = useSelector((state) => state.user.username);
-  const userId = useSelector((state) => state.user.userId);
+  const userID = useSelector((state) => state.user.userId); // Use useSelector for userID
+  const [userId, setUserId] = useState(null); // Use useState for userId
   const [propertyList, setPropertyList] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [propertyToDelete, setPropertyToDelete] = useState(null);
   const navigate = useNavigate();
-  console.log(username)
-  
+  console.log("userId", userID);
+  console.log("userId", userId);
+
+
+  // Fetch user ID from API
   const fetchUserID = async () => { 
     try {
       const response = await axios.get(`https://repair-or-replace-back-end.onrender.com/api/users/`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Token ${token}`
+          Authorization: `Token ${token}`,
         },
+      });
+      const users = response.data;
+      const user = users.find(user => user.username === username);
+      
+      if (user) {
+        setUserId(user.id); // Update userId state here
+      } else {
+        setError("User ID not found");
       }
-    )
-    const users = response.data
-
-    const user = users.find(user => 
-      user.username == username
-    );
-    if (user) {
-      console.log(`user : ${user.id}`);
-      setUserId(user.id)
-    } else {
-      console.log("UserID not found")
-    }
-    console.log(response.data.username);
     } catch (error) {
-      console.error("Error fetching data:", error);
-      setError(`Error fetching data:, ${error}`);
-
-    } 
+      console.error("Error fetching user data:", error);
+      setError(`Error fetching user data: ${error.message}`);
+    }
   };
-  console.log("userId", userId)
-  useEffect(() => {
-    fetchUserID();
-  }, [token])
 
+  // Fetch properties from API
   const fetchProperties = async () => { 
-    if (!userId) return; 
+    if (!userId) return; // Ensure userId is set
     try {
       const response = await axios.get(
-        `https://repair-or-replace-back-end.onrender.com/api/user-properties/${userId}/`,
+        `https://repair-or-replace-back-end.onrender.com/api/user-properties/${userID}/`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -64,15 +59,24 @@ const Properties = () => {
       );
       setPropertyList(response.data.properties);
     } catch (error) {
-      console.error("Error fetching data:", error);
-      setError(`Error fetching data:, ${error}`);
+      console.error("Error fetching properties:", error);
+      setError(`Error fetching properties: ${error.message}`);
     } finally {
-      setLoading(false)
-    };
+      setLoading(false);
+    }
   };
 
+  // Fetch user ID and properties once when token or username changes
   useEffect(() => {
-    fetchProperties();
+    if (token && username) {
+      fetchUserID();
+    }
+  }, [token, username]);
+
+  useEffect(() => {
+    if (userId) {
+      fetchProperties();
+    }
   }, [userId, token]);
 
   const deleteProperty = async () => {
@@ -91,25 +95,17 @@ const Properties = () => {
       );
       setShowModal(false);
     } catch (error) {
-      setError(`Error deleting property: ${error}`);
+      setError(`Error deleting property: ${error.message}`);
     }
   };
 
   if (loading) {
     return <div>Loading...</div>;
   }
-    console.log(propertyList)
-
-  // useEffect(() => {
-  //   if (userId) {
-  //     fetchProperties();
-  //   }
-  // }, [userId]);
-
 
   return (
     <Container>
-      {error && <Alert variant='danger'>{error}</Alert> }
+      {error && <Alert variant="danger">{error}</Alert>}
       <h3 className="text-center">Your Properties</h3>
       <ListGroup>
         {propertyList.map((property) => (
@@ -119,14 +115,14 @@ const Properties = () => {
           >
             <Card style={{ width: "18rem" }}>
               <Card.Body>
-                 <Card.Img
-                variant="top"
-                src={defaultHome}
-                style={{ cursor: "pointer" }}
-                onClick={() =>
-                  navigate(`/appliances`, { state: { propertyId: property.id } })
-                }
-              />
+                <Card.Img
+                  variant="top"
+                  src={defaultHome}
+                  style={{ cursor: "pointer" }}
+                  onClick={() =>
+                    navigate(`/appliances`, { state: { propertyId: property.id } })
+                  }
+                />
                 <Card.Title>{property.address_line_1}</Card.Title>
                 <Card.Text>{property.city}</Card.Text>
                 <Card.Text>{property.state}</Card.Text>
@@ -147,7 +143,6 @@ const Properties = () => {
               </Card.Body>
             </Card>
           </ListGroup.Item>
-        
         ))}
       </ListGroup>
 

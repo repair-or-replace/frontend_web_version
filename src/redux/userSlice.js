@@ -26,6 +26,9 @@ export const userSlice = createSlice({
       state.username = action.payload.username;
       localStorage.setItem("authToken", action.payload.token);
       localStorage.setItem("userId", action.payload.user_id);
+      console.log('Logging in user:', action.payload.username); 
+      console.log('User id:', action.payload.user_id); 
+      console.log("user id stored", state.userId)
     },
     
     logOut: (state) => {

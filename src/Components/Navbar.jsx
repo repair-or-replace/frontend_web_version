@@ -7,7 +7,6 @@ function NavigationBar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-
   const authToken = useSelector((state) => state.user.authToken);
 
   const handleLogOut = () => {
@@ -18,40 +17,41 @@ function NavigationBar() {
   };
 
   return (
-    <Navbar expand="md" className="navbar">
+    <Navbar expand="md" className="navbar" bg="light" variant="light">
       <Container>
-        <Nav className="me-auto">
-          <Nav.Link as={NavLink} to="/">
-            Home
-          </Nav.Link>
-          <Nav.Link as={NavLink} to="/properties">
-            Properties
-          </Nav.Link>
-          {authToken && (
-            <Nav.Link as={NavLink} to="/profile">
-              Profile
+        <Navbar.Brand as={NavLink} to="/">
+          MyApp
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link as={NavLink} to="/">
+              Home
             </Nav.Link>
+            <Nav.Link as={NavLink} to="/properties">
+              Properties
+            </Nav.Link>
+            {authToken && (
+              <Nav.Link as={NavLink} to="/profile">
+                Profile
+              </Nav.Link>
+            )}
+            {authToken && (
+              <Nav.Link as={NavLink} to="/appliances">
+                Appliances
+              </Nav.Link>
+            )}
+          </Nav>
+          {authToken ? (
+            <Button onClick={handleLogOut} className="btn btn-danger">
+              Log Out
+            </Button>
+          ) : (
+            <Button onClick={() => navigate("/login")} className="btn btn-primary">
+              Login
+            </Button>
           )}
-// //           <Nav.Link
-// //             as={NavLink}
-// //             to="/appliances"
-// //             className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
-// //           >
-//             Appliances
-//           </Nav.Link>
-        </Nav>
-        {authToken ? (
-          <Button onClick={handleLogOut} className="btn btn-danger">
-            Log Out
-          </Button>
-        ) : (
-          <Button
-            onClick={() => navigate("/login")}
-            className="btn btn-primary"
-          >
-            Login
-          </Button>
-        )}
+        </Navbar.Collapse>
       </Container>
     </Navbar>
   );

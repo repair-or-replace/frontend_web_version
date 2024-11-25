@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { Route, Routes, Navigate } from "react-router-dom";
 import NavigationBar from "./Components/Navbar";
 import Properties from "./Components/Properties";
-import Login from "./Components/Login";
 import ViewAppliance from './Components/ViewAppliance';
 import Homepage from './Components/Homepage';
 import EditRepair from './Components/EditRepair';
@@ -15,6 +14,7 @@ import EditProperty from "./Components/EditProperty";
 import AddNewProperty from "./Components/AddNewProperty"; // Import AddNewProperty
 import Profile from "./Components/Profile";
 import Register from "./Components/Register";
+import LoginForm from "./Components/Login";
 
 function App() {
   const authToken = useSelector((state) => state.user.authToken); // Use Redux state
@@ -27,7 +27,7 @@ function App() {
       <Routes>
         {/* Public routes */}
         {!authToken && <Route path="/" element={<Homepage />} />}
-        {!authToken && <Route path="/login" element={<Login />} />}
+        {!authToken && <Route path="/login" element={<LoginForm />} />}
         {!authToken && <Route path="/signup" element={<Register />} />} {/* Add this */}
 
         {/* Private routes */}
@@ -45,7 +45,6 @@ function App() {
             <Route path="/edit-investment/:investmentId" element={<EditInvestment />} />
             <Route path="/add-new-property" element={<AddNewProperty />} /> {/* New route */}
             <Route path="/profile" element={<Profile />} />
-            <Route path="/login" element={<Navigate to="/" />} /> {/* Redirect if logged in */}
             <Route path="/signup" element={<Register />} />
 
 
