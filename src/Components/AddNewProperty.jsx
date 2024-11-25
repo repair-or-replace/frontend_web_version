@@ -11,14 +11,14 @@ const AddNewProperty = () => {
     city: "",
     state: "",
     zipcode: "",
-    home_type: "single", // Default selection
+    home_type: "single",
     year_built: "",
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
-  const token = useSelector((state) => state.user.authToken); // Get the user's auth token from Redux
-  const userId = useSelector((state) => state.user.userId); // Get the user ID from Redux
+  const token = useSelector((state) => state.user.authToken); // Get the user's auth token
+  const userId = useSelector((state) => state.user.userId); // Get the user ID
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -39,7 +39,7 @@ const AddNewProperty = () => {
         "https://repair-or-replace-back-end.onrender.com/api/properties/",
         {
           ...formData,
-          user: userId, // Ensure the property is linked to the correct user
+          user: userId, // Ensure the property is associated with the correct user
         },
         {
           headers: {
@@ -48,12 +48,12 @@ const AddNewProperty = () => {
           },
         }
       );
-      console.log("Property added successfully:", response.data);
-      setSuccess(true); // Show success alert
-      setTimeout(() => navigate("/properties"), 1500); // Redirect to properties page
+      console.log("Property added:", response.data);
+      setSuccess(true);
+      setTimeout(() => navigate("/properties"), 1500); // Redirect to properties page after success
     } catch (err) {
       console.error("Error adding property:", err.response?.data || err.message);
-      setError(err.response?.data?.detail || "Something went wrong.");
+      setError(err.response?.data || "Something went wrong.");
     }
   };
 
@@ -62,7 +62,6 @@ const AddNewProperty = () => {
       <h2 className="text-center mb-4">Add New Property</h2>
       {error && <Alert variant="danger">{error}</Alert>}
       {success && <Alert variant="success">Property added successfully!</Alert>}
-
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3">
           <Form.Label>Street Address</Form.Label>
@@ -145,13 +144,6 @@ const AddNewProperty = () => {
         </Form.Group>
         <Button variant="success" type="submit">
           Submit
-        </Button>
-        <Button
-          variant="secondary"
-          className="ms-3"
-          onClick={() => navigate("/properties")}
-        >
-          Cancel
         </Button>
       </Form>
     </Container>
