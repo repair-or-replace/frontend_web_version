@@ -2,14 +2,19 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Container, Card, ListGroup, Alert } from "react-bootstrap";
 import axios from "axios";
+import { useLocation } from "react-router-dom";
+
 
 const Appliances = () => {
   const token = useSelector((state) => state.user.authToken);
   const username = useSelector((state) => state.user.username);
+  const location = useLocation();
+  const { propertyId } = location.state || {};
   const [userId, setUserId] = useState(null)
   const [applianceList, setApplianceList] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  console.log("properpty id", propertyId)
   console.log(username)
   
   const fetchUserID = async () => { 
@@ -44,10 +49,12 @@ const Appliances = () => {
     fetchUserID();
   }, [token])
 
+
   const fetchAppliances = async () => { 
     if (!userId) return; 
     try {
-      const response = await axios.get(`https://repair-or-replace-back-end.onrender.com/api/appliances/${userId}/`, {
+      const response = await axios.get(`https://repair-or-replace-back-end.onrender.com/api/properties/${propertyId}`, {
+, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Token ${token}`
@@ -65,16 +72,23 @@ const Appliances = () => {
       setLoading(false)
     };
   };
-  console.log(applianceList)
+  console.log("appliance list", applianceList)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await fetchUserID(); 
+    };
+    fetchData();
+  }, [token, username]);
 
   useEffect(() => {
     if (userId) {
-      fetchAppliances();
-    }
-  }, [userId]);
+      fetchAppliances(); 
+  console.log(applianceList)
+
 
   if (loading) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
   return (

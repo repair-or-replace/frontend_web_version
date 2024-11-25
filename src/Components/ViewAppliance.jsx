@@ -156,6 +156,12 @@ const handleEditRepair = (repairId) => {
                 <p><strong>Total Repair Costs:</strong> ${appliance.total_repair_cost}</p>
                 <p><strong>Have Repairs Exceeded Cost?:</strong> {appliance.repairs_exceed_cost ? 'Yes' : 'No'}</p>
                 <p><strong>Typical Lifespan:</strong> {appliance.typical_lifespan_years}</p>
+                <Button variant="link" onClick={() => handleEditAppliance(appliance.id)}>
+                    <FaPencilAlt />
+                </Button>
+                <Button variant="link" onClick={() => openAppDeleteModal(appliance)}>
+                    <FaTrash />
+                </Button>
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
