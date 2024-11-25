@@ -7,6 +7,7 @@ import { FaPencilAlt, FaTrash } from 'react-icons/fa';
 
 const ViewAppliance = () => {
   const token = useSelector((state) => state.user.authToken);
+  const userId = useSelector((state) => state.user.userId);
   const [appliance, setAppliance] = useState(null);
   const [applianceDetails, setApplianceDetails] = useState(null);
   const [repairs, setRepairs] = useState([]);

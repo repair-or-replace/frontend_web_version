@@ -130,9 +130,6 @@ import axios from "axios";
 import defaultHome from "../assets/default_home_pic.jpeg";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { Container, Card, ListGroup, Alert } from "react-bootstrap";
-import axios from "axios";
-import defaultHome from "../assets/default_home_pic.jpeg"
 
 const Properties = () => {
   const token = useSelector((state) => state.user.authToken);
@@ -161,7 +158,7 @@ const Properties = () => {
       user.username == username
     );
     if (user) {
-      console.log(`userID: ${user.id}`);
+      console.log(`user : ${user.id}`);
       setUserId(user.id)
     } else {
       console.log("UserID not found")
@@ -173,6 +170,7 @@ const Properties = () => {
 
     } 
   };
+  console.log("userId", userId)
   useEffect(() => {
     fetchUserID();
   }, [token])
@@ -200,7 +198,7 @@ const Properties = () => {
 
   useEffect(() => {
     fetchProperties();
-  }, [token]);
+  }, [userId, token]);
 
   const deleteProperty = async () => {
     try {
@@ -224,17 +222,15 @@ const Properties = () => {
 
   if (loading) {
     return <div>Loading...</div>;
-  console.log(propertyList)
-
-  useEffect(() => {
-    if (userId) {
-      fetchProperties();
-    }
-  }, [userId]);
-
-  if (loading) {
-    return <div>Loading...</div>
   }
+    console.log(propertyList)
+
+  // useEffect(() => {
+  //   if (userId) {
+  //     fetchProperties();
+  //   }
+  // }, [userId]);
+
 
   return (
     <Container>
@@ -247,8 +243,6 @@ const Properties = () => {
             className="d-flex justify-content-between align-items-center shadow-sm p-3 mb-3 bg-white rounded"
           >
             <Card style={{ width: "18rem" }}>
-         </div>
-/>
               <Card.Body>
                  <Card.Img
                 variant="top"

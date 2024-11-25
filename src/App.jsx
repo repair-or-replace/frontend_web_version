@@ -54,10 +54,6 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import NavigationBar from "./Components/Navbar";
 import Properties from "./Components/Properties";
 import Login from "./Components/Login";
-
-function App() {
-  const authToken = useSelector((state) => state.user.authToken); // Use Redux state
-=======
 import ViewAppliance from './Components/ViewAppliance';
 import Homepage from './Components/Homepage';
 import EditRepair from './Components/EditRepair';
@@ -69,9 +65,8 @@ import NewProperty from "./Components/AddNewProperty";
 import EditProperty from "./Components/EditProperty";
 import AddNewProperty from "./Components/AddNewProperty"; // Import AddNewProperty
 
-
 function App() {
-  // const user = useSelector((state) => state.username); 
+  const authToken = useSelector((state) => state.user.authToken); // Use Redux state
   const token = localStorage.getItem("authToken"); 
 
   return (

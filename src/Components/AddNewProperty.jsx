@@ -1,168 +1,7 @@
-import React, { useState } from "react";
-import { Form, Button, Container, Alert } from "react-bootstrap";
-import axios from "axios";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-
-const AddNewProperty = () => {
-  const [formData, setFormData] = useState({
-    address_line_1: "",
-    address_line_2: "",
-    city: "",
-    state: "",
-    zipcode: "",
-    home_type: "single", // Default selection
-    year_built: "",
-  });
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
-
-  const token = useSelector((state) => state.user.authToken); // Get the user's auth token from Redux
-  const userId = useSelector((state) => state.user.userId); // Get the user ID from Redux
-  const navigate = useNavigate();
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-    setSuccess(false);
-
-    try {
-      const response = await axios.post(
-        "https://repair-or-replace-back-end.onrender.com/api/properties/",
-        {
-          ...formData,
-          user: userId, // Ensure the property is linked to the correct user
-        },
-        {
-          headers: {
-            Authorization: `Token ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      console.log("Property added successfully:", response.data);
-      setSuccess(true); // Show success alert
-      setTimeout(() => navigate("/properties"), 1500); // Redirect to properties page
-    } catch (err) {
-      console.error("Error adding property:", err.response?.data || err.message);
-      setError(err.response?.data?.detail || "Something went wrong.");
-    }
-  };
-
-  return (
-    <Container className="mt-5">
-      <h2 className="text-center mb-4">Add New Property</h2>
-      {error && <Alert variant="danger">{error}</Alert>}
-      {success && <Alert variant="success">Property added successfully!</Alert>}
-
-      <Form onSubmit={handleSubmit}>
-        <Form.Group className="mb-3">
-          <Form.Label>Street Address</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter Street Address"
-            name="address_line_1"
-            value={formData.address_line_1}
-            onChange={handleChange}
-            required
-          />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label>Unit # (if applicable)</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter Unit #"
-            name="address_line_2"
-            value={formData.address_line_2}
-            onChange={handleChange}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label>City</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter City"
-            name="city"
-            value={formData.city}
-            onChange={handleChange}
-            required
-          />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label>State</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter State"
-            name="state"
-            value={formData.state}
-            onChange={handleChange}
-            required
-          />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label>Zip Code</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter Zip Code"
-            name="zipcode"
-            value={formData.zipcode}
-            onChange={handleChange}
-            required
-          />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label>Property Type</Form.Label>
-          <Form.Select
-            name="home_type"
-            value={formData.home_type}
-            onChange={handleChange}
-          >
-            <option value="single">Single Family</option>
-            <option value="multi">Multi Family</option>
-            <option value="condo">Condo</option>
-            <option value="apartment">Apartment</option>
-            <option value="other">Other</option>
-          </Form.Select>
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label>Year Built</Form.Label>
-          <Form.Control
-            type="number"
-            placeholder="Enter Year Built"
-            name="year_built"
-            value={formData.year_built}
-            onChange={handleChange}
-            required
-          />
-        </Form.Group>
-        <Button variant="success" type="submit">
-          Submit
-        </Button>
-        <Button
-          variant="secondary"
-          className="ms-3"
-          onClick={() => navigate("/properties")}
-        >
-          Cancel
-        </Button>
-      </Form>
-    </Container>
-  );
-};
-
-export default AddNewProperty;
-=======
 import { Component } from 'react';
 import axios from 'axios';
 import { Form, Button, Alert, Container, Modal } from 'react-bootstrap';
+
 
 class NewProperty extends Component {
 
@@ -201,7 +40,14 @@ class NewProperty extends Component {
                 year_built: this.state.yearBuilt.trim(),
             };
 
-            axios.post('https://repair-or-replace-back-end.onrender.com/api/properties/', applianceData)
+            axios.post('https://repair-or-replace-back-end.onrender.com/api/properties/', applianceData,
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Token ${token}`
+                },
+              }
+            )
                 .then(() => {
                     this.setState({showSuccessModal: true,
                     isLoading: false    
@@ -222,12 +68,11 @@ class NewProperty extends Component {
         const { addressLine1, addressLine2, city, state, zipcode, homeType, yearBuilt } = this.state;
         const errors = {};
         if (!addressLine1) errors.addressLine1 = 'Must enter a brand name';
-        if (!addressLine2) errors.addressLine2 = 'Must enter year purchsed';
-        if (!city) errors.city = 'Must enter year purchsed';
-        if (!state) errors.state = 'Must enter year purchsed';
-        if (!zipcode) errors.zipcode = 'Must enter year purchsed';
-        if (!homeType) errors.homeType = 'Must enter year purchsed';
-        if (!yearBuilt) errors.yearBuilt = 'Must enter year purchsed';
+        if (!city) errors.city = 'Must enter city';
+        if (!state) errors.state = 'Must enter state';
+        if (!zipcode) errors.zipcode = 'Must enter zipcode';
+        if (!homeType) errors.homeType = 'Must enter home type';
+        if (!yearBuilt) errors.yearBuilt = 'Must enter year built';
         return errors;
     };
 
@@ -257,11 +102,11 @@ class NewProperty extends Component {
 
         return (
             <Container>
-                {isLoading && <Alert variant="info">Submitting Product Data...</Alert>}
-                {error && <Alert variant="danger">Error Submitting Product: {error}</Alert>}
+                {isLoading && <Alert variant="info">Submitting Property Data...</Alert>}
+                {error && <Alert variant="danger">Error Submitting Property: {error}</Alert>}
 
                 <Form onSubmit={this.handleSubmit}>
-                    <h2 className="m-3">Enter New Product Details</h2>
+                    <h2 className="m-3">Add New Property</h2>
                     <Form.Group controlId="formGroupStreetAddress">
                         <Form.Label>
                             Street Address
