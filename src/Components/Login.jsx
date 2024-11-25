@@ -44,7 +44,7 @@ const LoginForm = () => {
   };
 
   const handleSignUp = () => {
-    navigate("/register"); // Navigate to the registration page
+    navigate("/signup"); // Navigate to the registration page
   };
 
   return (

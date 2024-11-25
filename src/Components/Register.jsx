@@ -1,33 +1,73 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { Form, Button, Alert, Container } from 'react-bootstrap';
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { Form, Button, Container, Alert } from "react-bootstrap";
 
 const Register = () => {
-  const [inputs, setInputs] = useState({
-    username: '',
-    email: '',
-    password: '',
-    password_confirm: '',
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    first_name: "",
+    last_name: "",
+    password: "",
+    confirm_password: "",
   });
-
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setInputs({ ...inputs, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (formData.password !== formData.confirm_password) {
+      setError("Passwords do not match.");
+      return;
+    }
+
     try {
-      await axios.post('https://repair-or-replace-back-end.onrender.com/api/users/', inputs);
-      navigate('/login');
+      console.log("Payload being sent:", {
+        username: formData.username,
+        email: formData.email,
+        first_name: formData.first_name,
+        last_name: formData.last_name,
+        password: formData.password,
+        password_confirm: formData.confirm_password,
+      });
+
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/signup/`,
+        {
+          username: formData.username,
+          email: formData.email,
+          first_name: formData.first_name,
+          last_name: formData.last_name,
+          password: formData.password,
+          password_confirm: formData.confirm_password, // Include confirm_password
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      if (response.status === 201) {
+        setSuccess("Registration successful! Redirecting to login...");
+        setTimeout(() => navigate("/login"), 2000); // Redirect to login page after 2 seconds
+      }
     } catch (err) {
-      if (err.response && err.response.data && err.response.data.message) {
-        setError(err.response.data.message);
+      console.error("Error during registration:", err.response?.data || err.message);
+
+      const errorData = err.response?.data;
+      if (errorData) {
+        setError(
+          errorData.message || "An error occurred during registration."
+        );
       } else {
-        setError('Something went wrong. Please try again later.');
+        setError("An unknown error occurred. Please try again later.");
       }
     }
   };
@@ -35,56 +75,77 @@ const Register = () => {
   return (
     <Container className="mt-5">
       <h1 className="text-center">Register</h1>
+      {error && <Alert variant="danger">{error}</Alert>}
+      {success && <Alert variant="success">{success}</Alert>}
       <Form onSubmit={handleSubmit}>
-        <Form.Group controlId="formUsername">
+        <Form.Group className="mb-3" controlId="formUsername">
           <Form.Label>Username</Form.Label>
           <Form.Control
             type="text"
             name="username"
-            value={inputs.username}
+            value={formData.username}
             onChange={handleChange}
             required
             placeholder="Enter your username"
           />
         </Form.Group>
-        <Form.Group controlId="formEmail">
+        <Form.Group className="mb-3" controlId="formEmail">
           <Form.Label>Email</Form.Label>
           <Form.Control
             type="email"
             name="email"
-            value={inputs.email}
+            value={formData.email}
             onChange={handleChange}
             required
             placeholder="Enter your email"
           />
         </Form.Group>
-        <Form.Group controlId="formPassword">
+        <Form.Group className="mb-3" controlId="formFirstName">
+          <Form.Label>First Name</Form.Label>
+          <Form.Control
+            type="text"
+            name="first_name"
+            value={formData.first_name}
+            onChange={handleChange}
+            placeholder="Enter your first name"
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formLastName">
+          <Form.Label>Last Name</Form.Label>
+          <Form.Control
+            type="text"
+            name="last_name"
+            value={formData.last_name}
+            onChange={handleChange}
+            placeholder="Enter your last name"
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="formPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
             name="password"
-            value={inputs.password}
+            value={formData.password}
             onChange={handleChange}
             required
             placeholder="Enter your password"
           />
         </Form.Group>
-        <Form.Group controlId="formPasswordConfirm">
+        <Form.Group className="mb-3" controlId="formConfirmPassword">
           <Form.Label>Confirm Password</Form.Label>
           <Form.Control
             type="password"
-            name="password_confirm"
-            value={inputs.password_confirm}
+            name="confirm_password"
+            value={formData.confirm_password}
             onChange={handleChange}
             required
             placeholder="Confirm your password"
           />
         </Form.Group>
-        <Button variant="primary" type="submit" className="mt-3">
+        <Button variant="primary" type="submit">
           Register
         </Button>
       </Form>
-      {error && <Alert variant="danger" className="mt-3">{error}</Alert>}
     </Container>
   );
 };

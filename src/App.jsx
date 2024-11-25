@@ -11,6 +11,8 @@ import EditInvestment from "./Components/EditInvestment";
 import EditProperty from "./Components/EditProperty";
 import Appliances from "./Components/Appliances";
 import AddNewProperty from "./Components/AddNewProperty"; // Import AddNewProperty
+import Profile from "./Components/Profile";
+import Register from "./Components/Register";
 
 function App() {
   const authToken = useSelector((state) => state.user.authToken); // Use Redux state
@@ -23,6 +25,7 @@ function App() {
         {/* Public routes */}
         {!authToken && <Route path="/" element={<Homepage />} />}
         {!authToken && <Route path="/login" element={<Login />} />}
+        {!authToken && <Route path="/signup" element={<Register />} />} {/* Add this */}
 
         {/* Private routes */}
         {authToken && (
@@ -35,7 +38,10 @@ function App() {
             <Route path="/edit-repair/:repairId" element={<EditRepair />} />
             <Route path="/edit-investment/:investmentId" element={<EditInvestment />} />
             <Route path="/add-new-property" element={<AddNewProperty />} /> {/* New route */}
+            <Route path="/profile" element={<Profile />} />
             <Route path="/login" element={<Navigate to="/" />} /> {/* Redirect if logged in */}
+            <Route path="/signup" element={<Register />} />
+
           </>
         )}
 
