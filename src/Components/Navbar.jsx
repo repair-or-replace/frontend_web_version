@@ -14,7 +14,7 @@ function NavigationBar() {
     dispatch(logOut());
     localStorage.removeItem("authToken");
     sessionStorage.removeItem("user");
-    navigate("/");
+    navigate("/login");
   };
 
   return (
@@ -32,6 +32,13 @@ function NavigationBar() {
               Profile
             </Nav.Link>
           )}
+// //           <Nav.Link
+// //             as={NavLink}
+// //             to="/appliances"
+// //             className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
+// //           >
+//             Appliances
+//           </Nav.Link>
         </Nav>
         {authToken ? (
           <Button onClick={handleLogOut} className="btn btn-danger">
