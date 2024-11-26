@@ -122,7 +122,9 @@ const Appliances = () => {
   return (
     <Container>
       {error && <Alert variant='danger'>{error}</Alert> }
-      <h3 className="text-center">Your Appliances</h3>
+      <h3 className="text-center" style={{ fontWeight: 'bold', fontSize: '2rem', marginTop: '20px' }}>
+        Manage Your Appliances
+      </h3>
       <ListGroup>
         <Row>
         {applianceList.map((appliance) => (
