@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Container, Card, ListGroup, Alert } from "react-bootstrap";
 import axios from "axios";
 import defaultHome from "../assets/default_home_pic.jpeg"
@@ -11,6 +12,7 @@ const Properties = () => {
   const [propertyList, setPropertyList] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate()
   console.log(username)
   
   const fetchUserID = async () => { 
@@ -89,7 +91,7 @@ const Properties = () => {
             className="d-flex justify-content-between align-items-center shadow-sm p-3 mb-3 bg-white rounded"
           >
             <Card style={{ width: "18rem" }}>
-              <Card.Img variant="top" src={defaultHome} />
+              <Card.Img variant="top" src={defaultHome} style={{ cursor: "pointer" }} onClick={() => navigate("/appliances", {state:{propertyId: property.id}})}/>
               <Card.Body>
                 <Card.Title>{property.address_line_1}</Card.Title>
                 <Card.Text>{property.city}</Card.Text>

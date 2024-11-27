@@ -59,13 +59,12 @@ class NewProperty extends Component {
     validateForm = () => {
         const { addressLine1, addressLine2, city, state, zipcode, homeType, yearBuilt } = this.state;
         const errors = {};
-        if (!addressLine1) errors.addressLine1 = 'Must enter a brand name';
-        if (!addressLine2) errors.addressLine2 = 'Must enter year purchsed';
-        if (!city) errors.city = 'Must enter year purchsed';
-        if (!state) errors.state = 'Must enter year purchsed';
-        if (!zipcode) errors.zipcode = 'Must enter year purchsed';
-        if (!homeType) errors.homeType = 'Must enter year purchsed';
-        if (!yearBuilt) errors.yearBuilt = 'Must enter year purchsed';
+        if (!addressLine1) errors.addressLine1 = 'Must enter street address';
+        if (!city) errors.city = 'Must enter city';
+        if (!state) errors.state = 'Must enter state';
+        if (!zipcode) errors.zipcode = 'Must enter zipcode';
+        if (!homeType) errors.homeType = 'Must enter year property type';
+        if (!yearBuilt) errors.yearBuilt = 'Must enter year built';
         return errors;
     };
 
@@ -95,11 +94,11 @@ class NewProperty extends Component {
 
         return (
             <Container>
-                {isLoading && <Alert variant="info">Submitting Product Data...</Alert>}
-                {error && <Alert variant="danger">Error Submitting Product: {error}</Alert>}
+                {isLoading && <Alert variant="info">Submitting Property Data...</Alert>}
+                {error && <Alert variant="danger">Error Submitting Property: {error}</Alert>}
 
                 <Form onSubmit={this.handleSubmit}>
-                    <h2 className="m-3">Enter New Product Details</h2>
+                    <h2 className="m-3">Enter New Property</h2>
                     <Form.Group controlId="formGroupStreetAddress">
                         <Form.Label>
                             Street Address
@@ -113,7 +112,7 @@ class NewProperty extends Component {
                             Unit # (if applicable)
                         </Form.Label>
                         <Form.Control type="text" name="addressLine2" value={addressLine2} onChange={this.handleChange} />
-                        {errors.addressLine2 && <div style={{ color: 'red'}}>{errors.addressLine2}</div>}
+                        {/* {errors.addressLine2 && <div style={{ color: 'red'}}>{errors.addressLine2}</div>} */}
                     </Form.Group>
 
                     <Form.Group controlId="formGroupCity">

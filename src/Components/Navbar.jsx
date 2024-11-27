@@ -16,8 +16,10 @@ function NavigationBar() {
   };
 
   return (
-    <Navbar className="navbar" expand="md">
+    <Navbar className="navbar" bg="success" expand="md">
       <Container fluid>
+      <Navbar.Toggle aria-controls="basic-navbar-nav"></Navbar.Toggle>
+      <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-auto">
           {/* Add margin-end to the Profile link */}
           <Nav.Link
@@ -47,6 +49,7 @@ function NavigationBar() {
         <Button className="navbar-button" onClick={handleLogOut}>
           Log Out
         </Button>
+        </Navbar.Collapse>
       </Container>
     </Navbar>
   );

@@ -4,10 +4,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Form, Button, Alert, Container, Modal } from "react-bootstrap";
 
-const NewAppliance = () => {
-  const [modelNumber, setModelNumber] = useState("");
-  const [purchaseDate, setPurchaseDate] = useState("");
-  const [applianceData, setApplianceData] = useState("");
+const AddInvestment = () => {
+  const [investmentType, setInvestmentType] = useState("");
+  const [investmentDate, setInvestmentDate] = useState("");
+  const [investmentDescription, setInvestmentDescription] = useState("");
+  const [investmentData, setInvestmentData] = useState("");
+  const [cost, setCost] = useState("");
+  const [appliance, setAppliance] = useState("");
+  const [user, setUser] = useState("");
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -51,8 +55,8 @@ const NewAppliance = () => {
   //   fetchUserID();
   // }, [token])
 
-  // const applianceId = 1;
-  // const userId = 1;
+  const applianceId = 1;
+  const userId = 1;
 
   // const fetchInvestments = async () => {
   //   if (!userId) return;
@@ -91,11 +95,14 @@ const NewAppliance = () => {
       setIsLoading(true);
       setError(null);
 
-      const applianceData = {
-        model: modelNumber.trim(),
-        purchase_date: new Date(purchaseDate).toISOString().split("T")[0]
+      const investmentData = {
+        investment_type: investmentType.trim(),
+        investment_date: new Date(investmentDate).toISOString().split("T")[0],
+        investment_description: investmentDescription.trim(),
+        cost: parseFloat(cost),
+        appliance: parseInt(appliance)
       };
-      console.log("Appliance Data: ", applianceData)
+      console.log("Investment Data: ", investmentData)
 
       if (!token) {
         setError("No authentication token found");
@@ -106,8 +113,8 @@ const NewAppliance = () => {
 
       try {
         const response = await axios.post(
-          "https://repair-or-replace-back-end.onrender.com/api/appliances/",
-          applianceData,
+          "https://repair-or-replace-back-end.onrender.com/api/investments/",
+          investmentData,
           {
             headers: {
               "Content-type": "application/json",
@@ -115,7 +122,7 @@ const NewAppliance = () => {
             },
           }
         );
-        setApplianceData(response.data.appliances)
+        setInvestmentData(response.data.investments)
         setShowSuccessModal(true);
         
       } catch (error) {
@@ -128,61 +135,100 @@ const NewAppliance = () => {
   };
 
   useEffect(() => {
-  console.log("Appliance Data: ", applianceData);
-}, [applianceData])
+  console.log("Investment Data: ", investmentData);
+}, [investmentData])
 
   const validateForm = () => {
     const errors = {};
-    if (!modelNumber) errors.modelNumber = "Must enter model number";
-    if (!purchaseDate) errors.purchaseDate = "Must enter date of purchase";
+    if (!investmentType) errors.investmentType = "Must enter investment type";
+    if (!investmentDate) errors.investmentDate = "Must enter date";
+    if (!investmentDescription)
+      errors.investmentDescription = "Must enter description";
+    if (!cost) errors.cost = "Must enter cost";
     return errors;
   };
 
-//   const handleChange = (event) => {
-//     const { name, value } = event.target;
+  const handleChange = (event) => {
+    const { name, value } = event.target;
   
-//     if (name === "model") {
-//       setModelNumber(value);
-//     }
-//   };
+    if (name === "investment_type") {
+      setInvestmentType(value);
+    }
+  };
   
-
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
   return (
     <Container>
-      {isLoading && <Alert variant="info">Submitting Appliance Data...</Alert>}
+      {isLoading && <Alert variant="info">Submitting Investment Data...</Alert>}
       {error && (
-        <Alert variant="danger">Error Submitting Appliance: {error}</Alert>
+        <Alert variant="danger">Error Submitting Investment: {error}</Alert>
       )}
 
       <Form onSubmit={handleSubmit}>
-        <h2 className="m-3">Enter New Appliance Details</h2>
-        <Form.Group controlId="formGroupModelNumber">
-          <Form.Label>Enter Model Number: </Form.Label>
+        <h2 className="m-3">Enter New Investment Details</h2>
+        <Form.Group className="mb-3">
+          <Form.Label>Investment Type</Form.Label>
+          <Form.Select
+            name="investment_type"
+            value={investmentType}
+            onChange={handleChange}
+          >
+            <option value="" disabled>Select Investment Type</option>
+            <option value="maintenance">Maintenance</option>
+            <option value="enhancement">Enhancement</option>
+          </Form.Select>
+        </Form.Group>
+
+        <Form.Group controlId="formGroupInvestmentDate">
+          <Form.Label>Date of Investment</Form.Label>
           <Form.Control
-            type="text"
-            name="modelNumber"
-            value={modelNumber}
-            onChange={(e) => setModelNumber(e.target.value)}
+            type="date"
+            name="investmentDate"
+            value={investmentDate}
+            onChange={(e) => setInvestmentDate(e.target.value)}
           />
-          {errors.modelNumber && (
-            <div style={{ color: "red" }}>{errors.modelNumber}</div>
+          {errors.investmentDate && (
+            <div style={{ color: "red" }}>{errors.investmentDate}</div>
           )}
         </Form.Group>
 
-        <Form.Group controlId="formGroupPurchaseDate">
-          <Form.Label>Date of Purchase</Form.Label>
+        <Form.Group controlId="formGroupInvestmentDescription">
+          <Form.Label>Description</Form.Label>
           <Form.Control
-            type="date"
-            name="purchaseDate"
-            value={purchaseDate}
-            onChange={(e) => setPurchaseDate(e.target.value)}
+            type="text"
+            name="investmentDescription"
+            value={investmentDescription}
+            onChange={(e) => setInvestmentDescription(e.target.value)}
           />
-          {errors.purchaseDate && (
-            <div style={{ color: "red" }}>{errors.purchaseDate}</div>
+          {errors.investmentDescription && (
+            <div style={{ color: "red" }}>{errors.investmentDescription}</div>
+          )}
+        </Form.Group>
+
+        <Form.Group controlId="formGroupCost">
+          <Form.Label>Cost</Form.Label>
+          <Form.Control
+            type="float"
+            name="cost"
+            value={cost}
+            onChange={(e) => setCost(e.target.value)}
+          />
+          {errors.cost && <div style={{ color: "red" }}>{errors.cost}</div>}
+        </Form.Group>
+
+        <Form.Group controlId="formGroupAppliance">
+          <Form.Label>Enter Appliance ID</Form.Label>
+          <Form.Control
+            type="integer"
+            name="appliance"
+            value={appliance}
+            onChange={(e) => setAppliance(e.target.value)}
+          />
+          {errors.appliance && (
+            <div style={{ color: "red" }}>{errors.appliance}</div>
           )}
         </Form.Group>
 
@@ -193,7 +239,7 @@ const NewAppliance = () => {
 
       <Modal show={showSuccessModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Your New Appliance was Added Succesfully!</Modal.Title>
+          <Modal.Title>Your New Investment was Added Succesfully!</Modal.Title>
         </Modal.Header>
         <Modal.Body>Thank you!!</Modal.Body>
         <Modal.Footer>
@@ -209,4 +255,4 @@ const NewAppliance = () => {
   );
 };
 
-export default NewAppliance;
+export default AddInvestment;
