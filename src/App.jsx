@@ -10,16 +10,16 @@ import EditInvestment from './Components/EditInvestment';
 import Appliances from "./Components/Appliances";
 import EditAppliance from "./Components/EditAppliance";
 import NewAppliance from "./Components/AddNewAppliance";
-<<<<<<< HEAD
+
 import NewProperty from "./Components/AddNewProperty";
 import AddInvestment from "./Components/AddInvestment";
-=======
+
 import EditProperty from "./Components/EditProperty";
 import AddNewProperty from "./Components/AddNewProperty"; // Import AddNewProperty
 import Profile from "./Components/Profile";
 import Register from "./Components/Register";
 import LoginForm from "./Components/Login";
->>>>>>> 96a0b97f97ddc77bdcc9fc807d4147874f933114
+
 
 function App() {
   const authToken = useSelector((state) => state.user.authToken); // Use Redux state
@@ -45,12 +45,12 @@ function App() {
             <Route path="/view-appliance/:id" element={<ViewAppliance />} />
             <Route path="/edit-appliance/:applianceId" element={<EditAppliance />} />
             <Route path="/newappliance" element={<NewAppliance />} />
-<<<<<<< HEAD
+
             <Route path="/newproperty" element={<NewProperty />} />
             <Route path="/addinvestment" element={<AddInvestment />} />
-=======
+
             <Route path="/edit-property/:propertyId" element={<EditProperty />} />
->>>>>>> 96a0b97f97ddc77bdcc9fc807d4147874f933114
+
             <Route path="/edit-repair/:repairId" element={<EditRepair />} />
             <Route path="/edit-investment/:investmentId" element={<EditInvestment />} />
             <Route path="/add-new-property" element={<AddNewProperty />} /> {/* New route */}
