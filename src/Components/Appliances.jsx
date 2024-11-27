@@ -261,6 +261,7 @@ const Appliances = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedAppliance, setSelectedAppliance] = useState(null);
   console.log("Appliance list (outside function)", applianceList);
+  console.log(propertyId)
 
   const fetchAppliances = async () => {
     setLoading(true);
@@ -271,7 +272,7 @@ const Appliances = () => {
     }
     try {
       const response = await axios.get(
-        `https://repair-or-replace-back-end.onrender.com/api/appliances/${1}/`,
+        `https://repair-or-replace-back-end.onrender.com/api/properties/${propertyId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -326,43 +327,50 @@ const Appliances = () => {
       {error && <Alert variant="danger">{error}</Alert>}
       <Row>
         {" "}
-        {Object.keys(applianceList).map((key) => (
-          <Col key={key} md={4}>
-            {" "}
-            <Card>
+        {Object.keys(applianceList).map((key, item) => {
+          console.log("Appliance item: ", applianceList[item])
+          console.log("Appliance key: ", applianceList[key])
+          return (
+            <Col key={key} md={4}>
               {" "}
-              {/* Use applianceList[key] to access the object, then access properties */}{" "}
-              <Card.Img variant="top" src={applianceList[key].product_image} />{" "}
-              <Card.Body>
+              <Card>
                 {" "}
-                <Card.Title>{applianceList[key].name}</Card.Title>{" "}
-                <Card.Text>Model: {applianceList[key].model}</Card.Text>{" "}
-                <Card.Text>
-                  Status: {applianceList[key].current_status}
-                </Card.Text>{" "}
-                <Button
-                  variant="link"
-                  onClick={() =>
-                    navigate(`/edit-appliance/${applianceList[key].id}`)
-                  }
-                >
+                {/* Use applianceList[key] to access the object, then access properties */}{" "}
+                <Card.Img
+                  variant="top"
+                  src={applianceList.product_image}
+                />{" "}
+                <Card.Body>
                   {" "}
-                  <FaPencilAlt />{" "}
-                </Button>{" "}
-                <Button
-                  variant="link"
-                  onClick={() => {
-                    setSelectedAppliance(applianceList[key].id);
-                    setShowModal(true);
-                  }}
-                >
-                  {" "}
-                  <FaTrash style={{ color: "red" }} />{" "}
-                </Button>{" "}
-              </Card.Body>{" "}
-            </Card>{" "}
-          </Col>
-        ))}{" "}
+                  <Card.Title>{applianceList.name}</Card.Title>{" "}
+                  <Card.Text>Model: {applianceList.model}</Card.Text>{" "}
+                  <Card.Text>
+                    Status: {applianceList.current_status}
+                  </Card.Text>{" "}
+                  <Button
+                    variant="link"
+                    onClick={() =>
+                      navigate(`/edit-appliance/${applianceList.id}`)
+                    }
+                  >
+                    {" "}
+                    <FaPencilAlt />{" "}
+                  </Button>{" "}
+                  <Button
+                    variant="link"
+                    onClick={() => {
+                      setSelectedAppliance(applianceList.id);
+                      setShowModal(true);
+                    }}
+                  >
+                    {" "}
+                    <FaTrash style={{ color: "red" }} />{" "}
+                  </Button>{" "}
+                </Card.Body>{" "}
+              </Card>{" "}
+            </Col>
+          );
+        })}{" "}
       </Row>
 
       <Modal show={showModal} onHide={() => setShowModal(false)}>

@@ -7,7 +7,14 @@ import { Form, Button, Alert, Container, Modal } from "react-bootstrap";
 const NewAppliance = () => {
   const [modelNumber, setModelNumber] = useState("");
   const [purchaseDate, setPurchaseDate] = useState("");
+  const [name, setName] = useState("");
+  const [brand, setBrand] = useState("");
+  const [applianceType, setApplianceType] = useState("");
+  const [expectedEndOfLife, setExpectedEndOfLife] = useState("");
   const [applianceData, setApplianceData] = useState("");
+  const [currentStatus, setCurrentStatus] = useState("");
+  const [cost, setCost] = useState("");
+  const [typicalLifeSpan, setTypicalLifeSpan] = useState("");
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -93,9 +100,16 @@ const NewAppliance = () => {
 
       const applianceData = {
         model: modelNumber.trim(),
-        purchase_date: new Date(purchaseDate).toISOString().split("T")[0]
+        name: name.trim(),
+        appliance_type: applianceType.trim(),
+        brand: brand.trim(),
+        purchase_date: new Date(purchaseDate).toISOString().split("T")[0],
+        exp_end_of_life: new Date(purchaseDate).toISOString().split("T")[0],
+        current_status: currentStatus.trim(),
+        cost: parseFloat(cost),
+        typical_life_span: parseInt(typicalLifeSpan),
       };
-      console.log("Appliance Data: ", applianceData)
+      console.log("Appliance Data: ", applianceData);
 
       if (!token) {
         setError("No authentication token found");
@@ -115,37 +129,44 @@ const NewAppliance = () => {
             },
           }
         );
-        setApplianceData(response.data.appliances)
+        setApplianceData(response.data.appliances);
         setShowSuccessModal(true);
-        
       } catch (error) {
-          console.error("Error submitting form:", error);
-          setError(error.toString());
+        console.error("Error submitting form:", error);
+        setError(error.toString());
       } finally {
-          setIsLoading(false);
-      };
+        setIsLoading(false);
+      }
     }
   };
 
   useEffect(() => {
-  console.log("Appliance Data: ", applianceData);
-}, [applianceData])
+    console.log("Appliance Data: ", applianceData);
+  }, [applianceData]);
 
   const validateForm = () => {
     const errors = {};
     if (!modelNumber) errors.modelNumber = "Must enter model number";
     if (!purchaseDate) errors.purchaseDate = "Must enter date of purchase";
+    if (!name) errors.name = "Must enter name";
+    if (!brand) errors.brand = "Must enter brand";
+    if (!expectedEndOfLife)
+      errors.expectedEndOfLife = "Must enter expected end of life";
+    if (!cost) errors.cost = "Must enter cost";
+    if (!applianceType) errors.applianceType = "Must enter appliance";
+    if (!typicalLifeSpan)
+      errors.typicalLifeSpan = "Must enter typical life span";
+    if (!currentStatus) errors.currentStatus = "Must enter current status";
     return errors;
   };
 
-//   const handleChange = (event) => {
-//     const { name, value } = event.target;
-  
-//     if (name === "model") {
-//       setModelNumber(value);
-//     }
-//   };
-  
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+
+    if (name === "current_status") {
+      setCurrentStatus(value);
+    }
+  };
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -160,6 +181,40 @@ const NewAppliance = () => {
 
       <Form onSubmit={handleSubmit}>
         <h2 className="m-3">Enter New Appliance Details</h2>
+
+        <Form.Group controlId="formGroupName">
+          <Form.Label>Enter Name: </Form.Label>
+          <Form.Control
+            type="text"
+            name="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          {errors.name && <div style={{ color: "red" }}>{errors.name}</div>}
+        </Form.Group>
+
+        <Form.Group controlId="formGroupName">
+          <Form.Label>Enter Type: </Form.Label>
+          <Form.Control
+            type="text"
+            name="applianceType"
+            value={applianceType}
+            onChange={(e) => setApplianceType(e.target.value)}
+          />
+          {errors.name && <div style={{ color: "red" }}>{errors.name}</div>}
+        </Form.Group>
+
+        <Form.Group controlId="formGroupName">
+          <Form.Label>Enter Brand: </Form.Label>
+          <Form.Control
+            type="text"
+            name="brand"
+            value={brand}
+            onChange={(e) => setBrand(e.target.value)}
+          />
+          {errors.brand && <div style={{ color: "red" }}>{errors.brand}</div>}
+        </Form.Group>
+
         <Form.Group controlId="formGroupModelNumber">
           <Form.Label>Enter Model Number: </Form.Label>
           <Form.Control
@@ -174,6 +229,19 @@ const NewAppliance = () => {
         </Form.Group>
 
         <Form.Group controlId="formGroupPurchaseDate">
+          <Form.Label>Expected End of Life</Form.Label>
+          <Form.Control
+            type="date"
+            name="expectedEndOfLife"
+            value={expectedEndOfLife}
+            onChange={(e) => setExpectedEndOfLife(e.target.value)}
+          />
+          {errors.expectedEndOfLife && (
+            <div style={{ color: "red" }}>{errors.expectedEndOfLife}</div>
+          )}
+        </Form.Group>
+
+        <Form.Group controlId="formGroupPurchaseDate">
           <Form.Label>Date of Purchase</Form.Label>
           <Form.Control
             type="date"
@@ -184,6 +252,47 @@ const NewAppliance = () => {
           {errors.purchaseDate && (
             <div style={{ color: "red" }}>{errors.purchaseDate}</div>
           )}
+        </Form.Group>
+
+        <Form.Group controlId="formGroupName">
+          <Form.Label>Enter Cost: </Form.Label>
+          <Form.Control
+            type="float"
+            name="cost"
+            value={cost}
+            onChange={(e) => setCost(e.target.value)}
+          />
+          {errors.cost && <div style={{ color: "red" }}>{errors.cost}</div>}
+        </Form.Group>
+
+        <Form.Group controlId="formGroupName">
+          <Form.Label>Enter Typical Life Span in Years: </Form.Label>
+          <Form.Control
+            type="int"
+            name="typicalLifeSpan"
+            value={typicalLifeSpan}
+            onChange={(e) => setTypicalLifeSpan(e.target.value)}
+          />
+          {errors.typicalLifeSpan && (
+            <div style={{ color: "red" }}>{errors.typicalLifeSpan}</div>
+          )}
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Current Status</Form.Label>
+          <Form.Select
+            name="current_status"
+            value={currentStatus}
+            onChange={handleChange}
+          >
+            <option value="" disabled>
+              Select Current Status
+            </option>
+            <option value="working">Working</option>
+            <option value="needsRepair">Needs Repair</option>
+            <option value="broken">Broken</option>
+            <option value="replaced">Replaced</option>
+          </Form.Select>
         </Form.Group>
 
         <Button className="mt-3" variant="primary" type="submit">
