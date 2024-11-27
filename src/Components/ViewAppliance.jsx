@@ -7,6 +7,7 @@ import { FaPencilAlt, FaTrash } from 'react-icons/fa';
 
 const ViewAppliance = () => {
   const token = useSelector((state) => state.user.authToken);
+  const userId = useSelector((state) => state.user.userId);
   const [appliance, setAppliance] = useState(null);
   const [applianceDetails, setApplianceDetails] = useState(null);
   const [repairs, setRepairs] = useState([]);
@@ -29,8 +30,7 @@ const ViewAppliance = () => {
     setSelectedInvestment(investment);
     setShowInvestmentDeleteModal(true);
   };
-
-  // Handle deletion of repair
+//delete repair modal
   const handleRepairDelete = async () => {
     if (selectedRepair) {
       try {
@@ -48,7 +48,7 @@ const ViewAppliance = () => {
     }
   };
 
-  // Handle deletion of investment
+  //  delete  investment
   const handleInvestmentDelete = async () => {
     if (selectedInvestment) {
       try {
@@ -70,7 +70,7 @@ const ViewAppliance = () => {
     if (token === null) {
       return;
     }
-
+//fetch appliance details from api table
     const fetchApplianceDetails = async () => {
       try {
         const applianceDetailsResponse = await axios.get(
@@ -83,7 +83,7 @@ const ViewAppliance = () => {
           }
         );
         setApplianceDetails(applianceDetailsResponse.data);
-
+//fetch appliance details from appliance table
         const applianceResponse = await axios.get(
           `https://repair-or-replace-back-end.onrender.com/api/appliances/${id}/`,
           {
@@ -106,12 +106,12 @@ const ViewAppliance = () => {
     fetchApplianceDetails();
   }, [id, token, navigate]);
 
-// Function to handle repair edit
+// function to handle repair edit
 const handleEditRepair = (repairId) => {
     navigate(`/edit-repair/${repairId}`);
   };
   
-  // Function to handle investment edit
+  // function to handle investment edit
   const handleEditInvestment = (investmentId) => {
     navigate(`/edit-investment/${investmentId}`);
   };
@@ -156,6 +156,12 @@ const handleEditRepair = (repairId) => {
                 <p><strong>Total Repair Costs:</strong> ${appliance.total_repair_cost}</p>
                 <p><strong>Have Repairs Exceeded Cost?:</strong> {appliance.repairs_exceed_cost ? 'Yes' : 'No'}</p>
                 <p><strong>Typical Lifespan:</strong> {appliance.typical_lifespan_years}</p>
+                <Button variant="link" onClick={() => handleEditAppliance(appliance.id)}>
+                    <FaPencilAlt />
+                </Button>
+                <Button variant="link" onClick={() => openAppDeleteModal(appliance)}>
+                    <FaTrash style={{ color: 'red' }} />
+                </Button>
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>

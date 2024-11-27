@@ -1,108 +1,193 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+<<<<<<< HEAD
 import { useNavigate } from "react-router-dom";
 import { Container, Card, ListGroup, Alert } from "react-bootstrap";
+=======
+import { Container, Card, ListGroup, Alert, Modal, Button } from "react-bootstrap";
+>>>>>>> 96a0b97f97ddc77bdcc9fc807d4147874f933114
 import axios from "axios";
-import defaultHome from "../assets/default_home_pic.jpeg"
+import defaultHome from "../assets/default_home_pic.jpeg";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const Properties = () => {
   const token = useSelector((state) => state.user.authToken);
   const username = useSelector((state) => state.user.username);
-  const [userId, setUserId] = useState(null)
+  const userID = useSelector((state) => state.user.userId); // Use useSelector for userID
+  const [userId, setUserId] = useState(null); // Use useState for userId
   const [propertyList, setPropertyList] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+<<<<<<< HEAD
   const navigate = useNavigate()
   console.log(username)
   
   const fetchUserID = async () => { 
+=======
+  const [showModal, setShowModal] = useState(false);
+  const [propertyToDelete, setPropertyToDelete] = useState(null);
+  const navigate = useNavigate();
+  console.log("userId", userID);
+  console.log("userId", userId);
+
+  // Fetch user ID from API
+  const fetchUserID = async () => {
+>>>>>>> 96a0b97f97ddc77bdcc9fc807d4147874f933114
     try {
       const response = await axios.get(`https://repair-or-replace-back-end.onrender.com/api/users/`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Token ${token}`
+          Authorization: `Token ${token}`,
         },
+      });
+      const users = response.data;
+      const user = users.find(user => user.username === username);
+      
+      if (user) {
+        setUserId(user.id); // Update userId state here
+      } else {
+        setError("User ID not found");
       }
-    )
-    const users = response.data
-
-    const user = users.find(user => 
-      user.username === username
-    );
-    if (user) {
-      console.log(`userID: ${user.id}`);
-      setUserId(user.id)
-    } else {
-      console.log("UserID not found")
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+      setError(`Error fetching user data: ${error.message}`);
     }
-    console.log(response.data.username);
-
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      setError(`Error fetching data:, ${error}`);
-
-    } 
   };
-  useEffect(() => {
-    fetchUserID();
-  }, [token])
 
-  const fetchProperties = async () => { 
-    if (!userId) return; 
+  // Fetch properties from API
+  const fetchProperties = async () => {
+    if (!userId) return; // Ensure userId is set
     try {
-      const response = await axios.get(`https://repair-or-replace-back-end.onrender.com/api/user-properties/${userId}/`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Token ${token}`
-        },
-      }
-    )
-    console.log(response.data);
-    setPropertyList(response.data.properties);
-
+      const response = await axios.get(
+        `https://repair-or-replace-back-end.onrender.com/api/user-properties/${userID}/`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+      setPropertyList(response.data.properties);
     } catch (error) {
-      console.error("Error fetching data:", error);
-      setError(`Error fetching data:, ${error}`);
-
+      console.error("Error fetching properties:", error);
+      setError(`Error fetching properties: ${error.message}`);
     } finally {
-      setLoading(false)
-    };
+      setLoading(false);
+    }
   };
-  console.log(propertyList)
+
+  // Fetch user ID and properties once when token or username changes
+  useEffect(() => {
+    if (token && username) {
+      fetchUserID();
+    }
+  }, [token, username]);
 
   useEffect(() => {
     if (userId) {
       fetchProperties();
     }
-  }, [userId]);
+  }, [userId, token]);
+
+  const deleteProperty = async () => {
+    try {
+      await axios.delete(
+        `https://repair-or-replace-back-end.onrender.com/api/properties/${propertyToDelete}/`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+      setPropertyList((prev) =>
+        prev.filter((property) => property.id !== propertyToDelete)
+      );
+      setShowModal(false);
+    } catch (error) {
+      setError(`Error deleting property: ${error.message}`);
+    }
+  };
 
   if (loading) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
   return (
     <Container>
-      {error && <Alert variant='danger'>{error}</Alert> }
-      <h3 className="text-center">Your Properties</h3>
-      <ListGroup>
+      {error && <Alert variant="danger">{error}</Alert>}
+      <h3 className="text-center" style={{ fontWeight: 'bold', fontSize: '2rem', marginTop: '20px' }}>
+        Properties
+      </h3>
+      <div className="row">
         {propertyList.map((property) => (
+<<<<<<< HEAD
           <ListGroup.Item
             key={property.id}
             className="d-flex justify-content-between align-items-center shadow-sm p-3 mb-3 bg-white rounded"
           >
             <Card style={{ width: "18rem" }}>
               <Card.Img variant="top" src={defaultHome} style={{ cursor: "pointer" }} onClick={() => navigate("/appliances", {state:{propertyId: property.id}})}/>
+=======
+          <div className="col-md-4 mb-4" key={property.id}>
+            <Card className="shadow-sm">
+              <Card.Img
+                variant="top"
+                src={defaultHome}
+                style={{ cursor: "pointer" }}
+                onClick={() =>
+                  navigate(`/appliances`, { state: { propertyId: property.id } })
+                }
+              />
+>>>>>>> 96a0b97f97ddc77bdcc9fc807d4147874f933114
               <Card.Body>
                 <Card.Title>{property.address_line_1}</Card.Title>
                 <Card.Text>{property.city}</Card.Text>
                 <Card.Text>{property.state}</Card.Text>
                 <Card.Text>{property.zipcode}</Card.Text>
+                <div className="d-flex justify-content-between mt-3">
+                  <FaEdit
+                    style={{ cursor: "pointer", color: "blue" }}
+                    onClick={() => navigate(`/edit-property/${property.id}`)}
+                  />
+                  <FaTrash
+                    style={{ cursor: "pointer", color: "red" }}
+                    onClick={() => {
+                      setPropertyToDelete(property.id);
+                      setShowModal(true);
+                    }}
+                  />
+                </div>
               </Card.Body>
             </Card>
-          </ListGroup.Item>
-        
+          </div>
         ))}
-      </ListGroup>
+      </div>
+
+      {/* Add New Property Button */}
+      <div className="text-center mt-4">
+        <Button variant="success" onClick={() => navigate("/add-new-property")}>
+          Add New Property
+        </Button>
+      </div>
+
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Delete</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Are you sure you want to delete this property?</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowModal(false)}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={deleteProperty}>
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 };
