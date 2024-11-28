@@ -147,14 +147,14 @@ const NewAppliance = () => {
   const validateForm = () => {
     const errors = {};
     if (!modelNumber) errors.modelNumber = "Must enter model number";
-    if (!purchaseDate) errors.purchaseDate = "Must enter date of purchase";
+    if (!purchaseDate || isNaN(new Date(purchaseDate))) errors.purchaseDate = "Must enter date of purchase";
     if (!name) errors.name = "Must enter name";
     if (!brand) errors.brand = "Must enter brand";
-    if (!expectedEndOfLife)
+    if (!expectedEndOfLife || isNaN(new Date(expectedEndOfLife)))
       errors.expectedEndOfLife = "Must enter expected end of life";
-    if (!cost) errors.cost = "Must enter cost";
+    if (!cost || isNaN(parseFloat(cost)) || parseFloat(cost) <= 0) errors.cost = "Must enter cost";
     if (!applianceType) errors.applianceType = "Must enter appliance";
-    if (!typicalLifeSpan)
+    if (!typicalLifeSpan || isNaN(parseInt(typicalLifeSpan)) || parseInt(typicalLifeSpan) <= 0)
       errors.typicalLifeSpan = "Must enter typical life span";
     if (!currentStatus) errors.currentStatus = "Must enter current status";
     return errors;

@@ -261,7 +261,7 @@ const Appliances = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedAppliance, setSelectedAppliance] = useState(null);
   console.log("Appliance list (outside function)", applianceList);
-  console.log(propertyId)
+  console.log(propertyId);
 
   const fetchAppliances = async () => {
     setLoading(true);
@@ -280,8 +280,8 @@ const Appliances = () => {
           },
         }
       );
-      console.log("API response: ", response);
-      setApplianceList(response.data);
+      console.log("API response: ", response.data.appliances);
+      setApplianceList(response.data.appliances);
     } catch (error) {
       console.error("Error fetching appliances: ", error);
       setError(`Error fetching appliances: ${error.message}`);
@@ -326,51 +326,34 @@ const Appliances = () => {
     <Container>
       {error && <Alert variant="danger">{error}</Alert>}
       <Row>
-        {" "}
-        {Object.keys(applianceList).map((key, item) => {
-          console.log("Appliance item: ", applianceList[item])
-          console.log("Appliance key: ", applianceList[key])
-          return (
-            <Col key={key} md={4}>
-              {" "}
-              <Card>
-                {" "}
-                {/* Use applianceList[key] to access the object, then access properties */}{" "}
-                <Card.Img
-                  variant="top"
-                  src={applianceList.product_image}
-                />{" "}
-                <Card.Body>
-                  {" "}
-                  <Card.Title>{applianceList.name}</Card.Title>{" "}
-                  <Card.Text>Model: {applianceList.model}</Card.Text>{" "}
-                  <Card.Text>
-                    Status: {applianceList.current_status}
-                  </Card.Text>{" "}
-                  <Button
-                    variant="link"
-                    onClick={() =>
-                      navigate(`/edit-appliance/${applianceList.id}`)
-                    }
-                  >
-                    {" "}
-                    <FaPencilAlt />{" "}
-                  </Button>{" "}
-                  <Button
-                    variant="link"
-                    onClick={() => {
-                      setSelectedAppliance(applianceList.id);
-                      setShowModal(true);
-                    }}
-                  >
-                    {" "}
-                    <FaTrash style={{ color: "red" }} />{" "}
-                  </Button>{" "}
-                </Card.Body>{" "}
-              </Card>{" "}
-            </Col>
-          );
-        })}{" "}
+        <h3 className="text-center">Your Appliances</h3>
+        {applianceList.map((appliance) => (
+        <Col key={appliance.id} md={4}>
+          <Card>
+            <Card.Img variant="top" src={appliance.product_image} />
+            <Card.Body>
+              <Card.Title>{appliance.name}</Card.Title>
+              <Card.Text>Model: {appliance.model}</Card.Text>
+              <Card.Text>Status: {appliance.current_status}</Card.Text>
+              <Button
+                variant="link"
+                onClick={() => navigate(`/edit-appliance/${appliance.id}`)}
+              >
+                <FaPencilAlt />
+              </Button>
+              <Button
+                variant="link"
+                onClick={() => {
+                  setSelectedAppliance(appliance);
+                  setShowModal(true);
+                }}
+              >
+                <FaTrash style={{ color: "red" }} />
+              </Button>
+            </Card.Body>
+          </Card>
+        </Col>
+        ))};
       </Row>
 
       <Modal show={showModal} onHide={() => setShowModal(false)}>

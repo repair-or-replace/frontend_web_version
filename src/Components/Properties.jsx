@@ -198,6 +198,7 @@ const Properties = () => {
   const navigate = useNavigate();
 
   console.log(userID);
+  console.log(username);
   console.log(token);
 
   // Fetch properties from API

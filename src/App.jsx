@@ -17,6 +17,7 @@ import AddNewProperty from "./Components/AddNewProperty"; // Import AddNewProper
 import Profile from "./Components/Profile";
 import Register from "./Components/Register";
 import LoginForm from "./Components/Login";
+import AddRepair from "./Components/AddRepair";
 
 function App() {
   const authToken = useSelector((state) => state.user.authToken); // Use Redux state
@@ -44,6 +45,7 @@ function App() {
             <Route path="/newappliance" element={<NewAppliance />} />
             <Route path="/newproperty" element={<NewProperty />} />
             <Route path="/addinvestment" element={<AddInvestment />} />
+            <Route path="/addrepair" element={<AddRepair />} />
             <Route path="/edit-property/:propertyId" element={<EditProperty />} />
             <Route path="/edit-repair/:repairId" element={<EditRepair />} />
             <Route path="/edit-investment/:investmentId" element={<EditInvestment />} />
