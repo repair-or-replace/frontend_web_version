@@ -13,7 +13,7 @@ import Appliances from "./Components/Appliances";
 import AddNewProperty from "./Components/AddNewProperty"; // Import AddNewProperty
 import Profile from "./Components/Profile";
 import Register from "./Components/Register";
-import EditProfile from "./components/EditProfile";
+import EditProfile from "./Components/EditProfile";
 
 function App() {
   const authToken = useSelector((state) => state.user.authToken); // Use Redux state
