@@ -333,6 +333,7 @@ const Appliances = () => {
             <Card.Img variant="top" src={appliance.product_image} />
             <Card.Body>
               <Card.Title>{appliance.name}</Card.Title>
+              <Card.Text>Appliance ID: {appliance.id}</Card.Text>
               <Card.Text>Model: {appliance.model}</Card.Text>
               <Card.Text>Status: {appliance.current_status}</Card.Text>
               <Button
@@ -355,6 +356,18 @@ const Appliances = () => {
         </Col>
         ))};
       </Row>
+
+      <div className="text-center mt-4">
+      <Button className="m-3" variant="primary" onClick={() => navigate("/newappliance")}>
+          Add New Appliance
+        </Button>
+        <Button className="m-3" variant="success" onClick={() => navigate("/addinvestment")}>
+          Add Investment
+        </Button>
+        <Button className="m-3" variant="warning" onClick={() => navigate("/addrepair")}>
+          Add Repair
+        </Button>
+      </div>
 
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>

@@ -104,7 +104,7 @@ const NewAppliance = () => {
         appliance_type: applianceType.trim(),
         brand: brand.trim(),
         purchase_date: new Date(purchaseDate).toISOString().split("T")[0],
-        exp_end_of_life: new Date(purchaseDate).toISOString().split("T")[0],
+        exp_end_of_life: new Date(expectedEndOfLife).toISOString().split("T")[0],
         current_status: currentStatus.trim(),
         cost: parseFloat(cost),
         typical_life_span: parseInt(typicalLifeSpan),
