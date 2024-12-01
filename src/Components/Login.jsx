@@ -125,13 +125,14 @@ const LoginForm = () => {
       // Start a timer to update progress
       interval = setInterval(() => {
         setProgress((oldProgress) => {
-          if (oldProgress >= 95) {  // Check if progress is at or beyond 95%
-            clearInterval(interval);  // Stop increasing progress
-            return 95;  // Set progress to 95% and hold
+          const newProgress = oldProgress + 0.5;  // Increment by 0.5%
+          if (newProgress >= 100) {
+            clearInterval(interval);  // Stop increasing progress if 100% is reached
+            return 100;  // Ensure it does not exceed 100%
           }
-          return oldProgress + 5;  // Otherwise, increment by 5%
+          return newProgress;  // Update progress
         });
-      }, 1000); // Slower update rate, every second
+      }, 2000); // Slower update rate, every 2 seconds
     } else {
       clearInterval(interval);  // Ensure interval is cleared when not loading
     }
@@ -150,7 +151,7 @@ const LoginForm = () => {
       <button onClick={handleLogin}>Start Login</button>
       {loading && (
         <div>
-          <div>Loading... {progress}%</div>
+          <div>Loading... {progress.toFixed(1)}%</div>
           <progress value={progress} max="100"></progress>
         </div>
       )}
