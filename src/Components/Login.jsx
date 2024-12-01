@@ -124,7 +124,7 @@ const LoginForm = () => {
       // Start a timer to update progress
       const interval = setInterval(() => {
         setProgress((oldProgress) => {
-          const newProgress = oldProgress + 5;  // Increase by 5% each time
+          const newProgress = oldProgress + 1;  // Increase by 5% each time
           if (newProgress === 100) {
             clearInterval(interval);  // Stop the timer when reaching 100%
             setTimeout(() => {
