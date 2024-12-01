@@ -120,32 +120,29 @@ const LoginForm = () => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    let interval;
     if (loading) {
       // Start a timer to update progress
-      const interval = setInterval(() => {
+      interval = setInterval(() => {
         setProgress((oldProgress) => {
-          const newProgress = oldProgress + 1;  // Increase by 5% each time
-          if (newProgress === 100) {
-            clearInterval(interval);  // Stop the timer when reaching 100%
-            setTimeout(() => {
-              setLoading(false);  // Stop loading after a brief moment
-              console.log('Loading completed!'); // Log completion
-            }, 1500); // Delay before stopping the load
+          if (oldProgress >= 95) {  // Check if progress is at or beyond 95%
+            clearInterval(interval);  // Stop increasing progress
+            return 95;  // Set progress to 95% and hold
           }
-          return newProgress;  // Update progress value
+          return oldProgress + 5;  // Otherwise, increment by 5%
         });
       }, 1000); // Slower update rate, every second
-
-      return () => {
-        clearInterval(interval);  // Cleanup the timer
-      };
+    } else {
+      clearInterval(interval);  // Ensure interval is cleared when not loading
     }
+
+    return () => clearInterval(interval);  // Cleanup the interval when component unmounts or loading changes
   }, [loading]);
 
   // Assume this is triggered by a login attempt
   const handleLogin = () => {
-    setLoading(true);
-    setProgress(0); // Reset progress on new login
+    setLoading(true);  // Set loading to true to start the progress bar
+    setProgress(0);    // Reset progress to 0 on new login attempt
   };
 
   return (
@@ -162,7 +159,3 @@ const LoginForm = () => {
 };
 
 export default LoginForm;
-
-  return (
-    <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
-      <div className="
