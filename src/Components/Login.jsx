@@ -197,3 +197,52 @@ const LoginForm = () => {
               <div className="mb-3">
                 <label htmlFor="username" className="form-label">Username</label>
                 <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  className="form-control"
+                  value={formData.username}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor="password" className="form-label">Password</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  className="form-control"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                className="btn btn-success w-100 mb-3"
+                style={{ backgroundColor: "#84b474" }}
+              >
+                Login
+              </button>
+            </form>
+            {!loading && (
+              <div className="text-center">
+                <p>Don’t have an account?</p>
+                <button
+                  type="button"
+                  className="btn btn-outline-primary w-100"
+                  onClick={handleSignUp}
+                >
+                  Sign Up
+                  </button>
+                </div>
+              )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default LoginForm;
