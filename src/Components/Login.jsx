@@ -136,26 +136,21 @@ const LoginForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const simulateLoading = async (step, delay) => {
+    for (let i = 0; i < 95; i += step) {
+      await new Promise((resolve) => setTimeout(resolve, delay));
+      setProgress((prev) => Math.min(95, prev + step)); // Ensure we do not go beyond 95%
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setProgress(0);
 
+    simulateLoading(5, 2000); // Slower progress, smaller increment
+
     try {
-      // Simulate a long running task
-      const simulateLoading = (step, delay) => {
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            setProgress((prevProgress) => prevProgress + step);
-            resolve();
-          }, delay);
-        });
-      };
-
-      for (let i = 0; i <= 100; i += 10) {
-        await simulateLoading(10, 1000);  // Adjust time here to manage simulation
-      }
-
       const response = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/api/login/`,
         formData,
@@ -163,6 +158,9 @@ const LoginForm = () => {
       );
 
       const { token, user_id, username } = response.data;
+      // Ensure we finish the loading simulation
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setProgress(100); // Set progress to 100% when login is successful
 
       // Dispatch login action to Redux
       dispatch(logIn({ username, token, user_id }));
@@ -172,6 +170,7 @@ const LoginForm = () => {
     } catch (error) {
       console.error("Error during login:", error.response?.data || error.message);
       setError("Invalid username or password. Please try again.");
+      setProgress(0); // Reset progress on error
     } finally {
       setLoading(false);
     }
@@ -183,78 +182,4 @@ const LoginForm = () => {
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
-      <div className="col-md-4">
-        <div className="card shadow-lg">
-          <div className="card-body">
-            <h3 className="text-center mb-4" style={{ color: "#84b474" }}>
-              Login
-            </h3>
-            {error && <div className="alert alert-danger">{error}</div>}
-            {loading && <div className="progress">
-              <div
-                className="progress-bar progress-bar-striped progress-bar-animated"
-                role="progressbar"
-                style={{ width: `${progress}%` }}
-                aria-valuenow={progress}
-                aria-valuemin="0"
-                aria-valuemax="100"
-              >
-                {progress}%
-              </div>
-            </div>}
-            <form onSubmit={handleSubmit}>
-              <div className="mb-3">
-                <label htmlFor="username" className="form-label">
-                  Username
-                </label>
-                <input
-                  type="text"
-                  id="username"
-                  name="username"
-                  className="form-control"
-                  value={formData.username}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="mb-3">
-                <label htmlFor="password" className="form-label">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  className="form-control"
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <button
-                type="submit"
-                className="btn btn-success w-100 mb-3"
-                style={{ backgroundColor: "#84b474" }}
-                disabled={loading}
-              >
-                Login
-              </button>
-            </form>
-            <div className="text-center">
-              <p>Don’t have an account?</p>
-              <button
-                type="button"
-                className="btn btn-outline-primary w-100"
-                onClick={handleSignUp}
-              >
-                Sign Up
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default LoginForm;
+      <div className="
