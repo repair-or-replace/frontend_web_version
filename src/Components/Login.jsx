@@ -113,62 +113,49 @@
 // export default LoginForm;
 
 
-from react import useState, useEffect
+import React, { useState, useEffect } from 'react';
 
-def LoginForm():
-    username = useState("")
-    password = useState("")
-    error = useState("")
-    loading = useState(False)
-    progress = useState(0)
+const LoginForm = () => {
+  const [loading, setLoading] = useState(false);
+  const [progress, setProgress] = useState(0);
 
-    def handleChange(event):
-        name, value = event.target.name, event.target.value
-        if name == "username":
-            username[1](value)  # Update username
-        elif name == "password":
-            password[1](value)  # Update password
+  useEffect(() => {
+    let interval;
+    if (loading) {
+      // Start a timer to update progress
+      interval = setInterval(() => {
+        setProgress((oldProgress) => {
+          if (oldProgress >= 95) {  // Check if progress is at or beyond 95%
+            clearInterval(interval);  // Stop increasing progress
+            return 95;  // Set progress to 95% and hold
+          }
+          return oldProgress + 0.1;  // Otherwise, increment by 5%
+        });
+      }, 1000); // Slower update rate, every second
+    } else {
+      clearInterval(interval);  // Ensure interval is cleared when not loading
+    }
 
-    def handleSubmit(event):
-        event.preventDefault()  # Prevent default form submission behavior
-        error[1]("")  # Clear any existing errors
-        loading[1](True)  # Set loading to true
-        progress   # Reset progress to 0
+    return () => clearInterval(interval);  // Cleanup the interval when component unmounts or loading changes
+  }, [loading]);
 
-        def update_progress():
-            if progress[0] < 95:  # Increment progress until 95%
-                new_progress = progress[0] + 1
-                progress[1](new_progress)
-            else:
-                loading[1](False)  # Stop loading at 95%
+  // Assume this is triggered by a login attempt
+  const handleLogin = () => {
+    setLoading(true);  // Set loading to true to start the progress bar
+    setProgress(0);    // Reset progress to 0 on new login attempt
+  };
 
-        interval_id = setInterval(update_progress, 1000)  # Update progress every second
-        setTimeout(lambda: clearInterval(interval_id), 100000)  # Stop after 100 seconds
+  return (
+    <div>
+      <button onClick={handleLogin}>Start Login</button>
+      {loading && (
+        <div>
+          <div>Loading... {progress}%</div>
+          <progress value={progress} max="100"></progress>
+        </div>
+      )}
+    </div>
+  );
+};
 
-    return (
-        f"<div className='d-flex justify-content-center align-items-center vh-100 bg-light'>"
-        f"  <div className='col-md-4'>"
-        f"    <div className='card shadow-lg'>"
-        f"      <div className='card-body'>"
-        f"        <h3 className='text-center mb-4' style={{ color: '#84b474' }}>Login</h3>"
-        f"        {error[0] and f\"<div className='alert alert-danger'>{error[0]}</div>\"}"
-        f"        <form onSubmit={handleSubmit}>"
-        f"          <div className='mb-3'>"
-        f"            <label htmlFor='username' className='form-label'>Username</label>"
-        f"            <input type='text' id='username' name='username' className='form-control' value={username[0]} onChange={handleChange} required />"
-        f"          </div>"
-        f"          <div className='mb-3'>"
-        f"            <label htmlFor='password' className='form-label'>Password</label>"
-        f"            <input type='password' id='password' name='password' className='form-control' value={password[0]} onChange={handleChange} required />"
-        f"          </div>"
-        f"          <button type='submit' className='btn btn-success w-100 mb-3' style={{ backgroundColor: '#84b474' }}>Login</button>"
-        f"        </form>"
-        f"        {loading[0] and f\"<div>Loading... {progress[0]}%</div><progress value={progress[0]} max='100'></progress>\"}"
-        f"      </div>"
-        f"    </div>"
-        f"  </div>"
-        f"</div>"
-    )
-
-# Placeholder functions for timer management, replace with actual implementations in a full React environment
-setTimeout, setInterval, clearInterval = None, None, None
+export default LoginForm;
