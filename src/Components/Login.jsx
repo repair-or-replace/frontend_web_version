@@ -130,7 +130,7 @@ const LoginForm = () => {
             setTimeout(() => {
               setLoading(false);  // Stop loading after a brief moment
               console.log('Loading completed!'); // Log completion
-            }, 500); // Delay before stopping the load
+            }, 1500); // Delay before stopping the load
           }
           return newProgress;  // Update progress value
         });
