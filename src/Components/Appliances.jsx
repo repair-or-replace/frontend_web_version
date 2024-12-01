@@ -253,7 +253,7 @@ import { FaPencilAlt, FaTrash } from "react-icons/fa";
 const Appliances = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { propertyId } = location.state || {};
+  const propertyId = useSelector((state) => state.property.propertyId);
   const token = useSelector((state) => state.user.authToken);
   const [applianceList, setApplianceList] = useState([]);
   const [error, setError] = useState("");
@@ -261,7 +261,12 @@ const Appliances = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedAppliance, setSelectedAppliance] = useState(null);
   console.log("Appliance list (outside function)", applianceList);
-  console.log(propertyId);
+  console.log("Property ID:", propertyId);
+
+  const handleViewAppliance = (applianceId) => {
+    console.log("Image clicked");
+    navigate(`/view-appliance/${applianceId}`);
+  };
 
   const fetchAppliances = async () => {
     setLoading(true);
@@ -330,7 +335,7 @@ const Appliances = () => {
         {applianceList.map((appliance) => (
         <Col key={appliance.id} md={4}>
           <Card>
-            <Card.Img variant="top" src={appliance.product_image} />
+            <Card.Img variant="top" src={appliance.product_image} onClick={() => {handleViewAppliance(appliance.id)}}/>
             <Card.Body>
               <Card.Title>{appliance.name}</Card.Title>
               <Card.Text>Appliance ID: {appliance.id}</Card.Text>

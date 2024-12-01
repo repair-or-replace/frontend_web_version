@@ -1,20 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Form, Button, Alert, Container, Modal } from "react-bootstrap";
 
 const NewAppliance = () => {
+  const propertyId = useSelector((state) => state.property.propertyId);
+  const userID = useSelector((state) => state.user.userId);
   const [modelNumber, setModelNumber] = useState("");
   const [purchaseDate, setPurchaseDate] = useState("");
-  const [name, setName] = useState("");
-  const [brand, setBrand] = useState("");
-  const [applianceType, setApplianceType] = useState("");
-  const [expectedEndOfLife, setExpectedEndOfLife] = useState("");
   const [applianceData, setApplianceData] = useState("");
-  const [currentStatus, setCurrentStatus] = useState("");
-  const [cost, setCost] = useState("");
-  const [typicalLifeSpan, setTypicalLifeSpan] = useState("");
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -24,7 +19,9 @@ const NewAppliance = () => {
   const token = useSelector((state) => state.user.authToken);
   const storedToken = token || localStorage.getItem("token");
   const navigate = useNavigate();
-  console.log(token);
+  console.log("Token:", token);
+  console.log("Property ID", propertyId);
+  console.log("User ID:", userID);
 
   // const fetchUserID = async () => {
   //   try {
@@ -88,6 +85,32 @@ const NewAppliance = () => {
   //   }
   // }, [userId])
 
+  // async function apiRequest() {
+  //   try {
+  //     const apiResponse = await fetch("https://repair-or-replace-back-end.onrender.com/api/decode-appliance/");
+  //     if (!apiResponse) {
+  //       Error("Error fetching data:", error);
+  //     } 
+  //     const apiFetch = await apiResponse.json();
+  //     console.log("API fetch:", apiFetch);
+  //   } catch(error) {
+  //     console.error("Error:", error.message);
+  //   }
+  // }
+  // const apiPostRequest = 
+  // method: 'POST',{
+  //   headers: {
+  //     "Content-type": "application/json",
+  //     Authorization: `Token ${token}`,
+  //   },
+  // }
+  //   body: JSON.stringify({
+  //     model: modelNumber,
+  //     property_id: propertyId,
+  //     user: userID,
+  //     purchase_date: purchaseDate
+  //   })
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -99,15 +122,17 @@ const NewAppliance = () => {
       setError(null);
 
       const applianceData = {
-        model: modelNumber.trim(),
-        name: name.trim(),
-        appliance_type: applianceType.trim(),
-        brand: brand.trim(),
+        model: modelNumber,
+        user: userID,
+        property_id: propertyId,
+        // name: name.trim(),
+        // appliance_type: applianceType.trim(),
+        // brand: brand.trim(),
         purchase_date: new Date(purchaseDate).toISOString().split("T")[0],
-        exp_end_of_life: new Date(expectedEndOfLife).toISOString().split("T")[0],
-        current_status: currentStatus.trim(),
-        cost: parseFloat(cost),
-        typical_life_span: parseInt(typicalLifeSpan),
+        // exp_end_of_life: new Date(expectedEndOfLife).toISOString().split("T")[0],
+        // current_status: currentStatus.trim(),
+        // cost: parseFloat(cost),
+        // typical_life_span: parseInt(typicalLifeSpan),
       };
       console.log("Appliance Data: ", applianceData);
 
@@ -117,10 +142,10 @@ const NewAppliance = () => {
         navigate("/login");
         return;
       }
-
+    
       try {
         const response = await axios.post(
-          "https://repair-or-replace-back-end.onrender.com/api/appliances/",
+          "https://repair-or-replace-back-end.onrender.com/api/decode-appliance/",
           applianceData,
           {
             headers: {
@@ -129,7 +154,8 @@ const NewAppliance = () => {
             },
           }
         );
-        setApplianceData(response.data.appliances);
+        // setApplianceData(response.data.appliances);
+        console.log("Appliance data:", applianceData)
         setShowSuccessModal(true);
       } catch (error) {
         console.error("Error submitting form:", error);
@@ -140,6 +166,29 @@ const NewAppliance = () => {
     }
   };
 
+//   fetch('/api/decode-appliance/', {
+//     method: 'POST',
+//     headers: {
+//         'Content-Type': 'application/json',
+//          Authorization: `Token ${token}`
+//       },
+//     body: JSON.stringify({
+//         model: modelNumber,
+//         property_id : propertyId,
+//         user: userID,
+//         purchase_date: purchaseDate
+//     }),
+// })
+// .then(response => response.json())
+// .then(data => {
+//     document.getElementById('message').innerText = 'Appliance added successfully!';
+//     console.log(data);
+// })
+// .catch((error) => {
+//     document.getElementById('message').innerText = 'Error adding appliance :/';
+//     console.error('Error:', error);
+// });
+  
   useEffect(() => {
     console.log("Appliance Data: ", applianceData);
   }, [applianceData]);
@@ -148,18 +197,18 @@ const NewAppliance = () => {
     const errors = {};
     if (!modelNumber) errors.modelNumber = "Must enter model number";
     if (!purchaseDate || isNaN(new Date(purchaseDate))) errors.purchaseDate = "Must enter date of purchase";
-    if (!name) errors.name = "Must enter name";
-    if (!brand) errors.brand = "Must enter brand";
-    if (!expectedEndOfLife || isNaN(new Date(expectedEndOfLife)))
-      errors.expectedEndOfLife = "Must enter expected end of life";
-    if (!cost || isNaN(parseFloat(cost)) || parseFloat(cost) <= 0) errors.cost = "Must enter cost";
-    if (!applianceType) errors.applianceType = "Must enter appliance";
-    if (!typicalLifeSpan || isNaN(parseInt(typicalLifeSpan)) || parseInt(typicalLifeSpan) <= 0)
-      errors.typicalLifeSpan = "Must enter typical life span";
-    if (!currentStatus) errors.currentStatus = "Must enter current status";
+    // if (!name) errors.name = "Must enter name";
+    // if (!brand) errors.brand = "Must enter brand";
+    // if (!expectedEndOfLife || isNaN(new Date(expectedEndOfLife)))
+    //   errors.expectedEndOfLife = "Must enter expected end of life";
+    // if (!cost || isNaN(parseFloat(cost)) || parseFloat(cost) <= 0) errors.cost = "Must enter cost";
+    // if (!applianceType) errors.applianceType = "Must enter appliance";
+    // if (!typicalLifeSpan || isNaN(parseInt(typicalLifeSpan)) || parseInt(typicalLifeSpan) <= 0)
+    //   errors.typicalLifeSpan = "Must enter typical life span";
+    // if (!currentStatus) errors.currentStatus = "Must enter current status";
     return errors;
   };
-
+    
   const handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -171,7 +220,7 @@ const NewAppliance = () => {
   if (isLoading) {
     return <div>Loading...</div>;
   }
-
+    
   return (
     <Container>
       {isLoading && <Alert variant="info">Submitting Appliance Data...</Alert>}
@@ -182,7 +231,7 @@ const NewAppliance = () => {
       <Form onSubmit={handleSubmit}>
         <h2 className="m-3">Enter New Appliance Details</h2>
 
-        <Form.Group controlId="formGroupName">
+        {/* <Form.Group controlId="formGroupName">
           <Form.Label>Enter Name: </Form.Label>
           <Form.Control
             type="text"
@@ -193,7 +242,7 @@ const NewAppliance = () => {
           {errors.name && <div style={{ color: "red" }}>{errors.name}</div>}
         </Form.Group>
 
-        <Form.Group controlId="formGroupName">
+        {/* <Form.Group controlId="formGroupName">
           <Form.Label>Enter Type: </Form.Label>
           <Form.Control
             type="text"
@@ -202,9 +251,9 @@ const NewAppliance = () => {
             onChange={(e) => setApplianceType(e.target.value)}
           />
           {errors.name && <div style={{ color: "red" }}>{errors.name}</div>}
-        </Form.Group>
+        </Form.Group> */}
 
-        <Form.Group controlId="formGroupName">
+        {/* <Form.Group controlId="formGroupName">
           <Form.Label>Enter Brand: </Form.Label>
           <Form.Control
             type="text"
@@ -213,7 +262,7 @@ const NewAppliance = () => {
             onChange={(e) => setBrand(e.target.value)}
           />
           {errors.brand && <div style={{ color: "red" }}>{errors.brand}</div>}
-        </Form.Group>
+        </Form.Group> */}
 
         <Form.Group controlId="formGroupModelNumber">
           <Form.Label>Enter Model Number: </Form.Label>
@@ -228,7 +277,7 @@ const NewAppliance = () => {
           )}
         </Form.Group>
 
-        <Form.Group controlId="formGroupPurchaseDate">
+        {/* <Form.Group controlId="formGroupPurchaseDate">
           <Form.Label>Expected End of Life</Form.Label>
           <Form.Control
             type="date"
@@ -239,7 +288,7 @@ const NewAppliance = () => {
           {errors.expectedEndOfLife && (
             <div style={{ color: "red" }}>{errors.expectedEndOfLife}</div>
           )}
-        </Form.Group>
+        </Form.Group> */}
 
         <Form.Group controlId="formGroupPurchaseDate">
           <Form.Label>Date of Purchase</Form.Label>
@@ -254,7 +303,7 @@ const NewAppliance = () => {
           )}
         </Form.Group>
 
-        <Form.Group controlId="formGroupName">
+        {/* <Form.Group controlId="formGroupName">
           <Form.Label>Enter Cost: </Form.Label>
           <Form.Control
             type="float"
@@ -263,9 +312,9 @@ const NewAppliance = () => {
             onChange={(e) => setCost(e.target.value)}
           />
           {errors.cost && <div style={{ color: "red" }}>{errors.cost}</div>}
-        </Form.Group>
+        </Form.Group> */}
 
-        <Form.Group controlId="formGroupName">
+        {/* <Form.Group controlId="formGroupName">
           <Form.Label>Enter Typical Life Span in Years: </Form.Label>
           <Form.Control
             type="int"
@@ -276,9 +325,9 @@ const NewAppliance = () => {
           {errors.typicalLifeSpan && (
             <div style={{ color: "red" }}>{errors.typicalLifeSpan}</div>
           )}
-        </Form.Group>
+        </Form.Group> */}
 
-        <Form.Group className="mb-3">
+        {/* <Form.Group className="mb-3">
           <Form.Label>Current Status</Form.Label>
           <Form.Select
             name="current_status"
@@ -293,7 +342,7 @@ const NewAppliance = () => {
             <option value="broken">Broken</option>
             <option value="replaced">Replaced</option>
           </Form.Select>
-        </Form.Group>
+        </Form.Group> */}
 
         <Button className="mt-3" variant="primary" type="submit">
           Submit
@@ -316,6 +365,5 @@ const NewAppliance = () => {
       </Modal>
     </Container>
   );
-};
-
+}
 export default NewAppliance;

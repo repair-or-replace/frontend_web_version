@@ -179,12 +179,13 @@
 // export default Properties;
 
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Container, Card, Alert, Modal, Button } from "react-bootstrap";
 import axios from "axios";
 import defaultHome from "../assets/default_home_pic.jpeg";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import { setPropertyId } from "../redux/propertySlice";
 
 const Properties = () => {
   const token = useSelector((state) => state.user.authToken);
@@ -196,10 +197,15 @@ const Properties = () => {
   const [showModal, setShowModal] = useState(false);
   const [propertyToDelete, setPropertyToDelete] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   console.log(userID);
   console.log(username);
   console.log(token);
+
+  const handlePropertyClick = (propertyId) => {
+    dispatch(setPropertyId(propertyId));  // Dispatch the property ID to Redux store
+  };
 
   // Fetch properties from API
   const fetchProperties = async () => {
@@ -268,7 +274,7 @@ const Properties = () => {
                 variant="top"
                 src={defaultHome}
                 style={{ cursor: "pointer" }}
-                onClick={() => navigate(`/appliances`, { state: { propertyId: property.id } })}
+                onClick={() => navigate(`/appliances`, handlePropertyClick(property.id)  )}
               />
               <Card.Body>
                 <Card.Title>{property.address_line_1}</Card.Title>

@@ -142,11 +142,7 @@ const NavigationBar = () => {
                 Properties
               </Nav.Link>
             )}
-            {authToken && (
-              <Nav.Link as={NavLink} to="/appliances" className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}>
-                Appliances
-              </Nav.Link>
-            )}
+
           </Nav>
           {authToken ? (
             <Button onClick={handleLogOut} className="btn btn-danger" style={{ marginLeft: "1rem" }}>
