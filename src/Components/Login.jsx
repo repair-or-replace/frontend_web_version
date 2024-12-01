@@ -113,72 +113,55 @@
 // export default LoginForm;
 
 
-import React, { useState } from "react";
-import axios from "axios";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { logIn } from "../redux/userSlice";
+import React, { useState, useEffect } from 'react';
 
 const LoginForm = () => {
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-  });
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  useEffect(() => {
+    if (loading) {
+      // Start a timer to update progress
+      const interval = setInterval(() => {
+        setProgress((oldProgress) => {
+          const newProgress = oldProgress + 5;  // Increase by 5% each time
+          if (newProgress === 100) {
+            clearInterval(interval);  // Stop the timer when reaching 100%
+            setTimeout(() => {
+              setLoading(false);  // Stop loading after a brief moment
+              console.log('Loading completed!'); // Log completion
+            }, 500); // Delay before stopping the load
+          }
+          return newProgress;  // Update progress value
+        });
+      }, 1000); // Slower update rate, every second
 
-  const simulateLoading = async (step, delay) => {
-    for (let i = 0; i < 95; i += step) {
-      await new Promise((resolve) => setTimeout(resolve, delay));
-      setProgress((prev) => Math.min(95, prev + step)); // Ensure we do not go beyond 95%
+      return () => {
+        clearInterval(interval);  // Cleanup the timer
+      };
     }
-  };
+  }, [loading]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // Assume this is triggered by a login attempt
+  const handleLogin = () => {
     setLoading(true);
-    setProgress(0);
-
-    simulateLoading(5, 2000); // Slower progress, smaller increment
-
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/api/login/`,
-        formData,
-        { headers: { "Content-Type": "application/json" } }
-      );
-
-      const { token, user_id, username } = response.data;
-      // Ensure we finish the loading simulation
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      setProgress(100); // Set progress to 100% when login is successful
-
-      // Dispatch login action to Redux
-      dispatch(logIn({ username, token, user_id }));
-
-      // Redirect to homepage or previously accessed page
-      navigate("/");
-    } catch (error) {
-      console.error("Error during login:", error.response?.data || error.message);
-      setError("Invalid username or password. Please try again.");
-      setProgress(0); // Reset progress on error
-    } finally {
-      setLoading(false);
-    }
+    setProgress(0); // Reset progress on new login
   };
 
-  const handleSignUp = () => {
-    navigate("/signup"); // Navigate to the registration page
-  };
+  return (
+    <div>
+      <button onClick={handleLogin}>Start Login</button>
+      {loading && (
+        <div>
+          <div>Loading... {progress}%</div>
+          <progress value={progress} max="100"></progress>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default LoginForm;
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
