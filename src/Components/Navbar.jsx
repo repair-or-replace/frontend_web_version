@@ -2,8 +2,9 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { logOut } from "../redux/userSlice";
-import { FaUser } from "react-icons/fa"; // User icon
-import "./styles.css"; // Ensure your custom styles are properly loaded
+import { FaUser } from "react-icons/fa"; 
+import "./styles.css"; 
+import Logo from "../assets/rr_logo_transparent.png";
 
 const NavigationBar = () => {
   const dispatch = useDispatch();
@@ -21,11 +22,17 @@ const NavigationBar = () => {
     <Navbar
       expand="md"
       className="navbar"
-      style={{ backgroundColor: "#84b474" }}
       variant="light"
     >
       <Container>
         {/* Navigation Toggle for mobile */}
+        <Navbar.Brand as={NavLink} to="/" className="d-flex align-items-center">
+          <img
+            src={Logo}
+            alt="Logo"
+            style={{ width: "125px", cursor: "pointer" }}
+          />
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
