@@ -130,7 +130,7 @@ const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); // 新增状态来控制密码显示
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -139,13 +139,26 @@ const LoginForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const toggleShowPassword = () => {
-    setShowPassword(!showPassword); // 切换密码显示状态
-  };
+  useEffect(() => {
+    let intervalId;
+    if (loading) {
+      intervalId = setInterval(() => {
+        setProgress((prevProgress) => {
+          if (prevProgress < 100) {
+            return prevProgress + 1; // Increase progress by 1% every second
+          }
+          clearInterval(intervalId);
+          return prevProgress;
+        });
+      }, 1000); // Update every 1000 milliseconds (1 second)
+    }
+    return () => clearInterval(intervalId);
+  }, [loading]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setProgress(0); // Reset progress when starting the login process
 
     try {
       const response = await axios.post(
@@ -160,7 +173,7 @@ const LoginForm = () => {
       setShowSuccessAlert(true);
       setTimeout(() => {
         setShowSuccessAlert(false);
-        navigate("/");
+        navigate("/"); // Redirect after showing success message
       }, 2000);
     } catch (error) {
       console.error("Error during login:", error.response?.data || error.message);
@@ -168,6 +181,10 @@ const LoginForm = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   const handleSignUp = () => {
@@ -198,20 +215,18 @@ const LoginForm = () => {
               </div>
               <div className="mb-3">
                 <label htmlFor="password" className="form-label">Password</label>
-                <div className="input-group">
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    id="password"
-                    name="password"
-                    className="form-control"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                  />
-                  <button className="btn btn-outline-secondary" type="button" onClick={toggleShowPassword}>
-                    {showPassword ? "Hide" : "Show"}
-                  </button>
-                </div>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  id="password"
+                  name="password"
+                  className="form-control"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                />
+                <button type="button" className="btn btn-link" onClick={togglePasswordVisibility}>
+                  {showPassword ? "Hide" : "Show"}
+                </button>
               </div>
               <button
                 type="submit"
@@ -241,4 +256,5 @@ const LoginForm = () => {
 };
 
 export default LoginForm;
+
 
