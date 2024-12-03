@@ -94,11 +94,9 @@ const Appliances = () => {
   }
 
   return (
-    <Container>
+    <Container className="bg-light">
       {error && <Alert variant="danger">{error}</Alert>}
-      <h3 className="text-center" style={{ fontWeight: "bold", fontSize: "2rem", marginTop: "20px" }}>
-        Manage Your Appliances
-      </h3>
+      <h3 className="text-center header-banner">Appliances</h3>
       <ListGroup>
         <Row>
           {applianceList.map((appliance) => (
@@ -111,7 +109,9 @@ const Appliances = () => {
                         variant="top"
                         src={appliance.product_image}
                         alt={appliance.name}
-                        onClick={() => {handleViewAppliance(appliance.id, appliance.model)}}/>
+                        onClick={() => {handleViewAppliance(appliance.id, appliance.model)}}
+                        className="fixed-image-size"
+/>
                     </Col>
                     <Col xs={12}>
                       <Card.Title>{appliance.name}</Card.Title>
@@ -119,10 +119,10 @@ const Appliances = () => {
                         <strong>Model:</strong> {appliance.model}
                       </Card.Text>
                       <Card.Text>
-                        <strong>Purchase Date:</strong> {appliance.purchase_date}
+                        <strong>Status:</strong> {appliance.current_status}
                       </Card.Text>
                       <Card.Text>
-                        <strong>Status:</strong> {appliance.current_status}
+                        <strong>Purchase Date:</strong> {appliance.purchase_date}
                       </Card.Text>
 
                       {/* icons */}

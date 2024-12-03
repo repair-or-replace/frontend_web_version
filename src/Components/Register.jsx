@@ -74,7 +74,7 @@ const Register = () => {
 
   return (
     <Container className="mt-5">
-      <h1 className="text-center">Register</h1>
+      <h3 className="text-center header-banner">Register</h3>
       {error && <Alert variant="danger">{error}</Alert>}
       {success && <Alert variant="success">{success}</Alert>}
       <Form onSubmit={handleSubmit}>
@@ -142,7 +142,9 @@ const Register = () => {
             placeholder="Confirm your password"
           />
         </Form.Group>
-        <Button variant="primary" type="submit">
+        <Button style={{color: "whitesmoke",
+          backgroundColor: "#84b474",
+          border: "none",}} type="submit">
           Register
         </Button>
       </Form>

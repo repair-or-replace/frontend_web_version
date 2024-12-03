@@ -72,6 +72,15 @@ const ViewAppliance = () => {
     }
   };
 
+  const openRepairDeleteModal = (repair) => {
+    setSelectedRepair(repair);
+    setShowRepairDeleteModal(true);
+  };
+  
+  const openInvestmentDeleteModal = (investment) => {
+    setSelectedInvestment(investment);
+    setShowInvestmentDeleteModal(true);
+  };
     //  delete  investment
     const handleInvestmentDelete = async () => {
       if (selectedInvestment) {
@@ -112,13 +121,12 @@ const ViewAppliance = () => {
         setRepairs(applianceData.repairs || []);
         setInvestments(applianceData.investments || []);
 
-        // Fetch details for the appliance model
         if (applianceData.model) {
           await fetchApplianceDetailsFromModel(applianceData.model);
         }
       } catch (error) {
         console.error("Error fetching appliance data:", error);
-        navigate("/"); // Redirect on error
+        navigate("/"); 
       }
     };
 
@@ -132,6 +140,7 @@ const ViewAppliance = () => {
   const handleEditInvestment = (investmentId) => {
     navigate(`/edit-investment/${investmentId}`);
   };
+
 
   if (!appliance || !applianceDetails) return <div>Loading appliance data...</div>;
 
@@ -172,12 +181,6 @@ const ViewAppliance = () => {
                 <p><strong>Total Repair Costs:</strong> ${appliance.total_repair_cost}</p>
                 <p><strong>Have Repairs Exceeded Cost?:</strong> {appliance.repairs_exceed_cost ? 'Yes' : 'No'}</p>
                 <p><strong>Typical Lifespan:</strong> {appliance.typical_lifespan_years}</p>
-                <Button variant="link" onClick={() => handleEditAppliance(appliance.id)}>
-                    <FaPencilAlt />
-                </Button>
-                <Button variant="link" onClick={() => openAppDeleteModal(appliance)}>
-                    <FaTrash style={{ color: 'red' }} />
-                </Button>
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
@@ -213,7 +216,7 @@ const ViewAppliance = () => {
         </Col>
         <Col md={6}>
           <Accordion defaultActiveKey="0">
-            <Accordion.Item eventKey="1">
+            <Accordion.Item eventKey="0">
               <Accordion.Header>Investments</Accordion.Header>
               <Accordion.Body>
                 {investments.length > 0 ? (
@@ -227,7 +230,7 @@ const ViewAppliance = () => {
                         <FaPencilAlt />
                       </Button>
                       <Button variant="link" onClick={() => openInvestmentDeleteModal(investment)}>
-                        <FaTrash />
+                        <FaTrash style={{ color: 'red' }}/>
                       </Button>
                     </div>
                   ))
@@ -248,10 +251,10 @@ const ViewAppliance = () => {
           {selectedRepair && <p>Are you sure you want to delete this repair?</p>}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowRepairDeleteModal(false)}>
+          <Button style={{color: "whitesmoke",backgroundColor: "#84b474", border: "none",}} onClick={() => setShowRepairDeleteModal(false)}>
             Cancel
           </Button>
-          <Button variant="danger" onClick={handleRepairDelete}>
+          <Button style={{color: "whitesmoke", backgroundColor: "#84b474",border: "none",}} onClick={handleRepairDelete}>
             Delete
           </Button>
         </Modal.Footer>
@@ -265,10 +268,10 @@ const ViewAppliance = () => {
           {selectedInvestment && <p>Are you sure you want to delete this investment?</p>}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowInvestmentDeleteModal(false)}>
+          <Button style={{color: "whitesmoke",backgroundColor: "#84b474", border: "none",}} onClick={() => setShowInvestmentDeleteModal(false)}>
             Cancel
           </Button>
-          <Button variant="danger" onClick={handleInvestmentDelete}>
+          <Button style={{color: "whitesmoke",backgroundColor: "#84b474", border: "none",}} onClick={handleInvestmentDelete}>
             Delete
           </Button>
         </Modal.Footer>

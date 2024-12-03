@@ -19,58 +19,65 @@ const NavigationBar = () => {
   };
 
   return (
-    <Navbar
-      expand="md"
-      className="navbar"
-      variant="light"
-    >
-      <Container>
-        {/* Navigation Toggle for mobile */}
-        <Navbar.Brand as={NavLink} to="/" className="d-flex align-items-center">
-          <img
-            src={Logo}
-            alt="Logo"
-            style={{ width: "125px", cursor: "pointer" }}
-          />
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            {/* Profile link with user icon */}
-            {authToken && (
-              <Nav.Link as={NavLink} to="/profile" className="d-flex align-items-center">
-                <FaUser className="me-2" size={20} />
-              </Nav.Link>
-            )}
-            <Nav.Link as={NavLink} to="/">
-              Home
-            </Nav.Link>
-            {authToken && (
-              <Nav.Link as={NavLink} to="/properties">
-                Properties
-              </Nav.Link>
-            )}
-          </Nav>
-          {/* Authentication Buttons */}
-          {authToken ? (
-            <Button
-              onClick={handleLogOut}
-              className="btn btn-danger"
-              style={{ marginLeft: "1rem" }}
-            >
-              Log Out
-            </Button>
-          ) : (
-            <Button
-              onClick={() => navigate("/login")}
-              className="btn btn-primary"
-              style={{ marginLeft: "1rem" }}
-            >
-              Login
-            </Button>
-          )}
-        </Navbar.Collapse>
-      </Container>
+<Navbar expand="md" className="navbar" style={{ backgroundColor: '#a0a0a0' }} variant="dark">
+
+  
+<Container>
+  <Navbar.Toggle aria-controls="basic-navbar-nav" />
+  <Navbar.Collapse id="basic-navbar-nav">
+    <Nav className="me-auto d-flex align-items-center">
+      <Navbar.Brand as={NavLink} to="/" className="d-flex">
+        <img
+          src={Logo}
+          alt="Logo"
+          style={{ width: "125px", cursor: "pointer" }}
+        />
+      </Navbar.Brand>
+       {authToken && (
+        <Nav.Link as={NavLink} to="/profile" className="d-flex">
+          <FaUser className="me-2" size={20} /> Profile
+        </Nav.Link>
+      )}
+
+      {authToken && (
+        <Nav.Link as={NavLink} to="/properties" className="d-flex">
+          Properties
+        </Nav.Link>
+      )}
+
+     
+    </Nav>
+
+    {authToken ? (
+      <Button
+        onClick={handleLogOut}
+        className="btn"
+        style={{
+          marginLeft: "1rem",
+          color: "whitesmoke",
+          backgroundColor: "#84b474",
+          border: "none",
+        }}
+      >
+        Log Out
+      </Button>
+    ) : (
+      <Button
+        onClick={() => navigate("/login")}
+        className="btn"
+        style={{
+          marginLeft: "1rem",
+          color: "whitesmoke",
+          backgroundColor: "#84b474",
+          border: "none",
+        }}      >
+        Login
+      </Button>
+    )}
+  </Navbar.Collapse>
+</Container>
+
+
     </Navbar>
   );
 };

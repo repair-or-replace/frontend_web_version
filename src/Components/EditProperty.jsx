@@ -132,7 +132,7 @@ const EditProperty = () => {
   ]
 
   return (
-    <Container>
+    <Container className="bg-light">
       <h2>Edit Property</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <Form onSubmit={handleSubmit}>

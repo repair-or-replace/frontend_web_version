@@ -105,7 +105,7 @@ const EditAppliance = () => {
                 <option value="replaced">Replaced</option>
               </select>
             </div>
-            <button type="submit" className="btn btn-primary">Update Appliance</button>
+            <button type="submit" className="btn btn-primary" style={{color: "whitesmoke",backgroundColor: "#84b474", border: "none",}}>Update Appliance</button>
           </form>
         </div>
       </div>
