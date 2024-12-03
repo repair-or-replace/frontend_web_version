@@ -245,7 +245,10 @@ const AddRepair = () => {
         <Modal.Footer>
           <Button
             variant="secondary"
-            onClick={() => setShowSuccessModal(false)}
+            onClick={() => {
+            setShowSuccessModal(false);
+            navigate("/properties")
+            }}
           >
             Close
           </Button>
