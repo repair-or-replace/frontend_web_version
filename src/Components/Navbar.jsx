@@ -19,7 +19,7 @@ const NavigationBar = () => {
   };
 
   return (
-<Navbar expand="md" className="navbar" style={{ backgroundColor: '#a0a0a0' }} variant="dark">
+<Navbar expand="md" className="navbar" style={{ backgroundColor: '#b8b6b0' }} variant="light">
 
   
 <Container>

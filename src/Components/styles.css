@@ -4,8 +4,8 @@
     padding: 0%;
 }
 .navbar {
-  background-color: #888888; 
-  border-bottom: 1px solid #dcdcdc; 
+  background-color: lightgray !important; 
+  border-bottom: 1px solid #dcdcdc;
 }
   
   .navbar-brand {
@@ -91,5 +91,18 @@ body {
   background-color: #84b474; 
   color: white;              
 }
+
+/* homepage */
+
+.info-image {
+  width: 100%;
+  max-height: 440px;
+  object-fit: cover; 
+  border-radius: 8px;
+  margin-bottom: 20px; /* space below the images */
+  
+}
+
+
 
   

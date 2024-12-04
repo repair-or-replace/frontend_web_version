@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux"; 
 import { useNavigate } from "react-router-dom";
-import { Container, Alert, Card, Button, Modal, Form } from "react-bootstrap";
+import { Container, Alert, Card, Button, Modal, Form , Col, Row} from "react-bootstrap";
 import { logOut } from '../redux/userSlice'; 
 
 
@@ -118,6 +118,8 @@ const Profile = () => {
 
   return (
     <Container className="mt-5">
+       <Row className="justify-content-align-left">
+       <Col md={6}>
       {error && <Alert variant="danger">{error}</Alert>}
       <Card>
         <Card.Header>User Profile</Card.Header>
@@ -219,6 +221,8 @@ const Profile = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+      </Col>
+      </Row>
     </Container>
   );
 };

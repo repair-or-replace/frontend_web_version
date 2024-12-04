@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import { Form, Button, Container } from "react-bootstrap";
+import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
 const EditInvestment = () => {
@@ -110,6 +110,8 @@ const EditInvestment = () => {
 
   return (
     <Container>
+       <Row className="justify-content-align-left">
+       <Col md={6}>
       <h3 className="text-center header-banner">Edit Investment</h3>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <Form onSubmit={handleSubmit}>
@@ -185,6 +187,8 @@ const EditInvestment = () => {
           Cancel
         </Button>
       </Form>
+      </Col>
+      </Row>
     </Container>
   );
 };

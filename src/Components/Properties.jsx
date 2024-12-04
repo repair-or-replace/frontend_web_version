@@ -126,7 +126,7 @@ const Properties = () => {
 
       {/* Add New Property Button */}
       <div className="text-center mt-4">
-        <Button  style={{ marginLeft: "1rem", color: "whitesmoke", backgroundColor: "#84b474", border: "none"}}
+        <Button  style={{ color: "whitesmoke", backgroundColor: "#84b474", border: "none"}}
  onClick={() => navigate("/add-new-property")}>
           Add New Property
         </Button>

@@ -148,6 +148,17 @@ const Appliances = () => {
           ))}
         </Row>
       </ListGroup>
+      <div className="text-center mt-4">
+      <Button className="m-3" style={{ color: "whitesmoke", backgroundColor: "#84b474", border: "none"}} onClick={() => navigate("/newappliance")}>
+          Add New Appliance
+        </Button>
+        <Button className="m-3" style={{ color: "whitesmoke", backgroundColor: "#84b474", border: "none"}} onClick={() => navigate("/addinvestment")}>
+          Add Investment
+        </Button>
+        <Button className="m-3" style={{ color: "whitesmoke", backgroundColor: "#84b474", border: "none"}} onClick={() => navigate("/addrepair")}>
+          Add Repair
+        </Button>
+      </div>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Confirm Deletion</Modal.Title>

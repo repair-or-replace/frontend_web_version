@@ -16,6 +16,10 @@ import Profile from "./Components/Profile";
 import Register from "./Components/Register";
 import LoginForm from "./Components/Login";
 import EditProfile from "./Components/EditProfile";
+import AddRepair from "./Components/AddRepair";
+import AddInvestment from "./Components/AddInvestment";
+
+
 
 
 function App() {
@@ -45,10 +49,12 @@ function App() {
             <Route path="/edit-property/:propertyId" element={<EditProperty />} />
             <Route path="/edit-repair/:repairId" element={<EditRepair />} />
             <Route path="/edit-investment/:investmentId" element={<EditInvestment />} />
-            <Route path="/add-new-property" element={<AddNewProperty />} /> {/* New route */}
+            <Route path="/add-new-property" element={<AddNewProperty />} /> 
             <Route path="/profile" element={<Profile />} />
             <Route path="/signup" element={<Register />} />
             <Route path="/edit-profile" element={<EditProfile />} />
+            <Route path="/addinvestment" element={<AddInvestment />} />
+            <Route path="/addrepair" element={<AddRepair />} />
 
 
 

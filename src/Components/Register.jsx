@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Form, Button, Container, Alert } from "react-bootstrap";
+import { Form, Button, Container, Alert, Row, Col } from "react-bootstrap";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -74,80 +74,84 @@ const Register = () => {
 
   return (
     <Container className="mt-5">
-      <h3 className="text-center header-banner">Register</h3>
-      {error && <Alert variant="danger">{error}</Alert>}
-      {success && <Alert variant="success">{success}</Alert>}
-      <Form onSubmit={handleSubmit}>
-        <Form.Group className="mb-3" controlId="formUsername">
-          <Form.Label>Username</Form.Label>
-          <Form.Control
-            type="text"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            required
-            placeholder="Enter your username"
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formEmail">
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            placeholder="Enter your email"
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formFirstName">
-          <Form.Label>First Name</Form.Label>
-          <Form.Control
-            type="text"
-            name="first_name"
-            value={formData.first_name}
-            onChange={handleChange}
-            placeholder="Enter your first name"
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formLastName">
-          <Form.Label>Last Name</Form.Label>
-          <Form.Control
-            type="text"
-            name="last_name"
-            value={formData.last_name}
-            onChange={handleChange}
-            placeholder="Enter your last name"
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-            placeholder="Enter your password"
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formConfirmPassword">
-          <Form.Label>Confirm Password</Form.Label>
-          <Form.Control
-            type="password"
-            name="confirm_password"
-            value={formData.confirm_password}
-            onChange={handleChange}
-            required
-            placeholder="Confirm your password"
-          />
-        </Form.Group>
-        <Button style={{color: "whitesmoke",
-          backgroundColor: "#84b474",
-          border: "none",}} type="submit">
-          Register
-        </Button>
-      </Form>
+      <Row className="justify-content-align-left">
+        <Col md={6}>      
+          <h3 className="text-center header-banner">Register</h3>
+            {error && <Alert variant="danger">{error}</Alert>}
+            {success && <Alert variant="success">{success}</Alert>}
+            <Form onSubmit={handleSubmit}>
+              <Form.Group className="mb-3" controlId="formUsername">
+                <Form.Label>Username</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleChange}
+                  required
+                  placeholder="Enter your username"
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formEmail">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  placeholder="Enter your email"
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formFirstName">
+                <Form.Label>First Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="first_name"
+                  value={formData.first_name}
+                  onChange={handleChange}
+                  placeholder="Enter your first name"
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formLastName">
+                <Form.Label>Last Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="last_name"
+                  value={formData.last_name}
+                  onChange={handleChange}
+                  placeholder="Enter your last name"
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formPassword">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                  placeholder="Enter your password"
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formConfirmPassword">
+                <Form.Label>Confirm Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  name="confirm_password"
+                  value={formData.confirm_password}
+                  onChange={handleChange}
+                  required
+                  placeholder="Confirm your password"
+                />
+              </Form.Group>
+              <Button style={{color: "whitesmoke",
+                backgroundColor: "#84b474",
+                border: "none",}} type="submit">
+                Register
+              </Button>
+            </Form>
+          </Col>
+        </Row>
     </Container>
   );
 };
