@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-<<<<<<< HEAD
-import { useNavigate } from "react-router-dom";
-import { Container, Card, ListGroup, Alert } from "react-bootstrap";
-=======
 import { Container, Card, ListGroup, Alert, Modal, Button } from "react-bootstrap";
->>>>>>> 96a0b97f97ddc77bdcc9fc807d4147874f933114
 import axios from "axios";
 import defaultHome from "../assets/default_home_pic.jpeg";
 import { FaEdit, FaTrash } from "react-icons/fa";
@@ -19,12 +14,6 @@ const Properties = () => {
   const [propertyList, setPropertyList] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
-<<<<<<< HEAD
-  const navigate = useNavigate()
-  console.log(username)
-  
-  const fetchUserID = async () => { 
-=======
   const [showModal, setShowModal] = useState(false);
   const [propertyToDelete, setPropertyToDelete] = useState(null);
   const navigate = useNavigate();
@@ -33,7 +22,6 @@ const Properties = () => {
 
   // Fetch user ID from API
   const fetchUserID = async () => {
->>>>>>> 96a0b97f97ddc77bdcc9fc807d4147874f933114
     try {
       const response = await axios.get(`https://repair-or-replace-back-end.onrender.com/api/users/`, {
         headers: {
@@ -122,14 +110,6 @@ const Properties = () => {
       </h3>
       <div className="row">
         {propertyList.map((property) => (
-<<<<<<< HEAD
-          <ListGroup.Item
-            key={property.id}
-            className="d-flex justify-content-between align-items-center shadow-sm p-3 mb-3 bg-white rounded"
-          >
-            <Card style={{ width: "18rem" }}>
-              <Card.Img variant="top" src={defaultHome} style={{ cursor: "pointer" }} onClick={() => navigate("/appliances", {state:{propertyId: property.id}})}/>
-=======
           <div className="col-md-4 mb-4" key={property.id}>
             <Card className="shadow-sm">
               <Card.Img
@@ -140,7 +120,6 @@ const Properties = () => {
                   navigate(`/appliances`, { state: { propertyId: property.id } })
                 }
               />
->>>>>>> 96a0b97f97ddc77bdcc9fc807d4147874f933114
               <Card.Body>
                 <Card.Title>{property.address_line_1}</Card.Title>
                 <Card.Text>{property.city}</Card.Text>

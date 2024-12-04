@@ -18,41 +18,6 @@ const NavigationBar = () => {
   };
 
   return (
-<<<<<<< HEAD
-    <Navbar className="navbar" bg="success" expand="md">
-      <Container fluid>
-      <Navbar.Toggle aria-controls="basic-navbar-nav"></Navbar.Toggle>
-      <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="me-auto">
-          {/* Add margin-end to the Profile link */}
-          <Nav.Link
-            as={NavLink}
-            to="/profile"
-            className={({ isActive }) => (isActive ? "nav-link active" : "nav-link") + " me-3"} // Bootstrap margin-end class
-          >
-            <FaUser /> {/* Profile icon */}
-          </Nav.Link>
-          <Nav.Link
-            as={NavLink}
-            to="/properties"
-            className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
-          >
-            Properties
-          </Nav.Link>
-
-          <Nav.Link
-            as={NavLink}
-            to="/appliances"
-            className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
-          >
-            Appliances
-          </Nav.Link>
-        </Nav>
-        
-        <Button className="navbar-button" onClick={handleLogOut}>
-          Log Out
-        </Button>
-=======
     <Navbar
       expand="md"
       className="navbar"
@@ -97,7 +62,6 @@ const NavigationBar = () => {
               Login
             </Button>
           )}
->>>>>>> 96a0b97f97ddc77bdcc9fc807d4147874f933114
         </Navbar.Collapse>
       </Container>
     </Navbar>
