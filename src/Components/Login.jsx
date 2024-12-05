@@ -230,12 +230,22 @@ const LoginForm = () => {
               </div>
               <button
                 type="submit"
-                className="btn btn-success w-100 mb-3"
-                style={{ backgroundColor: "#84b474" }}
+                className="btn w-100 mb-3"
+                style={{color: "whitesmoke",backgroundColor: "#84b474", border: "none",}}
               >
                 Login
               </button>
             </form>
+            <div className="text-center">
+              <p>Don’t have an account?</p>
+              <button
+                type="button"
+                className="btn btn-outline-custom w-100"
+                onClick={handleSignUp}
+              >
+                Sign Up
+              </button>
+            </div>
             {!loading && (
               <div className="text-center">
                 <p>Don’t have an account?</p>

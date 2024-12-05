@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Form, Button, Alert, Container, Modal } from "react-bootstrap";
+import { Form, Button, Alert, Container, Modal, Col, Row } from "react-bootstrap";
 
 const AddInvestment = () => {
   const [investmentType, setInvestmentType] = useState("");
@@ -166,7 +166,8 @@ const AddInvestment = () => {
       {error && (
         <Alert variant="danger">Error Submitting Investment: {error}</Alert>
       )}
-
+    <Row className="justify-content-align-left">
+    <Col md={6}>
       <Form onSubmit={handleSubmit}>
         <h2 className="m-3">Enter New Investment Details</h2>
         <Form.Group className="mb-3">
@@ -232,7 +233,7 @@ const AddInvestment = () => {
           )}
         </Form.Group>
 
-        <Button className="mt-3" variant="primary" type="submit">
+        <Button className="mt-3" style={{ color: "whitesmoke", backgroundColor: "#84b474", border: "none"}} type="submit">
           Submit
         </Button>
       </Form>
@@ -244,13 +245,18 @@ const AddInvestment = () => {
         <Modal.Body>Thank you!!</Modal.Body>
         <Modal.Footer>
           <Button
-            variant="secondary"
-            onClick={() => setShowSuccessModal(false)}
+            style={{ color: "whitesmoke", backgroundColor: "#84b474", border: "none"}}
+            onClick={() => {
+            setShowSuccessModal(false);
+            navigate("/properties")
+            }}
           >
             Close
           </Button>
         </Modal.Footer>
       </Modal>
+    </Col>
+    </Row>
     </Container>
   );
 };

@@ -1,52 +1,37 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Container, Card, ListGroup, Alert, Modal, Button } from "react-bootstrap";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { Container, Card, Alert, Modal, Button } from "react-bootstrap";
 import axios from "axios";
 import defaultHome from "../assets/default_home_pic.jpeg";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { setPropertyId } from "../redux/propertySlice";
 
 const Properties = () => {
   const token = useSelector((state) => state.user.authToken);
   const username = useSelector((state) => state.user.username);
-  const userID = useSelector((state) => state.user.userId); // Use useSelector for userID
-  const [userId, setUserId] = useState(null); // Use useState for userId
+  const userID = useSelector((state) => state.user.userId); // Use userID from Redux
   const [propertyList, setPropertyList] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [propertyToDelete, setPropertyToDelete] = useState(null);
   const navigate = useNavigate();
-  console.log("userId", userID);
-  console.log("userId", userId);
+  const dispatch = useDispatch();
 
-  // Fetch user ID from API
-  const fetchUserID = async () => {
-    try {
-      const response = await axios.get(`https://repair-or-replace-back-end.onrender.com/api/users/`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Token ${token}`,
-        },
-      });
-      const users = response.data;
-      const user = users.find(user => user.username === username);
-      
-      if (user) {
-        setUserId(user.id); // Update userId state here
-      } else {
-        setError("User ID not found");
-      }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-      setError(`Error fetching user data: ${error.message}`);
-    }
+  console.log(userID);
+  console.log(username);
+  console.log(token);
+
+  const handlePropertyClick = (propertyId) => {
+    dispatch(setPropertyId(propertyId));  // Dispatch the property ID to Redux store
   };
 
   // Fetch properties from API
   const fetchProperties = async () => {
-    if (!userId) return; // Ensure userId is set
+    setLoading(true);
     try {
+      console.log("Starting API call for UserID:", userID);
       const response = await axios.get(
         `https://repair-or-replace-back-end.onrender.com/api/user-properties/${userID}/`,
         {
@@ -56,6 +41,7 @@ const Properties = () => {
           },
         }
       );
+      console.log("API response: ", response.data);
       setPropertyList(response.data.properties);
     } catch (error) {
       console.error("Error fetching properties:", error);
@@ -65,18 +51,12 @@ const Properties = () => {
     }
   };
 
-  // Fetch user ID and properties once when token or username changes
+  // Fetch properties when userID or token changes
   useEffect(() => {
-    if (token && username) {
-      fetchUserID();
-    }
-  }, [token, username]);
-
-  useEffect(() => {
-    if (userId) {
+    if (userID) {
       fetchProperties();
     }
-  }, [userId, token]);
+  }, [userID, token]);
 
   const deleteProperty = async () => {
     try {
@@ -103,11 +83,9 @@ const Properties = () => {
   }
 
   return (
-    <Container>
+    <Container className="bg-light">
       {error && <Alert variant="danger">{error}</Alert>}
-      <h3 className="text-center" style={{ fontWeight: 'bold', fontSize: '2rem', marginTop: '20px' }}>
-        Properties
-      </h3>
+      <h3 className="text-center header-banner">Properties</h3>
       <div className="row">
         {propertyList.map((property) => (
           <div className="col-md-4 mb-4" key={property.id}>
@@ -115,16 +93,18 @@ const Properties = () => {
               <Card.Img
                 variant="top"
                 src={defaultHome}
-                style={{ cursor: "pointer" }}
-                onClick={() =>
-                  navigate(`/appliances`, { state: { propertyId: property.id } })
-                }
+                style={{
+                  cursor: "pointer",
+                  width: "100%", 
+                  height: "auto", 
+                  objectFit: "contain",
+                  maxHeight: "200px", 
+                }}
+                onClick={() => navigate(`/appliances`, handlePropertyClick(property.id)  )}
               />
               <Card.Body>
-                <Card.Title>{property.address_line_1}</Card.Title>
-                <Card.Text>{property.city}</Card.Text>
-                <Card.Text>{property.state}</Card.Text>
-                <Card.Text>{property.zipcode}</Card.Text>
+                <Card.Title>{property.address_line_1}, {property.city}, {property.state}, {property.zipcode}</Card.Title>
+                <Card.Text>Year Built: {property.year_built}</Card.Text>
                 <div className="d-flex justify-content-between mt-3">
                   <FaEdit
                     style={{ cursor: "pointer", color: "blue" }}
@@ -146,7 +126,8 @@ const Properties = () => {
 
       {/* Add New Property Button */}
       <div className="text-center mt-4">
-        <Button variant="success" onClick={() => navigate("/add-new-property")}>
+        <Button  style={{ color: "whitesmoke", backgroundColor: "#84b474", border: "none"}}
+ onClick={() => navigate("/add-new-property")}>
           Add New Property
         </Button>
       </div>

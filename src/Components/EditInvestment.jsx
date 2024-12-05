@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
-import { Form, Button, Container } from "react-bootstrap";
+import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { useSelector } from "react-redux";
 
 const EditInvestment = () => {
@@ -75,8 +75,8 @@ const EditInvestment = () => {
         investment_type: investmentDetails.investment_type,
         investment_date: investmentDetails.investment_date,
         investment_description: investmentDetails.investment_description,
-        cost: parseFloat(investmentDetails.cost), // Ensure numeric value
-        appliance: parseInt(investmentDetails.appliance, 10), // Ensure integer
+        cost: parseFloat(investmentDetails.cost), 
+        appliance: parseInt(investmentDetails.appliance, 10), 
       };
 
       const response = await axios.put(
@@ -110,7 +110,9 @@ const EditInvestment = () => {
 
   return (
     <Container>
-      <h2>Edit Investment</h2>
+       <Row className="justify-content-align-left">
+       <Col md={6}>
+      <h3 className="text-center header-banner">Edit Investment</h3>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="investment_type" className="mb-3">
@@ -170,17 +172,23 @@ const EditInvestment = () => {
           />
         </Form.Group>
 
-        <Button variant="primary" type="submit">
+        <Button style={{ color: "whitesmoke",
+        backgroundColor: "#84b474",
+        border: "none",}} type="submit">
           Update Investment
         </Button>
         <Button
-          variant="secondary"
+       style={{ color: "whitesmoke",
+        backgroundColor: "#84b474",
+        border: "none",}}
           className="ms-2"
           onClick={() => navigate(-1)}
         >
           Cancel
         </Button>
       </Form>
+      </Col>
+      </Row>
     </Container>
   );
 };

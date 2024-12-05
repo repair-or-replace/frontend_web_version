@@ -18,19 +18,43 @@ const ViewAppliance = () => {
   const [showInvestmentDeleteModal, setShowInvestmentDeleteModal] = useState(false);
   const [selectedRepair, setSelectedRepair] = useState(null);
   const [selectedInvestment, setSelectedInvestment] = useState(null);
+  console.log("Appliance ID:", id);
 
-  //  delete modal for repair
-  const openRepairDeleteModal = (repair) => {
-    setSelectedRepair(repair);
-    setShowRepairDeleteModal(true);
+  const fetchApplianceDetailsFromModel = async (model) => {
+    try {
+      const response = await axios.get(
+        `https://repair-or-replace-back-end.onrender.com/api/appliance-details-from-api/`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+
+      const matchingAppliance = response.data.find((item) => item.model === model);
+      console.log("Matching appliance:", matchingAppliance);
+
+      if (matchingAppliance) {
+        const detailedResponse = await axios.get(
+          `https://repair-or-replace-back-end.onrender.com/api/appliance-details-from-api/${matchingAppliance.id}/`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Token ${token}`,
+            },
+          }
+        );
+        setApplianceDetails(detailedResponse.data);
+      } else {
+        console.error("No matching appliance found for model:", model);
+      }
+    } catch (error) {
+      console.error("Error fetching appliance details:", error);
+    }
   };
 
-  //  delete modal for investment
-  const openInvestmentDeleteModal = (investment) => {
-    setSelectedInvestment(investment);
-    setShowInvestmentDeleteModal(true);
-  };
-//delete repair modal
+  //delete repair modal
   const handleRepairDelete = async () => {
     if (selectedRepair) {
       try {
@@ -48,42 +72,40 @@ const ViewAppliance = () => {
     }
   };
 
-  //  delete  investment
-  const handleInvestmentDelete = async () => {
-    if (selectedInvestment) {
-      try {
-        await axios.delete(`https://repair-or-replace-back-end.onrender.com/api/investments/${selectedInvestment.id}/`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Token ${token}`,
-          },
-        });
-        setInvestments(investments.filter((investment) => investment.id !== selectedInvestment.id));
-        setShowInvestmentDeleteModal(false);
-      } catch (error) {
-        console.error("Error deleting investment:", error);
-      }
-    }
+  const openRepairDeleteModal = (repair) => {
+    setSelectedRepair(repair);
+    setShowRepairDeleteModal(true);
   };
+  
+  const openInvestmentDeleteModal = (investment) => {
+    setSelectedInvestment(investment);
+    setShowInvestmentDeleteModal(true);
+  };
+    //  delete  investment
+    const handleInvestmentDelete = async () => {
+      if (selectedInvestment) {
+        try {
+          await axios.delete(`https://repair-or-replace-back-end.onrender.com/api/investments/${selectedInvestment.id}/`, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Token ${token}`,
+            },
+          });
+          setInvestments(investments.filter((investment) => investment.id !== selectedInvestment.id));
+          setShowInvestmentDeleteModal(false);
+        } catch (error) {
+          console.error("Error deleting investment:", error);
+        }
+      }
+    };
 
   useEffect(() => {
     if (token === null) {
       return;
     }
-//fetch appliance details from api table
-    const fetchApplianceDetails = async () => {
+
+    const fetchAppliance = async () => {
       try {
-        const applianceDetailsResponse = await axios.get(
-          `https://repair-or-replace-back-end.onrender.com/api/appliance-details-from-api/${id}/`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Token ${token}`,
-            },
-          }
-        );
-        setApplianceDetails(applianceDetailsResponse.data);
-//fetch appliance details from appliance table
         const applianceResponse = await axios.get(
           `https://repair-or-replace-back-end.onrender.com/api/appliances/${id}/`,
           {
@@ -93,29 +115,32 @@ const ViewAppliance = () => {
             },
           }
         );
-        setAppliance(applianceResponse.data);
-        setRepairs(applianceResponse.data.repairs || []);
-        setInvestments(applianceResponse.data.investments || []);
+        const applianceData = applianceResponse.data;
 
+        setAppliance(applianceData);
+        setRepairs(applianceData.repairs || []);
+        setInvestments(applianceData.investments || []);
+
+        if (applianceData.model) {
+          await fetchApplianceDetailsFromModel(applianceData.model);
+        }
       } catch (error) {
         console.error("Error fetching appliance data:", error);
-        navigate("/"); // Redirect on error
+        navigate("/"); 
       }
     };
 
-    fetchApplianceDetails();
+    fetchAppliance();
   }, [id, token, navigate]);
 
-// function to handle repair edit
-const handleEditRepair = (repairId) => {
+  const handleEditRepair = (repairId) => {
     navigate(`/edit-repair/${repairId}`);
   };
-  
-  // function to handle investment edit
+
   const handleEditInvestment = (investmentId) => {
     navigate(`/edit-investment/${investmentId}`);
   };
-  
+
 
   if (!appliance || !applianceDetails) return <div>Loading appliance data...</div>;
 
@@ -156,12 +181,6 @@ const handleEditRepair = (repairId) => {
                 <p><strong>Total Repair Costs:</strong> ${appliance.total_repair_cost}</p>
                 <p><strong>Have Repairs Exceeded Cost?:</strong> {appliance.repairs_exceed_cost ? 'Yes' : 'No'}</p>
                 <p><strong>Typical Lifespan:</strong> {appliance.typical_lifespan_years}</p>
-                <Button variant="link" onClick={() => handleEditAppliance(appliance.id)}>
-                    <FaPencilAlt />
-                </Button>
-                <Button variant="link" onClick={() => openAppDeleteModal(appliance)}>
-                    <FaTrash style={{ color: 'red' }} />
-                </Button>
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
@@ -197,7 +216,7 @@ const handleEditRepair = (repairId) => {
         </Col>
         <Col md={6}>
           <Accordion defaultActiveKey="0">
-            <Accordion.Item eventKey="1">
+            <Accordion.Item eventKey="0">
               <Accordion.Header>Investments</Accordion.Header>
               <Accordion.Body>
                 {investments.length > 0 ? (
@@ -211,7 +230,7 @@ const handleEditRepair = (repairId) => {
                         <FaPencilAlt />
                       </Button>
                       <Button variant="link" onClick={() => openInvestmentDeleteModal(investment)}>
-                        <FaTrash />
+                        <FaTrash style={{ color: 'red' }}/>
                       </Button>
                     </div>
                   ))
@@ -232,10 +251,10 @@ const handleEditRepair = (repairId) => {
           {selectedRepair && <p>Are you sure you want to delete this repair?</p>}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowRepairDeleteModal(false)}>
+          <Button style={{color: "whitesmoke",backgroundColor: "#84b474", border: "none",}} onClick={() => setShowRepairDeleteModal(false)}>
             Cancel
           </Button>
-          <Button variant="danger" onClick={handleRepairDelete}>
+          <Button style={{color: "whitesmoke", backgroundColor: "#84b474",border: "none",}} onClick={handleRepairDelete}>
             Delete
           </Button>
         </Modal.Footer>
@@ -249,10 +268,10 @@ const handleEditRepair = (repairId) => {
           {selectedInvestment && <p>Are you sure you want to delete this investment?</p>}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowInvestmentDeleteModal(false)}>
+          <Button style={{color: "whitesmoke",backgroundColor: "#84b474", border: "none",}} onClick={() => setShowInvestmentDeleteModal(false)}>
             Cancel
           </Button>
-          <Button variant="danger" onClick={handleInvestmentDelete}>
+          <Button style={{color: "whitesmoke",backgroundColor: "#84b474", border: "none",}} onClick={handleInvestmentDelete}>
             Delete
           </Button>
         </Modal.Footer>

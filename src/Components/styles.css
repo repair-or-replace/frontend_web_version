@@ -4,29 +4,31 @@
     padding: 0%;
 }
 .navbar {
-    background-color: #84b474;
-  }
+  background-color: lightgray !important; 
+  border-bottom: 1px solid #dcdcdc;
+}
   
   .navbar-brand {
-    color: #b3cfa8 !important; 
+    color: black !important;
     font-weight: bold;
   }
   
   .nav-link {
-    color: black !important; 
+    color: black !important;
+    font-weight: bold;
   }
   
   .nav-link:hover,
   .nav-link:focus,
   .nav-link.active {
-    color: gray !important; 
+    color: #b3cfa8; 
   }
   
-  .navbar-button {
-    background-color: #b3cfa8; 
-    color: black; 
-    border: none;
-  }
+ 
+.navbar-button:hover {
+  background-color: black;
+  color: white;
+}
   
   .navbar-button:hover {
     background-color: gray; 
@@ -50,8 +52,57 @@
   }
   
   .accordion-body {
-    background-color: #f7f7f7; 
-    color: black; /
+    background-color: white; 
+    color: black; 
   }
+
+  @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Alata&display=swap');
+
+
+.header-banner {
+  background-color: #84b474; 
+  color: whitesmoke; 
+  padding: 20px 0; 
+  font-size: 2rem; 
+  margin-top: 20px; 
+  margin-bottom: 20px; 
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+}
+
+body {
+  background-color: #f8f9fa; /*bg-light  */
+  min-height: 100vh;
+}
+
+.fixed-image-size {
+  width: 100%;
+  height: 250px;
+  object-fit: contain; 
+}
+
+.btn-outline-custom {
+  color: #84b474;             
+  border: 2px solid #84b474;  
+}
+
+.btn-outline-custom:hover {
+  background-color: #84b474; 
+  color: white;              
+}
+
+/* homepage */
+
+.info-image {
+  width: 100%;
+  max-height: 440px;
+  object-fit: cover; 
+  border-radius: 8px;
+  margin-bottom: 20px; /* space below the images */
   
+}
+
+
+
   
