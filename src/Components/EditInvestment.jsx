@@ -31,7 +31,7 @@ const EditInvestment = () => {
         }
 
         const response = await axios.get(
-          `https://repair-or-replace-back-end.onrender.com/api/investments/${investmentId}/`,
+          `${import.meta.env.VITE_BACKEND_URL}/api/investments/${investmentId}/`,
           {
             headers: {
               "Content-type": "application/json",
@@ -80,7 +80,7 @@ const EditInvestment = () => {
       };
 
       const response = await axios.put(
-        `https://repair-or-replace-back-end.onrender.com/api/investments/${investmentId}/`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/investments/${investmentId}/`,
         payload,
         {
           headers: {

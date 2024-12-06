@@ -29,7 +29,7 @@ class NewAppliance extends Component {
                 purchase_date: this.state.purchaseDate.trim(),
             };
 
-            axios.post('https://repair-or-replace-back-end.onrender.com/api/appliances/', applianceData)
+            axios.post('${import.meta.env.VITE_BACKEND_URL}/api/appliances/', applianceData)
                 .then(() => {
                     this.setState({showSuccessModal: true,
                     isLoading: false    

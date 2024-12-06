@@ -6,6 +6,7 @@ import axios from "axios";
 import defaultHome from "../assets/default_home_pic.jpeg";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { setPropertyId } from "../redux/propertySlice";
+import { Tooltip, OverlayTrigger } from "react-bootstrap";
 
 const Properties = () => {
   const token = useSelector((state) => state.user.authToken);
@@ -33,7 +34,7 @@ const Properties = () => {
     try {
       console.log("Starting API call for UserID:", userID);
       const response = await axios.get(
-        `https://repair-or-replace-back-end.onrender.com/api/user-properties/${userID}/`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/user-properties/${userID}/`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -61,7 +62,7 @@ const Properties = () => {
   const deleteProperty = async () => {
     try {
       await axios.delete(
-        `https://repair-or-replace-back-end.onrender.com/api/properties/${propertyToDelete}/`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/properties/${propertyToDelete}/`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -93,6 +94,7 @@ const Properties = () => {
               <Card.Img
                 variant="top"
                 src={defaultHome}
+                title="Click to view appliances" // add a hover tip
                 style={{
                   cursor: "pointer",
                   width: "100%", 
