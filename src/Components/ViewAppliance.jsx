@@ -116,10 +116,17 @@ const ViewAppliance = () => {
           }
         );
         const applianceData = applianceResponse.data;
+        console.log("Appliance Data:", applianceData);
+
+
 
         setAppliance(applianceData);
         setRepairs(applianceData.repairs || []);
+        console.log("Repairs:", applianceData.repairs);
         setInvestments(applianceData.investments || []);
+        console.log("Investments:", applianceData.investments);
+
+
 
         if (applianceData.model) {
           await fetchApplianceDetailsFromModel(applianceData.model);

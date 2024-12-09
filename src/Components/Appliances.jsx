@@ -99,7 +99,12 @@ const Appliances = () => {
       <h3 className="text-center header-banner">Appliances</h3>
       <ListGroup>
         <Row>
-          {applianceList.map((appliance) => (
+        {applianceList.length === 0 ? (
+          <Col>
+            <Alert variant="info" className="text-center">No appliances found for this property. Click "Add New Appliance" to get started.</Alert>
+          </Col>
+        ) : (
+          applianceList.map((appliance) => (
             <Col key={appliance.id} className="mb-4">
               <Card className="shadow-sm">
                 <Card.Body>
@@ -111,12 +116,15 @@ const Appliances = () => {
                         alt={appliance.name}
                         onClick={() => {handleViewAppliance(appliance.id, appliance.model)}}
                         className="fixed-image-size"
-/>
+                      />
                     </Col>
                     <Col xs={12}>
                       <Card.Title>{appliance.name}</Card.Title>
                       <Card.Text>
                         <strong>Model:</strong> {appliance.model}
+                      </Card.Text>
+                      <Card.Text>
+                        <strong>Appliance ID:</strong> {appliance.id}
                       </Card.Text>
                       <Card.Text>
                         <strong>Status:</strong> {appliance.current_status}
@@ -145,7 +153,9 @@ const Appliances = () => {
                 </Card.Body>
               </Card>
             </Col>
-          ))}
+          ))
+        )}
+        
         </Row>
       </ListGroup>
       <div className="text-center mt-4">
