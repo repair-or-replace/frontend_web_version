@@ -39,7 +39,7 @@ const EditProperty = () => {
         }
 
         const response = await axios.get(
-          `https://repair-or-replace-back-end.onrender.com/api/properties/${propertyId}/`,
+          `${import.meta.env.VITE_BACKEND_URL}/api/properties/${propertyId}/`,
           {
             headers: {
               "Content-type": "application/json",
@@ -96,7 +96,7 @@ const EditProperty = () => {
         formData.append("user_uploaded_image", propertyDetails.user_uploaded_image);
       }
       const response = await axios.put(
-        `https://repair-or-replace-back-end.onrender.com/api/properties/${propertyId}/`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/properties/${propertyId}/`,
         formData,
         {
           headers: {

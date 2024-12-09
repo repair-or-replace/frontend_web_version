@@ -37,7 +37,7 @@ const AddNewProperty = () => {
 
     try {
       const response = await axios.post(
-        "https://repair-or-replace-back-end.onrender.com/api/properties/",
+        `${import.meta.env.VITE_BACKEND_URL}/api/properties/`,
         {
           ...formData,
           user: userId, // Ensure the property is associated with the correct user
@@ -200,7 +200,7 @@ export default AddNewProperty;
 //                 year_built: this.state.yearBuilt.trim(),
 //             };
 
-//             axios.post('https://repair-or-replace-back-end.onrender.com/api/properties/', applianceData,
+//             axios.post('${import.meta.env.VITE_BACKEND_URL}/api/properties/', applianceData,
 //               {
 //                 headers: {
 //                   "Content-Type": "application/json",

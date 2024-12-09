@@ -35,7 +35,7 @@ const Appliances = () => {
     }
     try {
       const response = await axios.get(
-        `https://repair-or-replace-back-end.onrender.com/api/properties/${propertyId}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/properties/${propertyId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -72,7 +72,7 @@ const Appliances = () => {
   const handleDelete = async () => {
     try {
       await axios.delete(
-        `https://repair-or-replace-back-end.onrender.com/api/appliances/${selectedAppliance.id}/`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/appliances/${selectedAppliance.id}/`,
         {
           headers: {
             "Content-Type": "application/json",

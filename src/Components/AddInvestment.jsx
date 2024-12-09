@@ -25,7 +25,7 @@ const AddInvestment = () => {
 
   // const fetchUserID = async () => {
   //   try {
-  //     const response = await axios.get(`https://repair-or-replace-back-end.onrender.com/api/users/`, {
+  //     const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/users/`, {
   //       headers: {
   //         "Content-Type": "application/json",
   //         Authorization: `Token ${token}`
@@ -61,7 +61,7 @@ const AddInvestment = () => {
   // const fetchInvestments = async () => {
   //   if (!userId) return;
   //   try {
-  //     const response = await axios.get(`https://repair-or-replace-back-end.onrender.com/api/investments/${userId}/`, {
+  //     const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/investments/${userId}/`, {
   //       headers: {
   //         "Content-Type": "application/json",
   //         Authorization: `Token ${token}`
@@ -113,7 +113,7 @@ const AddInvestment = () => {
 
       try {
         const response = await axios.post(
-          "https://repair-or-replace-back-end.onrender.com/api/investments/",
+          `${import.meta.env.VITE_BACKEND_URL}/api/investments/`,
           investmentData,
           {
             headers: {
