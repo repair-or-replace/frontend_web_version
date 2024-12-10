@@ -255,6 +255,7 @@ const ViewAppliance = () => {
           </Accordion>
         </Col>
       </Row>
+
       <Row className="mt-4">
         <Col md={6}>
           <Accordion defaultActiveKey="0">
@@ -437,4 +438,6 @@ const ViewAppliance = () => {
   );
 };
 
+
 export default ViewAppliance;
+
