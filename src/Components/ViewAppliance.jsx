@@ -4,7 +4,6 @@ import { Accordion, Card, Container, Row, Col, Button, Modal, Form } from "react
 import { FaPencilAlt, FaTrash, FaPlus } from "react-icons/fa";
 import axios from "axios";
 import { useSelector } from "react-redux";
-
 const ViewAppliance = () => {
   const token = useSelector((state) => state.user.authToken);
   const { id } = useParams();
