@@ -121,6 +121,7 @@ const LoginForm = () => {
                 Login
               </button>
             </form>
+
             {!loading && (
               <div className="text-center">
                 <p>Don’t have an account?</p>
@@ -133,6 +134,7 @@ const LoginForm = () => {
                 </button>
               </div>
             )}
+
           </div>
         </div>
       </div>

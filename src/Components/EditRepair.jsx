@@ -91,7 +91,7 @@ const EditRepair = () => {
       );
 
       console.log("Repair updated successfully:", response.data);
-      alert("Repair updated successfully!");
+      // alert("Repair updated successfully!");
       navigate(`/view-appliance/${repairDetails.appliance}`);
     } catch (error) {
       console.error("Error updating repair details:", error.response?.data || error.message);

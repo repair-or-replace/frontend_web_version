@@ -133,8 +133,10 @@ const ViewAppliance = () => {
     fetchAppliance();
   }, [id, token, navigate]);
 
+
   const handleEditRepair = (repairId) => {
     navigate(`/edit-repair/${repairId}`);
+
   };
 
   const handleEditInvestment = (investmentId) => {
@@ -176,16 +178,19 @@ const ViewAppliance = () => {
             <Accordion.Item eventKey="0">
               <Accordion.Header>Summary View</Accordion.Header>
               <Accordion.Body>
+
                 <p><strong>Purchase Date:</strong> {new Date(appliance.purchase_date).toLocaleDateString()}</p>
                 <p><strong>Total Investments:</strong> ${appliance.total_investment_cost}</p>
                 <p><strong>Total Repair Costs:</strong> ${appliance.total_repair_cost}</p>
                 <p><strong>Have Repairs Exceeded Cost?:</strong> {appliance.repairs_exceed_cost ? 'Yes' : 'No'}</p>
                 <p><strong>Typical Lifespan:</strong> {appliance.typical_lifespan_years}</p>
+
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
         </Col>
       </Row>
+
       <Row className="mt-4">
         <Col md={6}>
           <Accordion defaultActiveKey="0">
@@ -279,4 +284,6 @@ const ViewAppliance = () => {
     </Container>
   ); 
 };
+
 export default ViewAppliance;
+
