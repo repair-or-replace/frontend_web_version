@@ -226,6 +226,7 @@ const ViewAppliance = () => {
         <Col md={8}>
           <Card style={{ maxWidth: "600px", margin: "auto" }}>
             <Card.Body>
+              {/* made changes to date fields */}
               <Card.Title>Appliance Details</Card.Title>
               <p><strong>Name:</strong> {appliance.name || "N/A"}</p>
               <p><strong>Brand:</strong> {appliance.brand || "N/A"}</p>
