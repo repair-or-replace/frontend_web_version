@@ -77,6 +77,22 @@ const ViewAppliance = () => {
     }
   }, [id, token, navigate]);
 
+  useEffect(() => {
+    if (repairs.length > 0 || investments.length > 0) {
+      const totalRepairCost = repairs.reduce((sum, repair) => sum + parseFloat(repair.cost || 0), 0);
+      const totalInvestmentCost = investments.reduce((sum, investment) => sum + parseFloat(investment.cost || 0), 0);
+  
+      setAppliance((prev) => ({
+        ...prev,
+        total_repair_cost: totalRepairCost.toFixed(2),
+        total_investment_cost: totalInvestmentCost.toFixed(2),
+        repairs_exceed_cost: totalRepairCost > totalInvestmentCost, 
+      }));
+    }
+  }, [repairs, investments]);
+  
+  
+
   const handleAddRepair = async () => {
     try {
       const response = await axios.post(
@@ -201,15 +217,16 @@ const ViewAppliance = () => {
             <Accordion.Item eventKey="0">
               <Accordion.Header>Summary View</Accordion.Header>
               <Accordion.Body>
-                <p><strong>Total Investments:</strong> ${appliance.total_investment_cost || "0.00"}</p>
-                <p><strong>Total Repair Costs:</strong> ${appliance.total_repair_cost || "0.00"}</p>
-                <p><strong>Have Repairs Exceeded Cost?:</strong> {appliance.repairs_exceed_cost ? "Yes" : "No"}</p>
-                <p><strong>Typical Lifespan:</strong> {appliance.typical_lifespan_years || "N/A"} years</p>
+                <p><strong>Total Repair Costs:</strong> ${appliance?.total_repair_cost || "0.00"}</p>
+                <p><strong>Total Investments:</strong> ${appliance?.total_investment_cost || "0.00"}</p>
+                <p><strong>Have Repairs Exceeded Cost?:</strong> {appliance?.repairs_exceed_cost ? "Yes" : "No"}</p>
+                <p><strong>Typical Lifespan:</strong> {appliance?.typical_lifespan_years || "N/A"} years</p>
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
         </Col>
       </Row>
+
 
       {/* Repairs and Investments */}
       <Row className="mt-4">
@@ -395,3 +412,4 @@ const ViewAppliance = () => {
 };
 
 export default ViewAppliance;
+
