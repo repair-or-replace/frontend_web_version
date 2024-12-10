@@ -64,98 +64,129 @@
 //           }
 //         );
 //         setInvestments(investmentsResponse.data);
+
+//         const totalInvestment = investmentsResponse.data.reduce((total, investment) => {
+//           return total + Number(investment.cost || 0);
+//         }, 0);
+
+//         setAppliance((prev) => ({
+//           ...prev,
+//           total_investment_cost: totalInvestment,
+//         }));
+
+
+
 //       } catch (error) {
-//         console.error("Error fetching appliance details:", error);
-//         navigate("/"); // Redirect to home if there's an error
-//       } finally {
-//         setLoading(false);
+//         console.error("Error deleting repair:", error);
+//       }
+//     }
+//   };
+
+//   const openRepairDeleteModal = (repair) => {
+//     setSelectedRepair(repair);
+//     setShowRepairDeleteModal(true);
+//   };
+  
+//   const openInvestmentDeleteModal = (investment) => {
+//     setSelectedInvestment(investment);
+//     setShowInvestmentDeleteModal(true);
+//   };
+//     //  delete  investment
+//     const handleInvestmentDelete = async () => {
+//       if (selectedInvestment) {
+//         try {
+//           await axios.delete(`https://repair-or-replace-back-end.onrender.com/api/investments/${selectedInvestment.id}/`, {
+//             headers: {
+//               "Content-Type": "application/json",
+//               Authorization: `Token ${token}`,
+//             },
+//           });
+//           setInvestments(investments.filter((investment) => investment.id !== selectedInvestment.id));
+//           setShowInvestmentDeleteModal(false);
+//         } catch (error) {
+//           console.error("Error deleting investment:", error);
+//         }
 //       }
 //     };
 
-//     if (token) {
-//       fetchApplianceDetails();
+//   useEffect(() => {
+//     if (token === null) {
+//       return;
 //     }
+
+//     const fetchAppliance = async () => {
+//       try {
+//         const applianceResponse = await axios.get(
+//           `https://repair-or-replace-back-end.onrender.com/api/appliances/${id}/`,
+//           {
+//             headers: {
+//               "Content-Type": "application/json",
+//               Authorization: `Token ${token}`,
+//             },
+//           }
+//         );
+//         const applianceData = applianceResponse.data;
+//         console.log("Appliance Data:", applianceData);
+
+
+
+//         setAppliance(applianceData);
+//         setRepairs(applianceData.repairs || []);
+//         console.log("Repairs:", applianceData.repairs);
+//         setInvestments(applianceData.investments || []);
+//         console.log("Investments:", applianceData.investments);
+
+
+
+//         if (applianceData.model) {
+//           await fetchApplianceDetailsFromModel(applianceData.model);
+//         }
+//       } catch (error) {
+//         console.error("Error fetching appliance data:", error);
+//         navigate("/"); 
+//       }
+//     };
+
+//     fetchAppliance();
 //   }, [id, token, navigate]);
 
-//   const handleAddRepair = async () => {
-//     try {
-//       const response = await axios.post(
-//         `${import.meta.env.VITE_BACKEND_URL}/api/repairs/`,
-//         {
-//           ...newRepair,
-//           appliance: id,
-//         },
-//         {
-//           headers: {
-//             "Content-Type": "application/json",
-//             Authorization: `Token ${token}`,
-//           },
-//         }
-//       );
-//       setRepairs((prev) => [...prev, response.data]);
-//       setShowAddRepairModal(false);
-//       setNewRepair({ repair_date: "", repaired_description: "", cost: "", repaired_by: "" });
-//     } catch (error) {
-//       console.error("Error adding repair:", error);
-//     }
-//   };
-
-//   const handleAddInvestment = async () => {
-//     try {
-//       const response = await axios.post(
-//         `${import.meta.env.VITE_BACKEND_URL}/api/investments/`,
-//         {
-//           ...newInvestment,
-//           appliance: id,
-//         },
-//         {
-//           headers: {
-//             "Content-Type": "application/json",
-//             Authorization: `Token ${token}`,
-//           },
-//         }
-//       );
-//       setInvestments((prev) => [...prev, response.data]);
-//       setShowAddInvestmentModal(false);
-//       setNewInvestment({
-//         investment_date: "",
-//         investment_description: "",
-//         cost: "",
-//         investment_type: "maintenance",
-//       });
-//     } catch (error) {
-//       console.error("Error adding investment:", error);
-//     }
-//   };
-
-//   const handleDeleteRepair = async (repairId) => {
-//     try {
-//       await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/repairs/${repairId}/`, {
-//         headers: {
-//           Authorization: `Token ${token}`,
-//         },
-//       });
-//       setRepairs((prev) => prev.filter((repair) => repair.id !== repairId));
-//     } catch (error) {
-//       console.error("Error deleting repair:", error);
-//     }
+//   const handleEditRepair = (repairId) => {
+//     navigate(`/edit-repair/${repairId}`);
 //   };
 
 //   const handleDeleteInvestment = async (investmentId) => {
-//     try {
-//       await axios.delete(
-//         `${import.meta.env.VITE_BACKEND_URL}/api/investments/${investmentId}/`,
-//         {
-//           headers: {
-//             Authorization: `Token ${token}`,
-//           },
-//         }
-//       );
-//       setInvestments((prev) => prev.filter((investment) => investment.id !== investmentId));
-//     } catch (error) {
-//       console.error("Error deleting investment:", error);
-//     }
-//   };
+//   const confirmed = window.confirm("Are you sure you want to delete this investment?");
+//   if (!confirmed) return;
+
+//   try {
+//     await axios.delete(
+//       `${import.meta.env.VITE_BACKEND_URL}/api/investments/${investmentId}/`,
+//       {
+//         headers: {
+//           Authorization: `Token ${token}`,
+//         },
+//       }
+//     );
+
+
+//     const updatedInvestments = investments.filter(
+//       (investment) => investment.id !== investmentId
+//     );
+//     setInvestments(updatedInvestments);
+
+
+//     const updatedTotalInvestmentCost = updatedInvestments.reduce(
+//       (total, investment) => total + Number(investment.cost || 0),
+//       0
+//     );
+//     setAppliance((prev) => ({
+//       ...prev,
+//       total_investment_cost: updatedTotalInvestmentCost,
+//     }));
+//   } catch (error) {
+//     console.error("Error deleting investment:", error);
+//   }
+// };
 
 //   if (loading) {
 //     return <div>Loading appliance data...</div>;
@@ -195,6 +226,22 @@
 //       </Row>
 
 //       {/* Summary View */}
+//       {/*<Row className="mt-4">*/}
+//       {/*  <Col md={12}>*/}
+//       {/*    <Accordion defaultActiveKey="0">*/}
+//       {/*      <Accordion.Item eventKey="0">*/}
+//       {/*        <Accordion.Header>Summary View</Accordion.Header>*/}
+//       {/*        <Accordion.Body>*/}
+//       {/*          <p><strong>Total Investments:</strong> ${appliance.total_investment_cost || "0.00"}</p>*/}
+//       {/*          <p><strong>Total Repair Costs:</strong> ${appliance.total_repair_cost || "0.00"}</p>*/}
+//       {/*          <p><strong>Have Repairs Exceeded Cost?:</strong> {appliance.repairs_exceed_cost ? "Yes" : "No"}</p>*/}
+//       {/*          <p><strong>Typical Lifespan:</strong> {appliance.typical_lifespan_years || "N/A"} years</p>*/}
+//       {/*        </Accordion.Body>*/}
+//       {/*      </Accordion.Item>*/}
+//       {/*    </Accordion>*/}
+//       {/*  </Col>*/}
+//       {/*</Row>*/}
+//       {/* Summary View */}
 //       <Row className="mt-4">
 //         <Col md={12}>
 //           <Accordion defaultActiveKey="0">
@@ -203,13 +250,17 @@
 //               <Accordion.Body>
 //                 <p><strong>Total Investments:</strong> ${appliance.total_investment_cost || "0.00"}</p>
 //                 <p><strong>Total Repair Costs:</strong> ${appliance.total_repair_cost || "0.00"}</p>
-//                 <p><strong>Have Repairs Exceeded Cost?:</strong> {appliance.repairs_exceed_cost ? "Yes" : "No"}</p>
+//                 <p>
+//                   <strong>Have Repairs Exceeded Cost?:</strong>{" "}
+//                   {Number(appliance.total_repair_cost || 0) > Number(appliance.total_investment_cost || 0) ? "Yes" : "No"}
+//                 </p>
 //                 <p><strong>Typical Lifespan:</strong> {appliance.typical_lifespan_years || "N/A"} years</p>
 //               </Accordion.Body>
 //             </Accordion.Item>
 //           </Accordion>
 //         </Col>
 //       </Row>
+
 
 //       {/* Repairs and Investments */}
 //       <Row className="mt-4">
@@ -397,7 +448,6 @@
 // export default ViewAppliance;
 
 
-
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Accordion, Card, Container, Row, Col, Button, Modal, Form } from "react-bootstrap";
@@ -464,129 +514,114 @@ const ViewAppliance = () => {
           }
         );
         setInvestments(investmentsResponse.data);
-
-        const totalInvestment = investmentsResponse.data.reduce((total, investment) => {
-          return total + Number(investment.cost || 0);
-        }, 0);
-
-        setAppliance((prev) => ({
-          ...prev,
-          total_investment_cost: totalInvestment,
-        }));
-
-
-
       } catch (error) {
-        console.error("Error deleting repair:", error);
-      }
-    }
-  };
-
-  const openRepairDeleteModal = (repair) => {
-    setSelectedRepair(repair);
-    setShowRepairDeleteModal(true);
-  };
-  
-  const openInvestmentDeleteModal = (investment) => {
-    setSelectedInvestment(investment);
-    setShowInvestmentDeleteModal(true);
-  };
-    //  delete  investment
-    const handleInvestmentDelete = async () => {
-      if (selectedInvestment) {
-        try {
-          await axios.delete(`https://repair-or-replace-back-end.onrender.com/api/investments/${selectedInvestment.id}/`, {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Token ${token}`,
-            },
-          });
-          setInvestments(investments.filter((investment) => investment.id !== selectedInvestment.id));
-          setShowInvestmentDeleteModal(false);
-        } catch (error) {
-          console.error("Error deleting investment:", error);
-        }
+        console.error("Error fetching appliance details:", error);
+        navigate("/"); // Redirect to home if there's an error
+      } finally {
+        setLoading(false);
       }
     };
 
-  useEffect(() => {
-    if (token === null) {
-      return;
+    if (token) {
+      fetchApplianceDetails();
     }
-
-    const fetchAppliance = async () => {
-      try {
-        const applianceResponse = await axios.get(
-          `https://repair-or-replace-back-end.onrender.com/api/appliances/${id}/`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Token ${token}`,
-            },
-          }
-        );
-        const applianceData = applianceResponse.data;
-        console.log("Appliance Data:", applianceData);
-
-
-
-        setAppliance(applianceData);
-        setRepairs(applianceData.repairs || []);
-        console.log("Repairs:", applianceData.repairs);
-        setInvestments(applianceData.investments || []);
-        console.log("Investments:", applianceData.investments);
-
-
-
-        if (applianceData.model) {
-          await fetchApplianceDetailsFromModel(applianceData.model);
-        }
-      } catch (error) {
-        console.error("Error fetching appliance data:", error);
-        navigate("/"); 
-      }
-    };
-
-    fetchAppliance();
   }, [id, token, navigate]);
 
-  const handleEditRepair = (repairId) => {
-    navigate(`/edit-repair/${repairId}`);
+  useEffect(() => {
+    if (repairs.length > 0 || investments.length > 0) {
+      const totalRepairCost = repairs.reduce((sum, repair) => sum + parseFloat(repair.cost || 0), 0);
+      const totalInvestmentCost = investments.reduce((sum, investment) => sum + parseFloat(investment.cost || 0), 0);
+  
+      setAppliance((prev) => ({
+        ...prev,
+        total_repair_cost: totalRepairCost.toFixed(2),
+        total_investment_cost: totalInvestmentCost.toFixed(2),
+        repairs_exceed_cost: totalRepairCost > totalInvestmentCost, 
+      }));
+    }
+  }, [repairs, investments]);
+  
+  
+
+  const handleAddRepair = async () => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/repairs/`,
+        {
+          ...newRepair,
+          appliance: id,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+      setRepairs((prev) => [...prev, response.data]);
+      setShowAddRepairModal(false);
+      setNewRepair({ repair_date: "", repaired_description: "", cost: "", repaired_by: "" });
+    } catch (error) {
+      console.error("Error adding repair:", error);
+    }
   };
 
-  const handleDeleteInvestment = async (investmentId) => {
-  const confirmed = window.confirm("Are you sure you want to delete this investment?");
-  if (!confirmed) return;
+  const handleAddInvestment = async () => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BACKEND_URL}/api/investments/`,
+        {
+          ...newInvestment,
+          appliance: id,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+      setInvestments((prev) => [...prev, response.data]);
+      setShowAddInvestmentModal(false);
+      setNewInvestment({
+        investment_date: "",
+        investment_description: "",
+        cost: "",
+        investment_type: "maintenance",
+      });
+    } catch (error) {
+      console.error("Error adding investment:", error);
+    }
+  };
 
-  try {
-    await axios.delete(
-      `${import.meta.env.VITE_BACKEND_URL}/api/investments/${investmentId}/`,
-      {
+  const handleDeleteRepair = async (repairId) => {
+    try {
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/repairs/${repairId}/`, {
         headers: {
           Authorization: `Token ${token}`,
         },
-      }
-    );
+      });
+      setRepairs((prev) => prev.filter((repair) => repair.id !== repairId));
+    } catch (error) {
+      console.error("Error deleting repair:", error);
+    }
+  };
 
-
-    const updatedInvestments = investments.filter(
-      (investment) => investment.id !== investmentId
-    );
-    setInvestments(updatedInvestments);
-
-
-    const updatedTotalInvestmentCost = updatedInvestments.reduce(
-      (total, investment) => total + Number(investment.cost || 0),
-      0
-    );
-    setAppliance((prev) => ({
-      ...prev,
-      total_investment_cost: updatedTotalInvestmentCost,
-    }));
-  } catch (error) {
-    console.error("Error deleting investment:", error);
-  }
-};
+  const handleDeleteInvestment = async (investmentId) => {
+    try {
+      await axios.delete(
+        `${import.meta.env.VITE_BACKEND_URL}/api/investments/${investmentId}/`,
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+      setInvestments((prev) => prev.filter((investment) => investment.id !== investmentId));
+    } catch (error) {
+      console.error("Error deleting investment:", error);
+    }
+  };
 
   if (loading) {
     return <div>Loading appliance data...</div>;
@@ -626,35 +661,16 @@ const ViewAppliance = () => {
       </Row>
 
       {/* Summary View */}
-      {/*<Row className="mt-4">*/}
-      {/*  <Col md={12}>*/}
-      {/*    <Accordion defaultActiveKey="0">*/}
-      {/*      <Accordion.Item eventKey="0">*/}
-      {/*        <Accordion.Header>Summary View</Accordion.Header>*/}
-      {/*        <Accordion.Body>*/}
-      {/*          <p><strong>Total Investments:</strong> ${appliance.total_investment_cost || "0.00"}</p>*/}
-      {/*          <p><strong>Total Repair Costs:</strong> ${appliance.total_repair_cost || "0.00"}</p>*/}
-      {/*          <p><strong>Have Repairs Exceeded Cost?:</strong> {appliance.repairs_exceed_cost ? "Yes" : "No"}</p>*/}
-      {/*          <p><strong>Typical Lifespan:</strong> {appliance.typical_lifespan_years || "N/A"} years</p>*/}
-      {/*        </Accordion.Body>*/}
-      {/*      </Accordion.Item>*/}
-      {/*    </Accordion>*/}
-      {/*  </Col>*/}
-      {/*</Row>*/}
-      {/* Summary View */}
       <Row className="mt-4">
         <Col md={12}>
           <Accordion defaultActiveKey="0">
             <Accordion.Item eventKey="0">
               <Accordion.Header>Summary View</Accordion.Header>
               <Accordion.Body>
-                <p><strong>Total Investments:</strong> ${appliance.total_investment_cost || "0.00"}</p>
-                <p><strong>Total Repair Costs:</strong> ${appliance.total_repair_cost || "0.00"}</p>
-                <p>
-                  <strong>Have Repairs Exceeded Cost?:</strong>{" "}
-                  {Number(appliance.total_repair_cost || 0) > Number(appliance.total_investment_cost || 0) ? "Yes" : "No"}
-                </p>
-                <p><strong>Typical Lifespan:</strong> {appliance.typical_lifespan_years || "N/A"} years</p>
+                <p><strong>Total Repair Costs:</strong> ${appliance?.total_repair_cost || "0.00"}</p>
+                <p><strong>Total Investments:</strong> ${appliance?.total_investment_cost || "0.00"}</p>
+                <p><strong>Have Repairs Exceeded Cost?:</strong> {appliance?.repairs_exceed_cost ? "Yes" : "No"}</p>
+                <p><strong>Typical Lifespan:</strong> {appliance?.typical_lifespan_years || "N/A"} years</p>
               </Accordion.Body>
             </Accordion.Item>
           </Accordion>
@@ -846,3 +862,4 @@ const ViewAppliance = () => {
 };
 
 export default ViewAppliance;
+
