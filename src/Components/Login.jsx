@@ -121,16 +121,20 @@ const LoginForm = () => {
                 Login
               </button>
             </form>
-            <div className="text-center">
-              <p>Don’t have an account?</p>
-              <button
-                type="button"
-                className="btn btn-outline-primary w-100"
-                onClick={handleSignUp}
-              >
-                Sign Up
-              </button>
-            </div>
+
+            {!loading && (
+              <div className="text-center">
+                <p>Don’t have an account?</p>
+                <button
+                  type="button"
+                  className="btn btn-outline-custom w-100"
+                  onClick={handleSignUp}
+                >
+                  Sign Up
+                </button>
+              </div>
+            )}
+
           </div>
         </div>
       </div>
