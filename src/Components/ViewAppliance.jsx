@@ -630,8 +630,9 @@ const ViewAppliance = () => {
         investment_date: "",
         investment_description: "",
         cost: "",
-        investment_type: "maintenance",
-      });
+        investment_type: "",
+      }); 
+      console.log("Investment added:", response.data);
     } catch (error) {
       console.error("Error adding investment:", error);
     }
