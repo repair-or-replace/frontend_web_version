@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Form, Button, Alert, Container, Modal, Col, Row } from "react-bootstrap";
 
+
 const AddInvestment = () => {
   const [investmentType, setInvestmentType] = useState("");
   const [investmentDate, setInvestmentDate] = useState("");
