@@ -167,8 +167,9 @@ const ViewAppliance = () => {
         investment_date: "",
         investment_description: "",
         cost: "",
-        investment_type: "maintenance",
-      });
+        investment_type: "",
+      }); 
+      console.log("Investment added:", response.data);
     } catch (error) {
       console.error("Error adding investment:", error);
     }
@@ -231,6 +232,25 @@ const ViewAppliance = () => {
               <p><strong>Name:</strong> {appliance.name || "N/A"}</p>
               <p><strong>Brand:</strong> {appliance.brand || "N/A"}</p>
               <p><strong>Model:</strong> {appliance.model || "N/A"}</p>
+              <p><strong>Product Doc 1:</strong>{" "}
+    {applianceDetails.product_doc_1 ? (
+      <a href={applianceDetails.product_doc_1} target="_blank" rel="noopener noreferrer">
+        View Doc 1
+      </a>
+    ) : (
+      "N/A"
+    )}
+  </p>
+  <p>
+    <strong>Product Doc 2:</strong>{" "}
+    {applianceDetails.product_doc_2 ? (
+      <a href={applianceDetails.product_doc_2} target="_blank" rel="noopener noreferrer">
+        View Doc 2
+      </a>
+    ) : (
+      "N/A"
+    )}
+  </p>
               <p><strong>MSRP:</strong> ${applianceDetails.msrp}</p>
               <p><strong>Lowest Listed Price:</strong> ${applianceDetails.lowest_listed_price}</p>
               <p><strong>Home Depot Price:</strong> ${applianceDetails.home_depot_price}</p>
