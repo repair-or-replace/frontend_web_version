@@ -62,69 +62,63 @@
 
 // export default Homepage;
 import React from "react";
-import { Carousel } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import refrigeratorImage from "../assets/Refrigerator.jpg";
-import './styles.css'
 import wrenchImage from "../assets/wrench.jpg";
-import RorR from "../assets/Repair_or_Replace_square.png";
+import "./styles.css";
 
 const Homepage = () => {
-  // const user = JSON.parse(sessionStorage.getItem('authToken'))
-
   return (
-    <div>
-      <h1 className="text-center">Welcome ! </h1>
-      <center>
-        <img
-          className="center"
-          src="/src/assets/Repair_or_Replace_logo.png"
-          width={300}
-          alt="Repair or Replace Company Logo"
-        />
-      </center>
+    <div className="bg-light">
+      <Container className="text-center py-5">
+        <h1 className="text-success">Welcome to Repair or Replace</h1>
+        <p className="lead text-black">
+          Your go-to solution for managing your appliances.
+        </p>
+      </Container>
 
-      <Carousel data-bs-theme="dark">
-        <Carousel.Item>
-          <img
-            className="d-block w-100"
-            src={refrigeratorImage}
-            alt="First slide"
-          />
-          <Carousel.Caption>
-            <h3 className="text-white">
-              Are your appliance(s) acting up or no longer working?
-            </h3>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item>
-          <img
-            className="d-block w-100"
-            src={wrenchImage}
-            alt="hand holding a wrench"
-          />
-          <Carousel.Caption>
-            <h3 className="text-white">
-              Don't know if it needs a fix or a replacement?
-            </h3>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item>
-          <img
-            className="d-block w-100"
-            src={RorR}
-            alt="Repair_or_Replace_logo"
-          />
-          <Carousel.Caption className=".carousel-caption">
-            <h3>
-              With Repair or Replace, you can track repairs, maintenance, and
-              make informed decisions about your
-              appliance(s) right here!
-            </h3>
-          </Carousel.Caption>
-        </Carousel.Item>
-      </Carousel>
+      <Container className="py-5">
+        <Row>
+          <Col md={6}>
+            <img
+              src={refrigeratorImage}
+              alt="Refrigerator"
+              className="info-image"
+            />
+          </Col>
+          <Col md={6} className="text-center">
+            <h3 className="text-success">Is your appliance acting up? </h3>
+            <p className="text-black">We help you decide whether to repair or replace.</p>
+          </Col>
+        </Row>
+      </Container>
+
+      <Container className="py-5">
+        <Row>
+          <Col md={6} className="text-center">
+            <h3 className="text-success">Track Repairs and Maintenance</h3>
+            <p className="text-black">
+              Keep a history of repairs, maintenance and costs for all your appliances.
+            </p>
+          </Col>
+          <Col md={6}>
+            <img
+              src={wrenchImage}
+              alt="Wrench"
+              className="info-image"
+            />
+          </Col>
+        </Row>
+      </Container>
+      <Container className="text-center py-5">
+        <h3 className="text-success">Make Informed Decisions</h3>
+        <p className="lead text-black">
+          With Repair or Replace, you can track repairs, maintenance, and make informed decisions about your appliances right here!
+        </p>
+      </Container>
     </div>
   );
 };
 
 export default Homepage;
+

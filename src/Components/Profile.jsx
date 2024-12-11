@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-// import { useSelector } from "react-redux";
-import { useSelector, useDispatch } from "react-redux"; // Import useDispatch
+import { useSelector, useDispatch } from "react-redux"; 
 import { useNavigate } from "react-router-dom";
-import { Container, Alert, Card, Button, Modal, Form } from "react-bootstrap";
-import { logOut } from '../redux/userSlice'; // Ensure this is the correct path to your logOut action
+import { Container, Alert, Card, Button, Modal, Form , Col, Row} from "react-bootstrap";
+import { logOut } from '../redux/userSlice'; 
 
 
 const Profile = () => {
   const authToken = useSelector((state) => state.user.authToken) || localStorage.getItem("authToken");
   const userId = useSelector((state) => state.user.user_id) || localStorage.getItem("userId");
-  const dispatch = useDispatch(); // Use dispatch from Redux
+  const dispatch = useDispatch(); 
   const navigate = useNavigate();
 
   const [profile, setProfile] = useState(null);
@@ -37,9 +36,9 @@ const Profile = () => {
   };
 
   const handleEditToggle = () => {
-    setError(""); // Clear error when toggling edit
+    setError(""); 
     setEditMode((prev) => !prev);
-    if (!editMode) setFormData(profile); // Reset form data when exiting edit mode
+    if (!editMode) setFormData(profile); 
   };
 
   const handleInputChange = (e) => {
@@ -48,7 +47,7 @@ const Profile = () => {
   };
 
   const handleSave = async () => {
-    setError(""); // Clear error when saving
+    setError(""); 
     try {
       const response = await axios.put(
         `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}/`,
@@ -61,29 +60,6 @@ const Profile = () => {
       setError("Failed to save changes.");
     }
   };
-  // const Logout = () => {
-  //   const dispatch = useDispatch();
-  //   const navigate = useNavigate();
-  
-  //   useEffect(() => {
-  //     // Clear the auth token from localStorage
-  //     localStorage.removeItem("authToken");
-  
-  //     // Dispatch the logOut action to clear user info from Redux
-  //     dispatch(logOut());
-  
-  //     navigate("/login");
-  //   }, [dispatch, navigate]);
-  
-  //   return (
-  //     <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
-  //       <div className="text-center">
-  //         <h3>Logging you out...</h3>
-  //       </div>
-  //     </div>
-  //   );
-  // };
-
   const handleDeleteAccount = async () => {
     if (!authToken || !userId) {
       setError("Missing authentication credentials. Please log in again.");
@@ -103,24 +79,7 @@ const Profile = () => {
     }
   };
 
-  // const confirmDelete = async () => {
-  //   try {
-  //     await axios.delete(
-  //       `${import.meta.env.VITE_BACKEND_URL}/api/users/${userId}/`,
-  //       { headers: { Authorization: `Token ${authToken}` } }
-  //     );
-
-  //     localStorage.clear();
-  //     setShowDeleteModal(false);
-  //     alert("Your account has been deleted.");
-  //     navigate("/");
-  //     Logout();
-
-  //   } catch (err) {
-  //     console.error("Error during account deletion:", err.response || err);
-  //     setError("An error occurred while deleting your account.");
-  //   }
-  // };
+ 
   const confirmDelete = async () => {
     try {
       await axios.delete(
@@ -146,10 +105,9 @@ const Profile = () => {
     fetchUserProfile();
   }, [authToken, userId]);
 
-  // Add a global click listener to clear the error when clicking elsewhere
   useEffect(() => {
     const handleClickOutside = () => {
-      setError(""); // Clear the error when clicking elsewhere
+      setError(""); 
     };
 
     window.addEventListener("click", handleClickOutside);
@@ -160,6 +118,8 @@ const Profile = () => {
 
   return (
     <Container className="mt-5">
+       <Row className="justify-content-align-left">
+       <Col md={6}>
       {error && <Alert variant="danger">{error}</Alert>}
       <Card>
         <Card.Header>User Profile</Card.Header>
@@ -195,10 +155,10 @@ const Profile = () => {
                   />
                 </Form.Group>
               </Form>
-              <Button variant="success" onClick={handleSave} className="mt-3">
+              <Button style={{color: "whitesmoke",backgroundColor: "#84b474", border: "none",}} onClick={handleSave} className="mt-3">
                 Save
               </Button>
-              <Button variant="secondary" onClick={handleEditToggle} className="mt-3 ms-2">
+              <Button style={{color: "whitesmoke",backgroundColor: "#84b474", border: "none",}} onClick={handleEditToggle} className="mt-3 ms-2">
                 Cancel
               </Button>
             </>
@@ -220,17 +180,27 @@ const Profile = () => {
                 <strong>Date Joined:</strong> {new Date(profile?.date_joined).toLocaleDateString()}
               </p>
               <Button
-                variant="primary"
                 onClick={handleEditToggle}
                 className="me-3"
+                style={{
+                  color: "whitesmoke",
+                  backgroundColor: "#84b474",
+                  border: "none",
+                  padding: "10px",
+                }}
               >
-                EDIT Profile
+                Edit Profile
               </Button>
               <Button
-                variant="danger"
-                onClick={() => setShowDeleteModal(true)}
+              style={{
+                color: "whitesmoke",
+                backgroundColor: "#84b474",
+                border: "none",
+                padding: "10px",
+              }}                
+              onClick={() => setShowDeleteModal(true)}
               >
-                DELETE Account
+                Delete Account
               </Button>
             </>
           )}
@@ -251,6 +221,8 @@ const Profile = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+      </Col>
+      </Row>
     </Container>
   );
 };

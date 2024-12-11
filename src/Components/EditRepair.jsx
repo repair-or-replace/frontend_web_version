@@ -28,7 +28,7 @@ const EditRepair = () => {
 
       try {
         const response = await axios.get(
-          `https://repair-or-replace-back-end.onrender.com/api/repairs/${repairId}/`,
+          `${import.meta.env.VITE_BACKEND_URL}/api/repairs/${repairId}/`,
           {
             headers: {
               "Content-type": "application/json",
@@ -80,7 +80,7 @@ const EditRepair = () => {
       };
 
       const response = await axios.put(
-        `https://repair-or-replace-back-end.onrender.com/api/repairs/${repairId}/`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/repairs/${repairId}/`,
         payload,
         {
           headers: {
@@ -91,7 +91,7 @@ const EditRepair = () => {
       );
 
       console.log("Repair updated successfully:", response.data);
-      alert("Repair updated successfully!");
+      // alert("Repair updated successfully!");
       navigate(`/view-appliance/${repairDetails.appliance}`);
     } catch (error) {
       console.error("Error updating repair details:", error.response?.data || error.message);

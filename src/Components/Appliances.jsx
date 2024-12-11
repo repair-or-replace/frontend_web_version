@@ -5,7 +5,6 @@
 // import { useNavigate, useLocation } from "react-router-dom";
 // import { FaPencilAlt, FaTrash } from "react-icons/fa";
 
-
 // const Appliances = () => {
 //   const token = useSelector((state) => state.user.authToken);
 //   const propertyId = useSelector((state) => state.property.propertyId); // Accessing propertyId from Redux
@@ -19,13 +18,12 @@
 //   const [selectedAppliance, setSelectedAppliance] = useState(null);
 //   console.log("Property ID:", propertyId);
 
-
 //   const handleViewAppliance = (applianceId, applianceModel) => {
 //     navigate(`/view-appliance/${applianceId}`);
 //     console.log("Appliance ID:", applianceId);
 //     console.log("Appliance Model:", applianceModel);
 //   };
-  
+
 //   const fetchAppliances = async () => {
 //     setLoading(true);
 //     if (!propertyId) {
@@ -62,12 +60,9 @@
 //     }
 //   }, [propertyId]);
 
-
 //   const handleEdit = (applianceId) => {
 //     navigate(`/edit-appliance/${applianceId}`);
 //   };
-
-
 
 //   const handleDelete = async () => {
 //     try {
@@ -222,7 +217,7 @@ const Appliances = () => {
     }
     try {
       const response = await axios.get(
-        `https://repair-or-replace-back-end.onrender.com/api/properties/${propertyId}`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/properties/${propertyId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -249,10 +244,16 @@ const Appliances = () => {
     }
   }, [propertyId]);
 
+  const handleEdit = (applianceId) => {
+    navigate(`/edit-appliance/${applianceId}`);
+  };
+
   const handleDelete = async () => {
     try {
       await axios.delete(
-        `https://repair-or-replace-back-end.onrender.com/api/appliances/${selectedAppliance.id}/`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/appliances/${
+          selectedAppliance.id
+        }/`,
         {
           headers: {
             Authorization: `Token ${token}`,
@@ -275,52 +276,96 @@ const Appliances = () => {
   return (
     <Container>
       {error && <Alert variant="danger">{error}</Alert>}
-      <Row>
-        <h3 className="text-center">Your Appliances</h3>
-        {applianceList.length === 0 ? (
-          <Col>
-            <Alert variant="info" className="text-center">No appliances found for this property. Click "Add New Appliance" to get started.</Alert>
-          </Col>
-        ) : (
-        applianceList.map((appliance) => (
-        <Col key={appliance.id} md={4}>
-          <Card>
-            <Card.Img variant="top" src={appliance.product_image} onClick={() => {handleViewAppliance(appliance.id)}}/>
-            <Card.Body>
-              <Card.Title>{appliance.name}</Card.Title>
-              <Card.Text>Appliance ID: {appliance.id}</Card.Text>
-              <Card.Text>Model: {appliance.model}</Card.Text>
-              <Card.Text>Status: {appliance.current_status}</Card.Text>
-              <Button
-                variant="link"
-                onClick={() => navigate(`/edit-appliance/${appliance.id}`)}
-              >
-                <FaPencilAlt />
-              </Button>
-              <Button
-                variant="link"
-                onClick={() => {
-                  setSelectedAppliance(appliance);
-                  setShowModal(true);
-                }}
-              >
-                <FaTrash style={{ color: "red" }} />
-              </Button>
-            </Card.Body>
-          </Card>
-        </Col>
-        ))
-        )};
-      </Row>
+      <h3 className="text-center header-banner">Appliances</h3>
+      <ListGroup>
+        <Row>
+          {applianceList.length === 0 ? (
+            <Col>
+              <Alert variant="info" className="text-center">
+                No appliances found for this property. Click "Add New Appliance"
+                to get started.
+              </Alert>
+            </Col>
+          ) : (
+            applianceList.map((appliance) => (
+              <Col key={appliance.id} className="mb-4">
+                <Card className="shadow-sm">
+                  <Card.Body>
+                    <Row className="d-flex align-items-center">
+                      <Col xs={9}>
+                        <Card.Img
+                          variant="top"
+                          src={appliance.product_image}
+                          alt={appliance.name}
+                          onClick={() => {
+                            handleViewAppliance(appliance.id, appliance.model);
+                          }}
+                          className="fixed-image-size"
+                        />
+                      </Col>
+                      <Col xs={12}>
+                        <Card.Title>{appliance.name}</Card.Title>
+                        <Card.Text>
+                          <strong>Model:</strong> {appliance.model}
+                        </Card.Text>
+                        <Card.Text>
+                          <strong>Appliance ID:</strong> {appliance.id}
+                        </Card.Text>
+                        <Card.Text>
+                          <strong>Status:</strong> {appliance.current_status}
+                        </Card.Text>
+                        <Card.Text>
+                          <strong>Purchase Date:</strong>{" "}
+                          {appliance.purchase_date}
+                        </Card.Text>
 
+                        {/* icons */}
+                        <div className="d-flex justify-content-between">
+                          <Button
+                            variant="link"
+                            onClick={() => handleEdit(appliance.id)}
+                          >
+                            <FaPencilAlt />
+                          </Button>
+                          <Button
+                            variant="link"
+                            onClick={() => {
+                              setSelectedAppliance(appliance);
+                              setShowModal(true);
+                            }}
+                          >
+                            <FaTrash style={{ color: "red" }} />
+                          </Button>
+                        </div>
+                      </Col>
+                    </Row>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))
+          )}
+        </Row>
+      </ListGroup>
       <div className="text-center mt-4">
-      <Button className="m-3" variant="primary" onClick={() => navigate("/newappliance")}>
+        <Button
+          className="m-3"
+          variant="primary"
+          onClick={() => navigate("/newappliance")}
+        >
           Add New Appliance
         </Button>
-        <Button className="m-3" variant="success" onClick={() => navigate("/addinvestment")}>
+        <Button
+          className="m-3"
+          variant="success"
+          onClick={() => navigate("/addinvestment")}
+        >
           Add Investment
         </Button>
-        <Button className="m-3" variant="warning" onClick={() => navigate("/addrepair")}>
+        <Button
+          className="m-3"
+          variant="warning"
+          onClick={() => navigate("/addrepair")}
+        >
           Add Repair
         </Button>
       </div>
@@ -340,7 +385,6 @@ const Appliances = () => {
         </Modal.Footer>
       </Modal>
     </Container>
-    
   );
 };
 

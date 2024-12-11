@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Form, Button, Alert, Container, Modal } from "react-bootstrap";
+import { Form, Button, Alert, Container, Modal, Col, Row } from "react-bootstrap";
 
 const AddInvestment = () => {
   const [investmentType, setInvestmentType] = useState("");
@@ -25,7 +25,7 @@ const AddInvestment = () => {
 
   // const fetchUserID = async () => {
   //   try {
-  //     const response = await axios.get(`https://repair-or-replace-back-end.onrender.com/api/users/`, {
+  //     const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/users/`, {
   //       headers: {
   //         "Content-Type": "application/json",
   //         Authorization: `Token ${token}`
@@ -55,13 +55,12 @@ const AddInvestment = () => {
   //   fetchUserID();
   // }, [token])
 
-  const applianceId = 1;
-  const userId = 1;
+
 
   // const fetchInvestments = async () => {
   //   if (!userId) return;
   //   try {
-  //     const response = await axios.get(`https://repair-or-replace-back-end.onrender.com/api/investments/${userId}/`, {
+  //     const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/investments/${userId}/`, {
   //       headers: {
   //         "Content-Type": "application/json",
   //         Authorization: `Token ${token}`
@@ -113,7 +112,7 @@ const AddInvestment = () => {
 
       try {
         const response = await axios.post(
-          "https://repair-or-replace-back-end.onrender.com/api/investments/",
+          `${import.meta.env.VITE_BACKEND_URL}/api/investments/`,
           investmentData,
           {
             headers: {
@@ -166,7 +165,8 @@ const AddInvestment = () => {
       {error && (
         <Alert variant="danger">Error Submitting Investment: {error}</Alert>
       )}
-
+    <Row className="justify-content-align-left">
+    <Col md={6}>
       <Form onSubmit={handleSubmit}>
         <h2 className="m-3">Enter New Investment Details</h2>
         <Form.Group className="mb-3">
@@ -232,7 +232,7 @@ const AddInvestment = () => {
           )}
         </Form.Group>
 
-        <Button className="mt-3" variant="primary" type="submit">
+        <Button className="mt-3" style={{ color: "whitesmoke", backgroundColor: "#84b474", border: "none"}} type="submit">
           Submit
         </Button>
       </Form>
@@ -244,13 +244,18 @@ const AddInvestment = () => {
         <Modal.Body>Thank you!!</Modal.Body>
         <Modal.Footer>
           <Button
-            variant="secondary"
-            onClick={() => setShowSuccessModal(false)}
+            style={{ color: "whitesmoke", backgroundColor: "#84b474", border: "none"}}
+            onClick={() => {
+            setShowSuccessModal(false);
+            navigate("/properties")
+            }}
           >
             Close
           </Button>
         </Modal.Footer>
       </Modal>
+    </Col>
+    </Row>
     </Container>
   );
 };

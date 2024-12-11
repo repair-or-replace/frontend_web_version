@@ -176,7 +176,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Container, Card, Alert, Modal, Button, Col } from "react-bootstrap";
+import { Container, Card, Alert, Modal, Button } from "react-bootstrap";
 import axios from "axios";
 import defaultHome from "../assets/default_home_pic.jpeg";
 import { FaEdit, FaTrash } from "react-icons/fa";
@@ -199,7 +199,7 @@ const Properties = () => {
   console.log(token);
 
   const handlePropertyClick = (propertyId) => {
-    dispatch(setPropertyId(propertyId)); // Dispatch the property ID to Redux store
+    dispatch(setPropertyId(propertyId));  // Dispatch the property ID to Redux store
   };
 
   // Fetch properties from API
@@ -208,7 +208,7 @@ const Properties = () => {
     try {
       console.log("Starting API call for UserID:", userID);
       const response = await axios.get(
-        `https://repair-or-replace-back-end.onrender.com/api/user-properties/${userID}/`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/user-properties/${userID}/`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -236,7 +236,7 @@ const Properties = () => {
   const deleteProperty = async () => {
     try {
       await axios.delete(
-        `https://repair-or-replace-back-end.onrender.com/api/properties/${propertyToDelete}/`,
+        `${import.meta.env.VITE_BACKEND_URL}/api/properties/${propertyToDelete}/`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -258,9 +258,9 @@ const Properties = () => {
   }
 
   return (
-    <Container>
+    <Container className="bg-light">
       {error && <Alert variant="danger">{error}</Alert>}
-      <h3 className="text-center">Your Properties</h3>
+      <h3 className="text-center header-banner">Properties</h3>
       <div className="row">
         {propertyList.length === 0 ? (
           <Col>
@@ -268,46 +268,49 @@ const Properties = () => {
               No properties found. Click "Add New Property" to begin.
             </Alert>
           </Col>
-        ) : (
-          propertyList.map((property) => (
-            <div className="col-md-4 mb-4" key={property.id}>
-              <Card className="shadow-sm">
-                <Card.Img
-                  variant="top"
-                  src={defaultHome}
-                  style={{ cursor: "pointer" }}
-                  onClick={() =>
-                    navigate(`/appliances`, handlePropertyClick(property.id))
-                  }
-                />
-                <Card.Body>
-                  <Card.Title>{property.address_line_1}</Card.Title>
-                  <Card.Text>{property.city}</Card.Text>
-                  <Card.Text>{property.state}</Card.Text>
-                  <Card.Text>{property.zipcode}</Card.Text>
-                  <div className="d-flex justify-content-between mt-3">
-                    <FaEdit
-                      style={{ cursor: "pointer", color: "blue" }}
-                      onClick={() => navigate(`/edit-property/${property.id}`)}
-                    />
-                    <FaTrash
-                      style={{ cursor: "pointer", color: "red" }}
-                      onClick={() => {
-                        setPropertyToDelete(property.id);
-                        setShowModal(true);
-                      }}
-                    />
-                  </div>
-                </Card.Body>
-              </Card>
-            </div>
-          ))
+        ) : (propertyList.map((property) => (
+          <div className="col-md-4 mb-4" key={property.id}>
+            <Card className="shadow-sm">
+              <Card.Img
+                variant="top"
+                src={defaultHome}
+                title="Click to view appliances" // add a hover tip
+                style={{
+                  cursor: "pointer",
+                  width: "100%", 
+                  height: "auto", 
+                  objectFit: "contain",
+                  maxHeight: "200px", 
+                }}
+                onClick={() => navigate(`/appliances`, handlePropertyClick(property.id)  )}
+              />
+              <Card.Body>
+                <Card.Title>{property.address_line_1}, {property.city}, {property.state}, {property.zipcode}</Card.Title>
+                <Card.Text>Year Built: {property.year_built}</Card.Text>
+                <div className="d-flex justify-content-between mt-3">
+                  <FaEdit
+                    style={{ cursor: "pointer", color: "blue" }}
+                    onClick={() => navigate(`/edit-property/${property.id}`)}
+                  />
+                  <FaTrash
+                    style={{ cursor: "pointer", color: "red" }}
+                    onClick={() => {
+                      setPropertyToDelete(property.id);
+                      setShowModal(true);
+                    }}
+                  />
+                </div>
+              </Card.Body>
+            </Card>
+          </div>
+        ))
         )}
       </div>
 
       {/* Add New Property Button */}
       <div className="text-center mt-4">
-        <Button variant="success" onClick={() => navigate("/add-new-property")}>
+        <Button  style={{ color: "whitesmoke", backgroundColor: "#84b474", border: "none"}}
+ onClick={() => navigate("/add-new-property")}>
           Add New Property
         </Button>
       </div>

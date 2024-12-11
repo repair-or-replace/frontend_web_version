@@ -73,7 +73,7 @@ const EditProfile = () => {
   }
 
   return (
-    <Container className="mt-5">
+    <Container className="mt-5 col-4">
       <Card>
         <Card.Header>Edit Profile</Card.Header>
         <Card.Body>
@@ -125,10 +125,10 @@ const EditProfile = () => {
                     }
                   />
                 </Form.Group>
-                <Button variant="success" onClick={handleSaveClick}>
+                <Button style={{color: "whitesmoke", backgroundColor: "#84b474", border: "none"}} onClick={handleSaveClick}>
                   Save
                 </Button>{" "}
-                <Button variant="secondary" onClick={handleCancelClick}>
+                <Button  style={{color: "whitesmoke", backgroundColor: "#84b474", border: "none"}} onClick={handleCancelClick}>
                   Cancel
                 </Button>
               </Form>

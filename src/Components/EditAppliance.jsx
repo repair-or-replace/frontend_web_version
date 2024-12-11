@@ -15,7 +15,7 @@ const EditAppliance = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get(`https://repair-or-replace-back-end.onrender.com/api/appliances/${applianceId}`, {
+    axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/appliances/${applianceId}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Token ${token}`
@@ -44,7 +44,7 @@ const EditAppliance = () => {
     };
 
     try {
-      await axios.put(`https://repair-or-replace-back-end.onrender.com/api/appliances/${applianceId}/`, updatedData, {
+      await axios.put(`${import.meta.env.VITE_BACKEND_URL}/api/appliances/${applianceId}/`, updatedData, {
         headers: {
           Authorization: `Token ${token}`, 
         },
@@ -105,7 +105,7 @@ const EditAppliance = () => {
                 <option value="replaced">Replaced</option>
               </select>
             </div>
-            <button type="submit" className="btn btn-primary">Update Appliance</button>
+            <button type="submit" className="btn btn-primary" style={{color: "whitesmoke",backgroundColor: "#84b474", border: "none",}}>Update Appliance</button>
           </form>
         </div>
       </div>

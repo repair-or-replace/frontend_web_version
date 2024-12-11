@@ -156,7 +156,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { Form, Button, Container, Alert } from "react-bootstrap";
+import { Form, Button, Container, Alert, Row, Col } from "react-bootstrap";
 
 const Register = () => {
   const [formData, setFormData] = useState({
