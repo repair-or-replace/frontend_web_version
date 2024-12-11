@@ -55,8 +55,7 @@ const AddInvestment = () => {
   //   fetchUserID();
   // }, [token])
 
-  const applianceId = 1;
-  const userId = 1;
+
 
   // const fetchInvestments = async () => {
   //   if (!userId) return;
