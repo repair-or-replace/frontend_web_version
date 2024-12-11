@@ -5,6 +5,7 @@
 // import { useNavigate, useLocation } from "react-router-dom";
 // import { FaPencilAlt, FaTrash } from "react-icons/fa";
 
+
 // const Appliances = () => {
 //   const token = useSelector((state) => state.user.authToken);
 //   const propertyId = useSelector((state) => state.property.propertyId); // Accessing propertyId from Redux
